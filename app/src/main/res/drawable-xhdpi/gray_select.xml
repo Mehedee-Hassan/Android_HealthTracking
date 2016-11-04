@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Copyright ArtfulBits Inc. 2005 - 2010. All rights reserved.
+  
+  Use of this code is subject to the terms of our license.
+  A copy of the current license can be obtained at any time by e-mailing
+  info@artfulbits.com. Re-distribution in any form is strictly
+  prohibited. Any infringement will be prosecuted under applicable laws.
+-->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" 
+		android:width="20dp" android:height="20dp">
+  <solid android:color="#AAAAAA"/>
+</shape>
+

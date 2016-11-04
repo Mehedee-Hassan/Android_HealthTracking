@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#FF4081</color>
+    <color name="colorPrimaryDark">#C51162</color>
+    <color name="textColorPrimary">#FFFFFF</color>
+    <color name="windowBackground">#FFFFFF</color>
+    <color name="navigationBarColor">#FFFFFF</color>
+    <color name="colorAccent">#616161</color>
+    <color name="colorAccentLight">#8c8c8c</color>
+    <color name="colorLabel">#E0E0E0</color>
+    <color name="white">#FFFFFF</color>
+    <color name="white_light">#DDDDDD</color>
+    <color name="white_darken">#cccccc</color>
+    <color name="white_unselected">#989898</color>
+    <color name="black">#000000</color>
+    <color name="black_light">#212121</color>
+    <color name="black_unselected">#7F7F7F</color>
+    <color name="red">#C11128</color>
+    <color name="red_dark">#d41331</color>
+    <color name="brand_red">#ed193a</color>
+    <color name="brand_red_dark">#980018</color>
+    <color name="amber">#FFBF00</color>
+    <color name="amber_dark">#e6ac00</color>
+    <color name="gray_light">#EEEEEE</color>
+    <color name="gray">#737373</color>
+    <color name="gray_dark">#6F6F6F</color>
+    <color name="light">#f2f2f2</color>
+    <color name="second_text">#717173</color>
+
+    <color name="yellow">#FFAA00</color>
+    <color name="orange_yellow">#FF6600</color>
+    <color name="off_red">#FF8A80</color>
+    <color name="red_light">#f9a09f</color>
+    <color name="off_green">#A5D6A7</color>
+    <color name="green">#00B279</color>
+    <color name="colorTimeText">#24787C</color>
+    <color name="light_blue">#33b5e5</color>
+
+
+</resources>

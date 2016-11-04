@@ -1,0 +1,82 @@
+<resources>
+    <string name="app_name">Health Tracking</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="startmeasure">Start measure</string>
+    <string name="stopmeasure">Stop measure</string>
+    <string name="heartRate">"Heart Rate: "</string>
+    <string name="beatperminute">bpm</string>
+    <string name="signalrangeform">Signal Range Form</string>
+    <string name="signalrangeto">Signal Range To</string>
+    <string name="signalfftanalyse">Analyze</string>
+    <string name="signalanalysistitle">Fast Fourier Transforn</string>
+    <string name="signalvaluefromtitle">From:</string>
+    <string name="signalvaluetotitle">To:</string>
+    <string name="upload_button">Upload</string>
+
+    <color name="card_bg">#FF1744</color>
+
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <integer-array name="grayscale_palette">
+        <item>0xdFA3A3A3</item>
+        <item>0xdF7A7A7A</item>
+        <item>0xdF282828</item>
+        <item>0xdF484848</item>
+    </integer-array>
+
+    <integer-array name="sleep_palette">
+        <item>0x7F418CF0</item> <!-- Blue -->
+        <item>0x7FFCB441</item> <!-- Orange -->
+        <item>0x7FE0400A</item> <!-- Red -->
+        <item>0x7F056492</item> <!-- Dark blue -->
+        <item>0x7FBFBFBF</item> <!-- Light gray -->
+        <item>0x7F008000</item> <!-- Dark green -->
+        <item>0x7FD8CC9C</item> <!-- Dark yellow -->
+        <item>0x7F98A142</item> <!-- Green + brown -->
+        <item>0x7F7D9885</item> <!-- Green + blue -->
+        <item>0x7F85898F</item> <!-- Dark gray -->
+        <item>0x7FB5966A</item> <!-- Brown -->
+        <item>0x7F84A85D</item> <!-- Light green -->
+    </integer-array>
+    <integer-array name="grayscal_alternative_palette">
+        <item>0x7FACAEB0</item> <!-- 1 -->
+        <item>0x7F313536</item>
+        <item>0x7FCED1D1</item>
+        <item>0x7F535859</item> <!-- 4 -->
+        <item>0x7FF1F2F2</item>
+        <item>0x7F848889</item>
+        <item>0x7F837380</item>
+        <item>0x7F263838</item> <!-- 8 -->
+        <item>0x7F786C66</item>
+        <item>0x7F6C4B4E</item>
+        <item>0x7F956F2B</item>
+        <item>0x7F386389</item> <!-- 12 -->
+    </integer-array>
+    <integer-array name="solid_palette">
+        <item>0xFF4DA5FF</item>
+        <item>0xFFFFBE54</item>
+        <item>0xFFD04E37</item>
+        <item>0xFF8DAA6D</item>
+        <item>0xFF7B0404</item>
+        <item>0xFFC8C8C8</item>
+        <item>0xFF50BBCE</item>
+        <item>0xFFB62449</item>
+        <item>0xFFFDA2A2</item>
+        <item>0xFFDD65C7</item>
+        <item>0xFFA25593</item>
+        <item>0xFFC6D66C</item>
+    </integer-array>
+
+    <string name="about_menu_item_title">About</string>
+    <string name="dlg_ok_btn_title">Ok</string>
+    <string name="dlg_about_msg">aiCharts Library Sample.\nArtfulBits (c) 2005-2009\nhttp://www.artfulbits.com\nChinese translation by HiAPK.com</string>
+
+    <string name="title_activity_splash">SplashActivity</string>
+    <string name="dummy_button">ALL RIGHT RESERVED 2016</string>
+    <string name="dummy_content">MY\nHEALTH\nTRACKER</string>
+
+
+</resources>
