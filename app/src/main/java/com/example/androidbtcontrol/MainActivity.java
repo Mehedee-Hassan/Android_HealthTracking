@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
     private TextView textInfo, textStatus;
     private ListView listViewPairedDevice;
     private LinearLayout inputPane;
-    Button btnDisconnect;
+    private Button btnDisconnect;
 
     private UUID myUUID;
     private final String UUID_STRING_WELL_KNOWN_SPP = "00001101-0000-1000-8000-00805F9B34FB";

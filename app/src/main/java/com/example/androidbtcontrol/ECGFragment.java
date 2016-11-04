@@ -50,6 +50,8 @@ public class ECGFragment extends Fragment implements OnChartValueSelectedListene
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_ecg, container, false);
         setHasOptionsMenu(true);
+        final EditText input = (EditText) v.findViewById(R.id.input);
+        final Button send = (Button) v.findViewById(R.id.send);
 
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,RelativeLayout.LayoutParams.MATCH_PARENT);
         mChart = (LineChart) v.findViewById(R.id.chart1);
@@ -65,8 +67,6 @@ public class ECGFragment extends Fragment implements OnChartValueSelectedListene
         mChart.invalidate();
 
 
-        final EditText input = (EditText) v.findViewById(R.id.input);
-        final Button send = (Button) v.findViewById(R.id.send);
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
