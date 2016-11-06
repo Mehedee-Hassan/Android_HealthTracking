@@ -78,7 +78,7 @@ public class GLMeterFragment extends Fragment {
             params.put("datas", "GL meter Data");
             params.put("sensor_type", "2");
             params.put("userid", "1");
-            new AllFragmentPresenter(getActivity()).getApiData("sensors/save_data_from_app", params);
+            new AllFragmentPresenter(getActivity()).postData("sensors/save_data_from_app", params);
         }
 
         return super.onOptionsItemSelected(item);

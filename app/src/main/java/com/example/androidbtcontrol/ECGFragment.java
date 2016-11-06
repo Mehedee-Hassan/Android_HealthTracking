@@ -253,8 +253,12 @@ public class ECGFragment extends Fragment implements OnChartValueSelectedListene
             params.put("datas", "TEst Data");
             params.put("sensor_type", "1");
             params.put("userid", "1");
-            new AllFragmentPresenter(getActivity()).getApiData("sensors/save_data_from_app", params);
+            new AllFragmentPresenter(getActivity()).postData("sensors/save_data_from_app", params);
 
+        } else if (id == R.id.action_upload) {
+            Map<String, String> params = new HashMap<>();
+            params.put("client_id", "1");
+            new AllFragmentPresenter(getActivity()).getApiData("sensors/view_sensors_datas_api/", params);
         }
 
         return super.onOptionsItemSelected(item);

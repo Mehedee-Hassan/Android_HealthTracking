@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.androidbtcontrol.presenter.AllFragmentPresenter;
 
@@ -77,7 +76,7 @@ public class BPFragment extends Fragment {
             params.put("datas", "BP Data");
             params.put("sensor_type", "2");
             params.put("userid", "1");
-            new AllFragmentPresenter(getActivity()).getApiData("sensors/save_data_from_app", params);
+            new AllFragmentPresenter(getActivity()).postData("sensors/save_data_from_app", params);
 
         }
 
