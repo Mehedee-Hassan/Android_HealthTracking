@@ -4,8 +4,15 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.example.androidbtcontrol.datamodel.HistoryData;
+import com.example.androidbtcontrol.interfaces.FragmentView;
 import com.example.androidbtcontrol.interfaces.OnResponseComplete;
 import com.example.androidbtcontrol.model.ServerApiCallback;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Map;
 
@@ -16,8 +23,9 @@ import java.util.Map;
 public class AllFragmentPresenter {
     Context context;
     ServerApiCallback serverApiCallback;
-    public AllFragmentPresenter(Context context){
-        this.context = context;
+    FragmentView fragmentView;
+    public AllFragmentPresenter(FragmentView fragmentView){
+        this.fragmentView = fragmentView;
         serverApiCallback = new ServerApiCallback(context);
     }
 
@@ -41,12 +49,23 @@ public class AllFragmentPresenter {
         serverApiCallback.callLoginApi(url, params, new OnResponseComplete() {
             @Override
             public void onRequestComplete(String response) {
-                Log.e("response", "msg " + response);
-                if (response.equalsIgnoreCase("1")) {
-                    Toast.makeText(context, "ECG Data has been uploaded", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(context, "Could not uploaded!", Toast.LENGTH_SHORT).show();
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    JSONArray jsonArray = jsonObject.getJSONArray("result");
+                    int jsonArraySize = jsonArray.length();
+                    for (int i = 0; i < jsonArraySize; i++) {
+                        HistoryData historyData = new HistoryData();
+                        historyData.setDate(jsonArray.getJSONObject(i).getString("created_at"));
+                        historyData.setDatas(jsonArray.getJSONObject(i).getString("datas"));
+
+                    }
+
+                    fragmentView.onReceiveAPIData(null);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
+                Log.e("response", "msg " + response);
 
             }
         });

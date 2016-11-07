@@ -113,7 +113,7 @@ public class DeviceListFragment extends Fragment {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_entry_patient_info);
 
-        final EditText editTextEmail = (EditText) dialog.findViewById(R.id.editTextId);
+        final EditText editTextEmail = (EditText) dialog.findViewById(R.id.listHistory);
 
         Button btnCancel = (Button) dialog.findViewById(R.id.btnCancel);
         btnCancel.setOnClickListener(new View.OnClickListener() {
