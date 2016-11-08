@@ -2,6 +2,7 @@ package com.example.androidbtcontrol;
 
 import android.app.Dialog;
 import android.bluetooth.BluetoothDevice;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,12 +16,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
+import com.example.androidbtcontrol.datamodel.HistoryData;
 import com.example.androidbtcontrol.interfaces.FragmentView;
 import com.example.androidbtcontrol.presenter.AllFragmentPresenter;
 import com.github.mikephil.charting.charts.LineChart;
@@ -58,8 +62,6 @@ public class ECGFragment extends Fragment implements OnChartValueSelectedListene
         setHasOptionsMenu(true);
         final EditText input = (EditText) v.findViewById(R.id.input);
         final Button send = (Button) v.findViewById(R.id.send);
-
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,RelativeLayout.LayoutParams.MATCH_PARENT);
         mChart = (LineChart) v.findViewById(R.id.chart1);
 
         mChart.setDrawGridBackground(false);
@@ -96,7 +98,7 @@ public class ECGFragment extends Fragment implements OnChartValueSelectedListene
         });
 
 
-        ((MainActivity) getActivity()).doWrite(input.getText().toString(), new MainActivity.OnReceiveGraphData() {
+        /*((MainActivity) getActivity()).doWrite(input.getText().toString(), new MainActivity.OnReceiveGraphData() {
             @Override
             public void onReceiveData(final float data) {
                 Log.e("VAL::: ", "value = " + data);
@@ -111,7 +113,7 @@ public class ECGFragment extends Fragment implements OnChartValueSelectedListene
                 handler.postDelayed(r, 1000);
 
             }
-        });
+        });*/
 
         return v;
     }
@@ -261,10 +263,10 @@ public class ECGFragment extends Fragment implements OnChartValueSelectedListene
             params.put("userid", "1");
             new AllFragmentPresenter(this).postData("sensors/save_data_from_app", params);
 
-        } else if (id == R.id.action_upload) {
+        } else if (id == R.id.action_record) {
             Map<String, String> params = new HashMap<>();
             params.put("client_id", "1");
-            new AllFragmentPresenter(this).getApiData("sensors/view_sensors_datas_api/", params);
+            new AllFragmentPresenter(this).getApiData("sensors/view_sensors_datas_api/1", params);
         }
 
         return super.onOptionsItemSelected(item);
@@ -278,6 +280,15 @@ public class ECGFragment extends Fragment implements OnChartValueSelectedListene
         final ListView listView = (ListView) dialog.findViewById(R.id.listHistory);
         ArrayAdapter<String> pairedDeviceAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, list);
         listView.setAdapter(pairedDeviceAdapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                startActivity(new Intent(getActivity(), DetailsECGActivity.class));
+
+            }
+        });
 
         Button btnCancel = (Button) dialog.findViewById(R.id.btnCancel);
         btnCancel.setOnClickListener(new View.OnClickListener() {
@@ -320,6 +331,13 @@ public class ECGFragment extends Fragment implements OnChartValueSelectedListene
 
     @Override
     public void onReceiveAPIData(Object obj) {
+        ArrayList<HistoryData> historyDatas = (ArrayList<HistoryData>) obj;
+        ArrayList<String> strings = new ArrayList<>();
+        for (HistoryData s: historyDatas) {
+            strings.add(s.getDate());
+
+        }
+        openDialog(strings);
 
     }
 

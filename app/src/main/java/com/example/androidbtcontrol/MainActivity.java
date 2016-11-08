@@ -236,7 +236,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
         ft.commit();
     }
 
-    private void loadMenuFragment() {
+    public void loadMenuFragment() {
         Fragment fragment = new MenuFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);

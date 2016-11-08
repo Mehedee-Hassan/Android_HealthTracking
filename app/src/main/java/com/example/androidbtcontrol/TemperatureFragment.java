@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.androidbtcontrol.interfaces.FragmentView;
 import com.example.androidbtcontrol.presenter.AllFragmentPresenter;
 
 import java.util.HashMap;
@@ -21,7 +22,7 @@ import java.util.Map;
 /**
  * Created by Masum on 15/02/2015.
  */
-public class TemperatureFragment extends Fragment {
+public class TemperatureFragment extends Fragment implements FragmentView {
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -78,7 +79,7 @@ public class TemperatureFragment extends Fragment {
             params.put("datas", "Temperature Data");
             params.put("sensor_type", "2");
             params.put("userid", "1");
-            new AllFragmentPresenter(getActivity()).postData("sensors/save_data_from_app", params);
+            new AllFragmentPresenter(this).postData("sensors/save_data_from_app", params);
 
         }
 
@@ -86,4 +87,23 @@ public class TemperatureFragment extends Fragment {
     }
 
 
+    @Override
+    public void onReceiveAPIData(Object obj) {
+
+    }
+
+    @Override
+    public void showMessage() {
+
+    }
+
+    @Override
+    public void showLoading() {
+
+    }
+
+    @Override
+    public void hideLoading() {
+
+    }
 }

@@ -13,6 +13,7 @@
     <string name="signalvaluefromtitle">From:</string>
     <string name="signalvaluetotitle">To:</string>
     <string name="upload_button">Upload</string>
+    <string name="history_button">History</string>
 
     <color name="card_bg">#FF1744</color>
 
@@ -77,6 +78,7 @@
     <string name="title_activity_splash">SplashActivity</string>
     <string name="dummy_button">ALL RIGHT RESERVED 2016</string>
     <string name="dummy_content">MY\nHEALTH\nTRACKER</string>
+    <string name="title_activity_details_ecg">ECG Record</string>
 
 
 </resources>

@@ -14,6 +14,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 /**
@@ -53,14 +54,16 @@ public class AllFragmentPresenter {
                     JSONObject jsonObject = new JSONObject(response);
                     JSONArray jsonArray = jsonObject.getJSONArray("result");
                     int jsonArraySize = jsonArray.length();
+                    ArrayList<HistoryData> historyDatas = new ArrayList<>();
                     for (int i = 0; i < jsonArraySize; i++) {
                         HistoryData historyData = new HistoryData();
                         historyData.setDate(jsonArray.getJSONObject(i).getString("created_at"));
                         historyData.setDatas(jsonArray.getJSONObject(i).getString("datas"));
+                        historyDatas.add(historyData);
 
                     }
 
-                    fragmentView.onReceiveAPIData(null);
+                    fragmentView.onReceiveAPIData(historyDatas);
 
                 } catch (JSONException e) {
                     e.printStackTrace();

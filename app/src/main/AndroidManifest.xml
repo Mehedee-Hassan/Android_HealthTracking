@@ -11,7 +11,7 @@
         android:required="true" />
 
     <application
-        android:name="com.example.androidbtcontrol.utilities.HttpRequestQueue"
+        android:name=".utilities.HttpRequestQueue"
         android:allowBackup="true"
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
@@ -29,7 +29,12 @@
         <!-- <activity android:name=".HumanSignalActivity"></activity> -->
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name"></activity>
+            android:label="@string/app_name" />
+        <activity
+            android:name=".DetailsECGActivity"
+            android:label="@string/title_activity_details_ecg"
+            android:theme="@style/MyMaterialTheme.NoActionBar" />
+        <activity android:name=".HistoryDetailsActivity"></activity>
     </application>
 
 </manifest>

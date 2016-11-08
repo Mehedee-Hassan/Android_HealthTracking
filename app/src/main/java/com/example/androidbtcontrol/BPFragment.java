@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.androidbtcontrol.interfaces.FragmentView;
 import com.example.androidbtcontrol.presenter.AllFragmentPresenter;
 
 import java.util.HashMap;
@@ -20,7 +21,7 @@ import java.util.Map;
 /**
  * Created by Masum on 15/02/2015.
  */
-public class BPFragment extends Fragment {
+public class BPFragment extends Fragment implements FragmentView {
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -76,7 +77,7 @@ public class BPFragment extends Fragment {
             params.put("datas", "BP Data");
             params.put("sensor_type", "2");
             params.put("userid", "1");
-            new AllFragmentPresenter(getActivity()).postData("sensors/save_data_from_app", params);
+            new AllFragmentPresenter(this).postData("sensors/save_data_from_app", params);
 
         }
 
@@ -86,6 +87,26 @@ public class BPFragment extends Fragment {
     public OnChangeCommand onChangeCommand1;
     public void doChange(OnChangeCommand onChangeCommand) {
         onChangeCommand1 = onChangeCommand;
+
+    }
+
+    @Override
+    public void onReceiveAPIData(Object obj) {
+
+    }
+
+    @Override
+    public void showMessage() {
+
+    }
+
+    @Override
+    public void showLoading() {
+
+    }
+
+    @Override
+    public void hideLoading() {
 
     }
 

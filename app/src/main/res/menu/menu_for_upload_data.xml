@@ -8,6 +8,6 @@
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_record"
-        android:title="@string/upload_button"
+        android:title="@string/history_button"
         app:showAsAction="ifRoom" />
 </menu>
