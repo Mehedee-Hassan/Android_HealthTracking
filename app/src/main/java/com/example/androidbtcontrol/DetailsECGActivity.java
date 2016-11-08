@@ -19,6 +19,8 @@ import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 public class DetailsECGActivity extends AppCompatActivity {
@@ -29,6 +31,8 @@ public class DetailsECGActivity extends AppCompatActivity {
     GraphView graph;
     private LineChart mChart;
     int[] mColors = ColorTemplate.VORDIPLOM_COLORS;
+    private String mDatas = "datas";
+    private String mDate = "date";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +53,9 @@ public class DetailsECGActivity extends AppCompatActivity {
 
         mChart.invalidate();
         //addEntry(0.0f);
+        /*String datas = getIntent().getExtras().getString(mDatas);
+        List<String> list = new ArrayList<String>(Arrays.asList(datas.split(",")));
+        list.get(1);*/
 
         for (int i = 0; i < 100; i++) {
             float yValue = (float) (Math.random() * 10) + 50f;

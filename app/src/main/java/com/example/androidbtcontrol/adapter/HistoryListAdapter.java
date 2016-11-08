@@ -24,7 +24,7 @@ public class HistoryListAdapter extends BaseAdapter {
 	private LayoutInflater mInflater;
 
 
-	public HistoryListAdapter(Context context, ArrayList<HistoryData> optionDatas, String restauranId, String dishName) {
+	public HistoryListAdapter(Context context, ArrayList<HistoryData> optionDatas) {
         this.dishName = dishName;
         this.restauranId = restauranId;
         this.optionDataArrayList = optionDatas;

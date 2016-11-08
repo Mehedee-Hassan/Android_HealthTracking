@@ -24,6 +24,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.example.androidbtcontrol.adapter.HistoryListAdapter;
 import com.example.androidbtcontrol.datamodel.HistoryData;
 import com.example.androidbtcontrol.interfaces.FragmentView;
 import com.example.androidbtcontrol.presenter.AllFragmentPresenter;
@@ -49,6 +50,8 @@ import java.util.Random;
  */
 public class ECGFragment extends Fragment implements OnChartValueSelectedListener, FragmentView {
     public GraphView graphView;
+    private String mDatas = "datas";
+    private String mDate = "date";
     private static final Random RANDOM = new Random();
     private LineGraphSeries<DataPoint> series;
     private int lastX = 0;
@@ -272,20 +275,26 @@ public class ECGFragment extends Fragment implements OnChartValueSelectedListene
         return super.onOptionsItemSelected(item);
     }
 
-    private void openDialog(ArrayList<String> list) {
+    private void openDialog(final ArrayList<HistoryData> list) {
         final Dialog dialog = new Dialog(getActivity());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_history);
 
         final ListView listView = (ListView) dialog.findViewById(R.id.listHistory);
-        ArrayAdapter<String> pairedDeviceAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, list);
-        listView.setAdapter(pairedDeviceAdapter);
+        //ArrayAdapter<String> pairedDeviceAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, list);
+        //listView.setAdapter(pairedDeviceAdapter);
+
+        HistoryListAdapter arrayAdapter = new HistoryListAdapter(getActivity(), list);
+        listView.setAdapter(arrayAdapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                startActivity(new Intent(getActivity(), DetailsECGActivity.class));
+                Intent intent = new Intent(getActivity(), DetailsECGActivity.class);
+                intent.putExtra(mDate,list.get(position).getDate());
+                intent.putExtra(mDatas, list.get(position).getDatas());
+                startActivity(intent);
 
             }
         });
@@ -337,7 +346,7 @@ public class ECGFragment extends Fragment implements OnChartValueSelectedListene
             strings.add(s.getDate());
 
         }
-        openDialog(strings);
+        openDialog(historyDatas);
 
     }
 
