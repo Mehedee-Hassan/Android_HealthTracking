@@ -114,7 +114,7 @@ public class AirFlowFragment extends Fragment implements FragmentView {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getActivity(), DetailsECGActivity.class);
+                Intent intent = new Intent(getActivity(), HistoryDetailsActivity.class);
                 intent.putExtra(mDate, list.get(position).getDate());
                 intent.putExtra(mDatas, list.get(position).getDatas());
                 startActivity(intent);
