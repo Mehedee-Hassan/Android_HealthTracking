@@ -185,7 +185,8 @@ public class MainActivity extends AppCompatActivity implements MainView {
                 try {
                     if (fetchingType.equalsIgnoreCase("a")) {
                         strTemp = strTemp.concat(data);
-                        if (strTemp.contains(":") && strTemp.contains(",")) {
+                        //if (strTemp.contains(":") && strTemp.contains(",")) {
+                        if (strTemp.contains("*") && strTemp.contains("#")) {
                             int endOfLineIndex = strTemp.indexOf(",");
                             int startOfLineIndex = strTemp.indexOf(":") + 1;
                             strTemp = strTemp.substring(startOfLineIndex, endOfLineIndex).trim();
