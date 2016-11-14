@@ -199,7 +199,6 @@ public class MainActivity extends AppCompatActivity implements MainView {
 
                             }
 
-
                             strTemp = "";
                         }
                     } else if (fetchingType.equalsIgnoreCase("b")) {
