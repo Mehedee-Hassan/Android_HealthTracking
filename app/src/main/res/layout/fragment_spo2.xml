@@ -16,7 +16,7 @@
         android:id="@+id/textViewValue"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Value"
+        android:text=""
         android:gravity="center"
         android:textSize="20sp"
         android:layout_below="@+id/btnRefresh"
