@@ -23,6 +23,7 @@ import android.widget.Toast;
 import com.example.androidbtcontrol.interfaces.OnWriteCompleted;
 import com.example.androidbtcontrol.model.BluetoothConnectedThread;
 import com.example.androidbtcontrol.presenter.BluetoothConnectionPresenter;
+import com.example.androidbtcontrol.utilities.ConstantValues;
 
 import java.io.IOException;
 import java.util.UUID;
@@ -176,21 +177,28 @@ public class MainActivity extends AppCompatActivity implements MainView {
     }
 
     String strTemp = "";
-
     @Override
     public String onDataReceived(final String data) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    if (fetchingType.equalsIgnoreCase("a")) {
+                    if (mSensorType.equalsIgnoreCase(ConstantValues.SENSOR_ECG)) {
+                        //Log.e("ECG: ", "**" + data);
                         strTemp = strTemp.concat(data);
                         //if (strTemp.contains(":") && strTemp.contains(",")) {
                         if (strTemp.contains("*") && strTemp.contains("#")) {
+<<<<<<< HEAD
                             int endOfLineIndex = strTemp.indexOf(",");
                             int startOfLineIndex = strTemp.indexOf(":") + 1;
+=======
+                            Log.e("DATA", "=>" + strTemp);
+                            int startOfLineIndex = strTemp.indexOf("*") + 1;
+                            int endOfLineIndex = strTemp.indexOf("#");
+>>>>>>> 6093df284631973ecb7b0a598b27bb542f01d03a
                             strTemp = strTemp.substring(startOfLineIndex, endOfLineIndex).trim();
-                            // Log.e("DATA", "**" + strTemp.substring(startOfLineIndex));
+
+                            //Log.d("Data ECG", "" + strTemp);
                             try{
                                 float x = Float.parseFloat(strTemp);
                                 onReceiveGraphData.onReceiveData(x);
@@ -199,19 +207,65 @@ public class MainActivity extends AppCompatActivity implements MainView {
 
                             }
 
+<<<<<<< HEAD
+=======
                             strTemp = "";
                         }
-                    } else if (fetchingType.equalsIgnoreCase("b")) {
-                        onReceiveData.onReceiveData(data);
-                    } else if (fetchingType.equalsIgnoreCase("c")) {
-                        onReceiveData.onReceiveData(data);
+                    } else if (mSensorType.equalsIgnoreCase(ConstantValues.SENSOR_SPO)) {
+                        strTemp = strTemp.concat(data);
+                        //if (strTemp.contains(":") && strTemp.contains(",")) {
+                        if (strTemp.contains("*") && strTemp.contains("#")) {
+
+                            int startOfLineIndex = strTemp.indexOf("*") + 1;
+                            int endOfLineIndex = strTemp.indexOf("#");
+
+                            strTemp = strTemp.substring(startOfLineIndex, endOfLineIndex).trim();
+                            onReceiveData.onReceiveData(strTemp);
+>>>>>>> 6093df284631973ecb7b0a598b27bb542f01d03a
+                            strTemp = "";
+                        }
+
+                        Log.e("SPO: ", "" + data) ;
+                    } else if (mSensorType.equalsIgnoreCase(ConstantValues.SENSOR_GL_METER)) {
+                        strTemp = strTemp.concat(data);
+                        if (strTemp.contains("*") && strTemp.contains("#")) {
+                            int startOfLineIndex = strTemp.indexOf("*") + 1;
+                            int endOfLineIndex = strTemp.indexOf("#");
+
+                            strTemp = strTemp.substring(startOfLineIndex, endOfLineIndex).trim();
+                            onReceiveData.onReceiveData(strTemp);
+                            strTemp = "";
+                        }
+                        Log.e("GL METER: ", "" + data) ;
+                    } else if (mSensorType.equalsIgnoreCase(ConstantValues.SENSOR_BODY_POSITION)) {
+                        strTemp = strTemp.concat(data);
+                        if (strTemp.contains("*") && strTemp.contains("#")) {
+                            int startOfLineIndex = strTemp.indexOf("*") + 1;
+                            int endOfLineIndex = strTemp.indexOf("#");
+
+                            strTemp = strTemp.substring(startOfLineIndex, endOfLineIndex).trim();
+                            onReceiveData.onReceiveData(strTemp);
+                            strTemp = "";
+                        }
+                        Log.e("BODY POSITION: ", "" + data) ;
+                    }else if (mSensorType.equalsIgnoreCase(ConstantValues.SENSOR_AIR_FLOW)) {
+                        strTemp = strTemp.concat(data);
+                        if (strTemp.contains("*") && strTemp.contains("#")) {
+                            int startOfLineIndex = strTemp.indexOf("*") + 1;
+                            int endOfLineIndex = strTemp.indexOf("#");
+
+                            strTemp = strTemp.substring(startOfLineIndex, endOfLineIndex).trim();
+                            onReceiveData.onReceiveData(strTemp);
+                            strTemp = "";
+                        }
+                        Log.e("BODY POSITION: ", "" + data) ;
                     } else {
                         onReceiveData.onReceiveData(data);
                     }
 
                     //textStatus.append(data);
                 } catch (Exception e) {
-                    Log.e("EXCP", "**" + e.getMessage());
+                    //Log.e("EXCP", "**" + e.getMessage());
                 }
 
             }
@@ -261,18 +315,19 @@ public class MainActivity extends AppCompatActivity implements MainView {
         myThreadConnected.write(bytesToSend);
     }
 
-    public String fetchingType = "";
+    public String mSensorType = "";
 
-    public void doWrite(String a, OnReceiveData onReceiveData) {
+    public void doWrite(String sensorType, OnReceiveData onReceiveData) {
         this.onReceiveData = onReceiveData;
-        fetchingType = a;
-        doWrite(a);
+        mSensorType = sensorType;
+        doWrite(sensorType);
     }
 
-    public void doWrite(String a, OnReceiveGraphData onReceiveData) {
+    //Method overloading for graph data
+    public void doWrite(String sensorType, OnReceiveGraphData onReceiveData) {
         this.onReceiveGraphData = onReceiveData;
-        fetchingType = a;
-        doWrite(a);
+        mSensorType = sensorType;
+        doWrite(sensorType);
     }
 
     public void getDeviceList(OnCreatedDeviceList onCreatedDeviceList) {

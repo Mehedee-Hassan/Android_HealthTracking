@@ -21,6 +21,7 @@ import com.example.androidbtcontrol.adapter.HistoryListAdapter;
 import com.example.androidbtcontrol.datamodel.HistoryData;
 import com.example.androidbtcontrol.interfaces.FragmentView;
 import com.example.androidbtcontrol.presenter.AllFragmentPresenter;
+import com.example.androidbtcontrol.utilities.ConstantValues;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -46,7 +47,7 @@ public class AirFlowFragment extends Fragment implements FragmentView {
             @Override
             public void onClick(View v) {
                 txtViewValue.setText("");
-                ((MainActivity) getActivity()).doWrite("b", new MainActivity.OnReceiveData() {
+                ((MainActivity) getActivity()).doWrite(ConstantValues.SENSOR_AIR_FLOW, new MainActivity.OnReceiveData() {
                     @Override
                     public void onReceiveData(String data) {
                         txtViewValue.append(data.toString());
@@ -55,7 +56,7 @@ public class AirFlowFragment extends Fragment implements FragmentView {
             }
         });
 
-        ((MainActivity) getActivity()).doWrite("b", new MainActivity.OnReceiveData() {
+        ((MainActivity) getActivity()).doWrite(ConstantValues.SENSOR_AIR_FLOW, new MainActivity.OnReceiveData() {
             @Override
             public void onReceiveData(String data) {
                 txtViewValue.append(data.toString());

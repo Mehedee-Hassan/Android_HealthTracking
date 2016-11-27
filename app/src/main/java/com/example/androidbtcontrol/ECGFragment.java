@@ -28,6 +28,7 @@ import com.example.androidbtcontrol.adapter.HistoryListAdapter;
 import com.example.androidbtcontrol.datamodel.HistoryData;
 import com.example.androidbtcontrol.interfaces.FragmentView;
 import com.example.androidbtcontrol.presenter.AllFragmentPresenter;
+import com.example.androidbtcontrol.utilities.ConstantValues;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
@@ -57,7 +58,6 @@ public class ECGFragment extends Fragment implements OnChartValueSelectedListene
     private int lastX = 0;
     GraphView graph;
     private LineChart mChart;
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -101,7 +101,7 @@ public class ECGFragment extends Fragment implements OnChartValueSelectedListene
         });
 
 
-        /*((MainActivity) getActivity()).doWrite(input.getText().toString(), new MainActivity.OnReceiveGraphData() {
+        ((MainActivity) getActivity()).doWrite(ConstantValues.SENSOR_ECG, new MainActivity.OnReceiveGraphData() {
             @Override
             public void onReceiveData(final float data) {
                 Log.e("VAL::: ", "value = " + data);
@@ -116,7 +116,7 @@ public class ECGFragment extends Fragment implements OnChartValueSelectedListene
                 handler.postDelayed(r, 1000);
 
             }
-        });*/
+        });
 
         return v;
     }
@@ -148,7 +148,7 @@ public class ECGFragment extends Fragment implements OnChartValueSelectedListene
         // let the chart know it's data has changed
         mChart.notifyDataSetChanged();
 
-        mChart.setVisibleXRangeMaximum(10);
+        mChart.setVisibleXRangeMaximum(15);
         //mChart.setVisibleYRangeMaximum(15, AxisDependency.LEFT);
 //
 //            // this automatically refreshes the chart (calls invalidate())
