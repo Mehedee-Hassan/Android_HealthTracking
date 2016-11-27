@@ -34,7 +34,6 @@ public class HomeGridAdapter extends RecyclerView.Adapter<HomeGridAdapter.ViewHo
         public ViewHolder(View v, int viewType) {
             super(v);
             //v.setOnClickListener(this);
-
             textViewTitle = (TextView) v.findViewById(R.id.textViewTitle);
             imageViewMenuIcon = (ImageView) v.findViewById(R.id.textView2);
             cardView = (CardView) v.findViewById(R.id.cardView);
@@ -42,7 +41,7 @@ public class HomeGridAdapter extends RecyclerView.Adapter<HomeGridAdapter.ViewHo
 
         /*@Override
         public void onClick(View v) {
-            Fragment fragment = new ECGFragment();;
+            Fragment fragment = new ECGFragment();
             onOpenFragment.openFragment(fragment);
         }*/
     }
@@ -57,7 +56,6 @@ public class HomeGridAdapter extends RecyclerView.Adapter<HomeGridAdapter.ViewHo
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // create a new view
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.grid_item_menu, parent, false);
-        ;
         ViewHolder vh = new ViewHolder(v, viewType);
         return vh;
     }
@@ -67,6 +65,26 @@ public class HomeGridAdapter extends RecyclerView.Adapter<HomeGridAdapter.ViewHo
     public void onBindViewHolder(ViewHolder holder, final int position) {
         holder.textViewTitle.setText(mDataset.get(position).getMenuTitle());
         holder.imageViewMenuIcon.setImageResource(mDataset.get(position).getImage());
+
+        if (position == 0) {
+            holder.cardView.setCardBackgroundColor(R.color.colorLabel);
+        } else if (position == 1) {
+            holder.cardView.setCardBackgroundColor(R.color.colorAccent);
+        } else if (position == 2) {
+            holder.cardView.setCardBackgroundColor(R.color.colorAccentLight);
+        } else if (position == 3) {
+            holder.cardView.setCardBackgroundColor(R.color.colorTimeText);
+        } else if (position == 4) {
+            holder.cardView.setCardBackgroundColor(R.color.colorPrimaryDark);
+        } else if (position == 5) {
+            holder.cardView.setCardBackgroundColor(R.color.colorLabel);
+        } else if (position == 6) {
+            holder.cardView.setCardBackgroundColor(R.color.orange_yellow);
+        } else {
+
+        }
+
+
         holder.imageViewMenuIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -95,7 +113,7 @@ public class HomeGridAdapter extends RecyclerView.Adapter<HomeGridAdapter.ViewHo
 
     }
 
-    // Return the size of your dataset (invoked by the layout manager)
+    // Return the size of your data set (invoked by the layout manager)
     @Override
     public int getItemCount() {
         return mDataset.size();
