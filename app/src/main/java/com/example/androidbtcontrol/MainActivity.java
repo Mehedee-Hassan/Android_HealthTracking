@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
 
                     } catch (IOException e) {
                         e.printStackTrace();
-                        Log.e("Connection", ""+ e.getMessage());
+                        Log.e("Connection", "" + e.getMessage());
                     }
 
                 }
@@ -177,6 +177,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
     }
 
     String strTemp = "";
+
     @Override
     public String onDataReceived(final String data) {
         runOnUiThread(new Runnable() {
@@ -188,18 +189,14 @@ public class MainActivity extends AppCompatActivity implements MainView {
                         strTemp = strTemp.concat(data);
                         //if (strTemp.contains(":") && strTemp.contains(",")) {
                         if (strTemp.contains("*") && strTemp.contains("#")) {
-<<<<<<< HEAD
-                            int endOfLineIndex = strTemp.indexOf(",");
-                            int startOfLineIndex = strTemp.indexOf(":") + 1;
-=======
                             Log.e("DATA", "=>" + strTemp);
                             int startOfLineIndex = strTemp.indexOf("*") + 1;
                             int endOfLineIndex = strTemp.indexOf("#");
->>>>>>> 6093df284631973ecb7b0a598b27bb542f01d03a
+
                             strTemp = strTemp.substring(startOfLineIndex, endOfLineIndex).trim();
 
                             //Log.d("Data ECG", "" + strTemp);
-                            try{
+                            try {
                                 float x = Float.parseFloat(strTemp);
                                 onReceiveGraphData.onReceiveData(x);
                                 //Log.e("DATA", "**" + x);
@@ -207,25 +204,21 @@ public class MainActivity extends AppCompatActivity implements MainView {
 
                             }
 
-<<<<<<< HEAD
-=======
                             strTemp = "";
                         }
                     } else if (mSensorType.equalsIgnoreCase(ConstantValues.SENSOR_SPO)) {
                         strTemp = strTemp.concat(data);
                         //if (strTemp.contains(":") && strTemp.contains(",")) {
                         if (strTemp.contains("*") && strTemp.contains("#")) {
-
                             int startOfLineIndex = strTemp.indexOf("*") + 1;
                             int endOfLineIndex = strTemp.indexOf("#");
 
                             strTemp = strTemp.substring(startOfLineIndex, endOfLineIndex).trim();
                             onReceiveData.onReceiveData(strTemp);
->>>>>>> 6093df284631973ecb7b0a598b27bb542f01d03a
                             strTemp = "";
                         }
 
-                        Log.e("SPO: ", "" + data) ;
+                        Log.e("SPO: ", "" + data);
                     } else if (mSensorType.equalsIgnoreCase(ConstantValues.SENSOR_GL_METER)) {
                         strTemp = strTemp.concat(data);
                         if (strTemp.contains("*") && strTemp.contains("#")) {
@@ -236,7 +229,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
                             onReceiveData.onReceiveData(strTemp);
                             strTemp = "";
                         }
-                        Log.e("GL METER: ", "" + data) ;
+                        Log.e("GL METER: ", "" + data);
                     } else if (mSensorType.equalsIgnoreCase(ConstantValues.SENSOR_BODY_POSITION)) {
                         strTemp = strTemp.concat(data);
                         if (strTemp.contains("*") && strTemp.contains("#")) {
@@ -247,8 +240,8 @@ public class MainActivity extends AppCompatActivity implements MainView {
                             onReceiveData.onReceiveData(strTemp);
                             strTemp = "";
                         }
-                        Log.e("BODY POSITION: ", "" + data) ;
-                    }else if (mSensorType.equalsIgnoreCase(ConstantValues.SENSOR_AIR_FLOW)) {
+                        Log.e("BODY POSITION: ", "" + data);
+                    } else if (mSensorType.equalsIgnoreCase(ConstantValues.SENSOR_AIR_FLOW)) {
                         strTemp = strTemp.concat(data);
                         if (strTemp.contains("*") && strTemp.contains("#")) {
                             int startOfLineIndex = strTemp.indexOf("*") + 1;
@@ -258,7 +251,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
                             onReceiveData.onReceiveData(strTemp);
                             strTemp = "";
                         }
-                        Log.e("BODY POSITION: ", "" + data) ;
+                        Log.e("BODY POSITION: ", "" + data);
                     } else {
                         onReceiveData.onReceiveData(data);
                     }
@@ -372,6 +365,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
     }
 
     public OnReceiveGraphData onReceiveGraphData;
+
     public interface OnReceiveGraphData {
         void onReceiveData(float data);
     }

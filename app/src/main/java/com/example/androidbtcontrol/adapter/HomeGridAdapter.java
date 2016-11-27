@@ -16,11 +16,12 @@ import com.example.androidbtcontrol.ECGFragment;
 import com.example.androidbtcontrol.GLMeterFragment;
 import com.example.androidbtcontrol.R;
 import com.example.androidbtcontrol.SPO2Fragment;
+import com.example.androidbtcontrol.TemperatureFragment;
 import com.example.androidbtcontrol.datamodel.MenuData;
 
 import java.util.ArrayList;
 
-public class HomeGridAdapter extends RecyclerView.Adapter<HomeGridAdapter.ViewHolder>{
+public class HomeGridAdapter extends RecyclerView.Adapter<HomeGridAdapter.ViewHolder> {
     private ArrayList<MenuData> mDataset = new ArrayList<>();
     private Context context;
 
@@ -52,7 +53,8 @@ public class HomeGridAdapter extends RecyclerView.Adapter<HomeGridAdapter.ViewHo
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // create a new view
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.grid_item_menu, parent, false);;
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.grid_item_menu, parent, false);
+        ;
         ViewHolder vh = new ViewHolder(v, viewType);
         return vh;
     }
@@ -78,7 +80,9 @@ public class HomeGridAdapter extends RecyclerView.Adapter<HomeGridAdapter.ViewHo
                     fragment = new BodyPositionFragment();
                 } else if (position == 5) {
                     fragment = new GLMeterFragment();
-                }  else {
+                } else if (position == 6) {
+                    fragment = new TemperatureFragment();
+                } else {
 
                 }
 
@@ -95,11 +99,12 @@ public class HomeGridAdapter extends RecyclerView.Adapter<HomeGridAdapter.ViewHo
     }
 
     public OnOpenFragment onOpenFragment;
-    public void openFragment(OnOpenFragment onOpenFragment){
+
+    public void openFragment(OnOpenFragment onOpenFragment) {
         this.onOpenFragment = onOpenFragment;
     }
 
-    public interface OnOpenFragment{
+    public interface OnOpenFragment {
         void openFragment(Fragment fragment);
     }
 
