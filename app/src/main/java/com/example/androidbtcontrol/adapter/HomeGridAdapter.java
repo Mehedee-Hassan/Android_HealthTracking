@@ -2,6 +2,7 @@ package com.example.androidbtcontrol.adapter;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +29,7 @@ public class HomeGridAdapter extends RecyclerView.Adapter<HomeGridAdapter.ViewHo
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView textViewTitle;
         public ImageView imageViewMenuIcon;
+        public CardView cardView;
 
         public ViewHolder(View v, int viewType) {
             super(v);
@@ -35,6 +37,7 @@ public class HomeGridAdapter extends RecyclerView.Adapter<HomeGridAdapter.ViewHo
 
             textViewTitle = (TextView) v.findViewById(R.id.textViewTitle);
             imageViewMenuIcon = (ImageView) v.findViewById(R.id.textView2);
+            cardView = (CardView) v.findViewById(R.id.cardView);
         }
 
         /*@Override
