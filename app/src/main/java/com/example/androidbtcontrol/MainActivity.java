@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
     private LinearLayout inputPane;
     private Button btnDisconnect;
 
-    private UUID myUUID;
+    private UUID mUUID;
     private final String UUID_STRING_WELL_KNOWN_SPP = "00001101-0000-1000-8000-00805F9B34FB";
 
     private BluetoothConnectionPresenter btConnectionPresenter;
@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
         }
 
         //using the well-known SPP UUID
-        myUUID = UUID.fromString(UUID_STRING_WELL_KNOWN_SPP);
+        mUUID = UUID.fromString(UUID_STRING_WELL_KNOWN_SPP);
 
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if (bluetoothAdapter == null) {
@@ -300,7 +300,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
     }
 
     private void setup() {
-        btConnectionPresenter = new BluetoothConnectionPresenter(this, myUUID);
+        btConnectionPresenter = new BluetoothConnectionPresenter(this, mUUID);
     }
 
     public void doWrite(String data) {
