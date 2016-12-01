@@ -6,6 +6,7 @@ package com.example.androidbtcontrol.interfaces;
 
 public interface FragmentView {
     void onReceiveAPIData(Object obj);
+    void onPostCompleted(Object obj);
     void showMessage();
     void showLoading();
     void hideLoading();
