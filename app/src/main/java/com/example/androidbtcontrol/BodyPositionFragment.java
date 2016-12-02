@@ -153,6 +153,11 @@ public class BodyPositionFragment extends Fragment implements FragmentView {
     }
 
     @Override
+    public void onPostCompleted(Object obj) {
+
+    }
+
+    @Override
     public void showMessage() {
 
     }

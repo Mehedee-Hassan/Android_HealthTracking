@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
     private LinearLayout inputPane;
     private Button btnDisconnect;
 
-    private UUID myUUID;
+    private UUID mUUID;
     private final String UUID_STRING_WELL_KNOWN_SPP = "00001101-0000-1000-8000-00805F9B34FB";
 
     private BluetoothConnectionPresenter btConnectionPresenter;
@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
 
                     } catch (IOException e) {
                         e.printStackTrace();
-                        Log.e("Connection", ""+ e.getMessage());
+                        Log.e("Connection", "" + e.getMessage());
                     }
 
                 }
@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
         }
 
         //using the well-known SPP UUID
-        myUUID = UUID.fromString(UUID_STRING_WELL_KNOWN_SPP);
+        mUUID = UUID.fromString(UUID_STRING_WELL_KNOWN_SPP);
 
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if (bluetoothAdapter == null) {
@@ -177,6 +177,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
     }
 
     String strTemp = "";
+
     @Override
     public String onDataReceived(final String data) {
         runOnUiThread(new Runnable() {
@@ -189,6 +190,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
                         //if (strTemp.contains(":") && strTemp.contains(",")) {
                         if (strTemp.contains("*") && strTemp.contains("#")) {
 <<<<<<< HEAD
+<<<<<<< HEAD
                             Log.e("DATA", "=>" + strTemp);
                             int startOfLineIndex = strTemp.indexOf("*") + 1;
                             int endOfLineIndex = strTemp.indexOf("#");
@@ -196,10 +198,16 @@ public class MainActivity extends AppCompatActivity implements MainView {
                             int endOfLineIndex = strTemp.indexOf(",");
                             int startOfLineIndex = strTemp.indexOf(":") + 1;
 >>>>>>> 5a62fb2aee6006ea60b69198d206b7b040d5023e
+=======
+                            Log.e("DATA", "=>" + strTemp);
+                            int startOfLineIndex = strTemp.indexOf("*") + 1;
+                            int endOfLineIndex = strTemp.indexOf("#");
+
+>>>>>>> 65b9a1a05cfb309a2b9edceae5a18e30ee0ecc04
                             strTemp = strTemp.substring(startOfLineIndex, endOfLineIndex).trim();
 
                             //Log.d("Data ECG", "" + strTemp);
-                            try{
+                            try {
                                 float x = Float.parseFloat(strTemp);
                                 onReceiveGraphData.onReceiveData(x);
                                 //Log.e("DATA", "**" + x);
@@ -208,24 +216,29 @@ public class MainActivity extends AppCompatActivity implements MainView {
                             }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 65b9a1a05cfb309a2b9edceae5a18e30ee0ecc04
                             strTemp = "";
                         }
                     } else if (mSensorType.equalsIgnoreCase(ConstantValues.SENSOR_SPO)) {
                         strTemp = strTemp.concat(data);
                         //if (strTemp.contains(":") && strTemp.contains(",")) {
                         if (strTemp.contains("*") && strTemp.contains("#")) {
-
                             int startOfLineIndex = strTemp.indexOf("*") + 1;
                             int endOfLineIndex = strTemp.indexOf("#");
 
                             strTemp = strTemp.substring(startOfLineIndex, endOfLineIndex).trim();
                             onReceiveData.onReceiveData(strTemp);
+<<<<<<< HEAD
 =======
 >>>>>>> 5a62fb2aee6006ea60b69198d206b7b040d5023e
+=======
+>>>>>>> 65b9a1a05cfb309a2b9edceae5a18e30ee0ecc04
                             strTemp = "";
                         }
 
-                        Log.e("SPO: ", "" + data) ;
+                        Log.e("SPO: ", "" + data);
                     } else if (mSensorType.equalsIgnoreCase(ConstantValues.SENSOR_GL_METER)) {
                         strTemp = strTemp.concat(data);
                         if (strTemp.contains("*") && strTemp.contains("#")) {
@@ -236,7 +249,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
                             onReceiveData.onReceiveData(strTemp);
                             strTemp = "";
                         }
-                        Log.e("GL METER: ", "" + data) ;
+                        Log.e("GL METER: ", "" + data);
                     } else if (mSensorType.equalsIgnoreCase(ConstantValues.SENSOR_BODY_POSITION)) {
                         strTemp = strTemp.concat(data);
                         if (strTemp.contains("*") && strTemp.contains("#")) {
@@ -247,8 +260,8 @@ public class MainActivity extends AppCompatActivity implements MainView {
                             onReceiveData.onReceiveData(strTemp);
                             strTemp = "";
                         }
-                        Log.e("BODY POSITION: ", "" + data) ;
-                    }else if (mSensorType.equalsIgnoreCase(ConstantValues.SENSOR_AIR_FLOW)) {
+                        Log.e("BODY POSITION: ", "" + data);
+                    } else if (mSensorType.equalsIgnoreCase(ConstantValues.SENSOR_AIR_FLOW)) {
                         strTemp = strTemp.concat(data);
                         if (strTemp.contains("*") && strTemp.contains("#")) {
                             int startOfLineIndex = strTemp.indexOf("*") + 1;
@@ -258,7 +271,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
                             onReceiveData.onReceiveData(strTemp);
                             strTemp = "";
                         }
-                        Log.e("BODY POSITION: ", "" + data) ;
+                        Log.e("BODY POSITION: ", "" + data);
                     } else {
                         onReceiveData.onReceiveData(data);
                     }
@@ -307,7 +320,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
     }
 
     private void setup() {
-        btConnectionPresenter = new BluetoothConnectionPresenter(this, myUUID);
+        btConnectionPresenter = new BluetoothConnectionPresenter(this, mUUID);
     }
 
     public void doWrite(String data) {
@@ -372,6 +385,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
     }
 
     public OnReceiveGraphData onReceiveGraphData;
+
     public interface OnReceiveGraphData {
         void onReceiveData(float data);
     }

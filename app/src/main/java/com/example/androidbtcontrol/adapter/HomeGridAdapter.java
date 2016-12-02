@@ -2,6 +2,7 @@ package com.example.androidbtcontrol.adapter;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,29 +17,31 @@ import com.example.androidbtcontrol.ECGFragment;
 import com.example.androidbtcontrol.GLMeterFragment;
 import com.example.androidbtcontrol.R;
 import com.example.androidbtcontrol.SPO2Fragment;
+import com.example.androidbtcontrol.TemperatureFragment;
 import com.example.androidbtcontrol.datamodel.MenuData;
 
 import java.util.ArrayList;
 
-public class HomeGridAdapter extends RecyclerView.Adapter<HomeGridAdapter.ViewHolder>{
+public class HomeGridAdapter extends RecyclerView.Adapter<HomeGridAdapter.ViewHolder> {
     private ArrayList<MenuData> mDataset = new ArrayList<>();
     private Context context;
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView textViewTitle;
         public ImageView imageViewMenuIcon;
+        public CardView cardView;
 
         public ViewHolder(View v, int viewType) {
             super(v);
             //v.setOnClickListener(this);
-
             textViewTitle = (TextView) v.findViewById(R.id.textViewTitle);
             imageViewMenuIcon = (ImageView) v.findViewById(R.id.textView2);
+            cardView = (CardView) v.findViewById(R.id.cardView);
         }
 
         /*@Override
         public void onClick(View v) {
-            Fragment fragment = new ECGFragment();;
+            Fragment fragment = new ECGFragment();
             onOpenFragment.openFragment(fragment);
         }*/
     }
@@ -52,7 +55,7 @@ public class HomeGridAdapter extends RecyclerView.Adapter<HomeGridAdapter.ViewHo
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // create a new view
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.grid_item_menu, parent, false);;
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.grid_item_menu, parent, false);
         ViewHolder vh = new ViewHolder(v, viewType);
         return vh;
     }
@@ -62,6 +65,26 @@ public class HomeGridAdapter extends RecyclerView.Adapter<HomeGridAdapter.ViewHo
     public void onBindViewHolder(ViewHolder holder, final int position) {
         holder.textViewTitle.setText(mDataset.get(position).getMenuTitle());
         holder.imageViewMenuIcon.setImageResource(mDataset.get(position).getImage());
+
+        if (position == 0) {
+            holder.cardView.setCardBackgroundColor(R.color.colorLabel);
+        } else if (position == 1) {
+            holder.cardView.setCardBackgroundColor(R.color.colorAccent);
+        } else if (position == 2) {
+            holder.cardView.setCardBackgroundColor(R.color.colorAccentLight);
+        } else if (position == 3) {
+            holder.cardView.setCardBackgroundColor(R.color.colorTimeText);
+        } else if (position == 4) {
+            holder.cardView.setCardBackgroundColor(R.color.colorPrimaryDark);
+        } else if (position == 5) {
+            holder.cardView.setCardBackgroundColor(R.color.colorLabel);
+        } else if (position == 6) {
+            holder.cardView.setCardBackgroundColor(R.color.orange_yellow);
+        } else {
+
+        }
+
+
         holder.imageViewMenuIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -78,7 +101,9 @@ public class HomeGridAdapter extends RecyclerView.Adapter<HomeGridAdapter.ViewHo
                     fragment = new BodyPositionFragment();
                 } else if (position == 5) {
                     fragment = new GLMeterFragment();
-                }  else {
+                } else if (position == 6) {
+                    fragment = new TemperatureFragment();
+                } else {
 
                 }
 
@@ -88,18 +113,19 @@ public class HomeGridAdapter extends RecyclerView.Adapter<HomeGridAdapter.ViewHo
 
     }
 
-    // Return the size of your dataset (invoked by the layout manager)
+    // Return the size of your data set (invoked by the layout manager)
     @Override
     public int getItemCount() {
         return mDataset.size();
     }
 
     public OnOpenFragment onOpenFragment;
-    public void openFragment(OnOpenFragment onOpenFragment){
+
+    public void openFragment(OnOpenFragment onOpenFragment) {
         this.onOpenFragment = onOpenFragment;
     }
 
-    public interface OnOpenFragment{
+    public interface OnOpenFragment {
         void openFragment(Fragment fragment);
     }
 

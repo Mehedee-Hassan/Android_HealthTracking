@@ -24,8 +24,8 @@ import java.util.ArrayList;
  * Created by Masum on 15/02/2015.
  */
 public class MenuFragment extends Fragment {
-    private int[] menuIcon = {R.drawable.ico_area, R.drawable.ico_curve, R.drawable.ico_default, R.drawable.ico_columns, R.drawable.ico_l_rd, R.drawable.ico_legend};
-    private String[] menuTitle = {"Blood Pressure", "ECG", "SPO2", "Air Flow", "Body Position", "GL Meter"};
+    private int[] menuIcon = {R.drawable.ico_area, R.drawable.ico_curve, R.drawable.ico_default, R.drawable.ico_columns, R.drawable.ico_l_rd, R.drawable.ico_legend, R.drawable.ico_curve};
+    private String[] menuTitle = {"Blood Pressure", "ECG", "SPO2", "Air Flow", "Body Position", "GL Meter", "Temperature"};
 
 
     @Override

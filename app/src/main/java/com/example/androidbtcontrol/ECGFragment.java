@@ -1,7 +1,6 @@
 package com.example.androidbtcontrol;
 
 import android.app.Dialog;
-import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -17,12 +16,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.example.androidbtcontrol.adapter.HistoryListAdapter;
 import com.example.androidbtcontrol.datamodel.HistoryData;
@@ -59,6 +55,8 @@ public class ECGFragment extends Fragment implements OnChartValueSelectedListene
     GraphView graph;
     private LineChart mChart;
 
+    StringBuilder stringBuilder = new StringBuilder();
+
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_ecg, container, false);
@@ -85,6 +83,7 @@ public class ECGFragment extends Fragment implements OnChartValueSelectedListene
                     @Override
                     public void onReceiveData(final float data) {
                         Log.e("VAL::: ", "value = " + data);
+                        stringBuilder.append(String.valueOf(data) + ",");
 
                         final Runnable r = new Runnable() {
                             public void run() {
@@ -225,7 +224,6 @@ public class ECGFragment extends Fragment implements OnChartValueSelectedListene
         }
     }
 
-
     private LineDataSet createSet() {
 
         LineDataSet set = new LineDataSet(null, "DataSet ECG");
@@ -240,7 +238,6 @@ public class ECGFragment extends Fragment implements OnChartValueSelectedListene
 
         return set;
     }
-
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -261,7 +258,7 @@ public class ECGFragment extends Fragment implements OnChartValueSelectedListene
         } else if (id == R.id.action_upload) {
             Map<String, String> params = new HashMap<>();
             params.put("client_id", "1");
-            params.put("datas", "TEst Data");
+            params.put("data", stringBuilder.toString());
             params.put("sensor_type", "1");
             params.put("userid", "1");
             new AllFragmentPresenter(this).postData("sensors/save_data_from_app", params);
@@ -348,6 +345,11 @@ public class ECGFragment extends Fragment implements OnChartValueSelectedListene
         }
         openDialog(historyDatas);
 
+    }
+
+    @Override
+    public void onPostCompleted(Object obj) {
+        stringBuilder = new StringBuilder();
     }
 
     @Override
