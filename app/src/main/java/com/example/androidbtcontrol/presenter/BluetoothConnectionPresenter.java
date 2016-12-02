@@ -27,6 +27,7 @@ public class BluetoothConnectionPresenter {
     }
 
     public void openConnection(BluetoothDevice bluetoothDevice) {
+
         BluetoothConnectionThread connection = new BluetoothConnectionThread(bluetoothDevice, uuid, new OnConnected() {
             @Override
             public void getConnected(boolean isConnected, BluetoothSocket bluetoothSocket) {

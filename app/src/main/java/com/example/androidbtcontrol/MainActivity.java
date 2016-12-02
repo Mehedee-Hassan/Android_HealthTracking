@@ -188,9 +188,14 @@ public class MainActivity extends AppCompatActivity implements MainView {
                         strTemp = strTemp.concat(data);
                         //if (strTemp.contains(":") && strTemp.contains(",")) {
                         if (strTemp.contains("*") && strTemp.contains("#")) {
+<<<<<<< HEAD
                             Log.e("DATA", "=>" + strTemp);
                             int startOfLineIndex = strTemp.indexOf("*") + 1;
                             int endOfLineIndex = strTemp.indexOf("#");
+=======
+                            int endOfLineIndex = strTemp.indexOf(",");
+                            int startOfLineIndex = strTemp.indexOf(":") + 1;
+>>>>>>> 5a62fb2aee6006ea60b69198d206b7b040d5023e
                             strTemp = strTemp.substring(startOfLineIndex, endOfLineIndex).trim();
 
                             //Log.d("Data ECG", "" + strTemp);
@@ -202,6 +207,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
 
                             }
 
+<<<<<<< HEAD
                             strTemp = "";
                         }
                     } else if (mSensorType.equalsIgnoreCase(ConstantValues.SENSOR_SPO)) {
@@ -214,6 +220,8 @@ public class MainActivity extends AppCompatActivity implements MainView {
 
                             strTemp = strTemp.substring(startOfLineIndex, endOfLineIndex).trim();
                             onReceiveData.onReceiveData(strTemp);
+=======
+>>>>>>> 5a62fb2aee6006ea60b69198d206b7b040d5023e
                             strTemp = "";
                         }
 
