@@ -46,16 +46,18 @@ import java.util.Random;
  * Created by Masum on 15/02/2015.
  */
 public class ECGFragment extends Fragment implements OnChartValueSelectedListener, FragmentView {
+    private static final Random RANDOM = new Random();
     public GraphView graphView;
     private String mDatas = "datas";
     private String mDate = "date";
-    private static final Random RANDOM = new Random();
     private LineGraphSeries<DataPoint> series;
     private int lastX = 0;
     GraphView graph;
     private LineChart mChart;
+    private String mClientId = "";
+    private String mTestId = "";
 
-    StringBuilder stringBuilder = new StringBuilder();
+    private StringBuilder mStringBuilder = new StringBuilder();
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -75,6 +77,11 @@ public class ECGFragment extends Fragment implements OnChartValueSelectedListene
 
         mChart.invalidate();
 
+        for (int i = 0; i < 100; i++) {
+            float x = (float) (Math.random() * 50f) + 50f;
+            mStringBuilder.append("" + x);
+        }
+
 
         send.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,7 +90,7 @@ public class ECGFragment extends Fragment implements OnChartValueSelectedListene
                     @Override
                     public void onReceiveData(final float data) {
                         Log.e("VAL::: ", "value = " + data);
-                        stringBuilder.append(String.valueOf(data) + ",");
+                        mStringBuilder.append(String.valueOf(data) + ",");
 
                         final Runnable r = new Runnable() {
                             public void run() {
@@ -258,7 +265,8 @@ public class ECGFragment extends Fragment implements OnChartValueSelectedListene
         } else if (id == R.id.action_upload) {
             Map<String, String> params = new HashMap<>();
             params.put("client_id", "1");
-            params.put("data", stringBuilder.toString());
+            params.put("test_id", "T1");
+            params.put("data", mStringBuilder.toString());
             params.put("sensor_type", "1");
             params.put("userid", "1");
             new AllFragmentPresenter(this).postData("sensors/save_data_from_app", params);
@@ -266,7 +274,7 @@ public class ECGFragment extends Fragment implements OnChartValueSelectedListene
         } else if (id == R.id.action_record) {
             Map<String, String> params = new HashMap<>();
             params.put("client_id", "1");
-            new AllFragmentPresenter(this).getApiData("sensors/view_sensors_datas_api/1", params);
+            new AllFragmentPresenter(this).getApiData("sensors/view_sensors_data_api/1/", params);
         }
 
         return super.onOptionsItemSelected(item);
@@ -295,6 +303,34 @@ public class ECGFragment extends Fragment implements OnChartValueSelectedListene
 
             }
         });
+
+        Button btnCancel = (Button) dialog.findViewById(R.id.btnCancel);
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+
+            }
+        });
+
+        Button btnSave = (Button) dialog.findViewById(R.id.btnSave);
+        btnSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+
+            }
+        });
+
+        dialog.show();
+    }
+
+    private void openDilaog() {
+        final Dialog dialog = new Dialog(getActivity());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_entry_patient_info);
+
+        final EditText editTextEmail = (EditText) dialog.findViewById(R.id.editTextId);
 
         Button btnCancel = (Button) dialog.findViewById(R.id.btnCancel);
         btnCancel.setOnClickListener(new View.OnClickListener() {
@@ -349,7 +385,7 @@ public class ECGFragment extends Fragment implements OnChartValueSelectedListene
 
     @Override
     public void onPostCompleted(Object obj) {
-        stringBuilder = new StringBuilder();
+        mStringBuilder = new StringBuilder();
     }
 
     @Override

@@ -65,23 +65,12 @@ public class DeviceListFragment extends Fragment {
 
                         /*textStatus.setText("Connecting...");
                         btConnectionPresenter.openConnection(device);*/
-                        //((MainActivity) getActivity()).loadMenuFragment();
-<<<<<<< HEAD
-<<<<<<< HEAD
-                        ((MainActivity) getActivity()).communicateToPresenter(device);
-                        openDilaog();
-=======
+                        ((MainActivity) getActivity()).loadMenuFragment();
 
-                        // Open to production
+                        /*((MainActivity) getActivity()).communicateToPresenter(device);
+                         openDilaog();*/
 
-                        ((MainActivity) getActivity()).communicateToPresenter(device);
-                        //openDilaog();
->>>>>>> 5a62fb2aee6006ea60b69198d206b7b040d5023e
-=======
 
-                        ((MainActivity) getActivity()).communicateToPresenter(device);
-                        openDilaog();
->>>>>>> 65b9a1a05cfb309a2b9edceae5a18e30ee0ecc04
 
                     }
                 });
