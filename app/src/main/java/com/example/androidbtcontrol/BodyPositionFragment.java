@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,6 +36,9 @@ import java.util.Map;
 public class BodyPositionFragment extends Fragment implements FragmentView {
     private String mDatas = "datas";
     private String mDate = "date";
+    private String mPatientId = "";
+    private String mTestId = "";
+    private StringBuilder mStringBuilder = new StringBuilder();
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -141,6 +145,64 @@ public class BodyPositionFragment extends Fragment implements FragmentView {
         dialog.show();
     }
 
+    private void openDialog(final boolean dialogType) {
+        final Dialog dialog = new Dialog(getActivity());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_entry_patient_info);
+
+        final EditText editTextPatientId = (EditText) dialog.findViewById(R.id.editTextId);
+        final EditText editTextTestId = (EditText) dialog.findViewById(R.id.editTextTestId);
+
+        if (dialogType) {
+            editTextTestId.setVisibility(View.VISIBLE);
+        } else {
+            editTextTestId.setVisibility(View.GONE);
+        }
+
+        Button btnCancel = (Button) dialog.findViewById(R.id.btnCancel);
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                dialog.dismiss();
+
+            }
+        });
+
+        Button btnSave = (Button) dialog.findViewById(R.id.btnSave);
+        btnSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPatientId = editTextPatientId.getText().toString();
+                mTestId = editTextTestId.getText().toString();
+
+                if (dialogType) {
+
+                    Map<String, String> params = new HashMap<>();
+                    params.put("patient_id", mPatientId);
+                    params.put("test_id", mTestId);
+                    params.put("data", mStringBuilder.toString());
+                    params.put("sensor_type", ConstantValues.SENSOR_ECG);
+                    params.put("userid", "1");
+                    new AllFragmentPresenter(BodyPositionFragment.this).postData("sensors/save_data_from_app", params);
+
+
+                } else{
+                    Map<String, String> params = new HashMap<>();
+                    params.put("patient_id", "1");
+                    new AllFragmentPresenter(BodyPositionFragment.this).getApiData("sensors/view_sensors_data_api/"+ mPatientId+"/" + ConstantValues.SENSOR_ECG, params);
+
+                }
+
+                dialog.dismiss();
+
+
+            }
+        });
+
+        dialog.show();
+    }
+
     public OnChangeCommand onChangeCommand1;
     public void doChange(OnChangeCommand onChangeCommand) {
         onChangeCommand1 = onChangeCommand;
@@ -149,7 +211,13 @@ public class BodyPositionFragment extends Fragment implements FragmentView {
 
     @Override
     public void onReceiveAPIData(Object obj) {
+        ArrayList<HistoryData> historyDatas = (ArrayList<HistoryData>) obj;
+        ArrayList<String> strings = new ArrayList<>();
+        for (HistoryData s: historyDatas) {
+            strings.add(s.getDate());
 
+        }
+        openDialog(historyDatas);
     }
 
     @Override

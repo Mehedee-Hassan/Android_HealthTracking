@@ -109,7 +109,7 @@ public class ECGFragment extends Fragment implements OnChartValueSelectedListene
         });
 
 
-        ((MainActivity) getActivity()).doWrite(ConstantValues.SENSOR_ECG, new MainActivity.OnReceiveGraphData() {
+        /*((MainActivity) getActivity()).doWrite(ConstantValues.SENSOR_ECG, new MainActivity.OnReceiveGraphData() {
             @Override
             public void onReceiveData(final float data) {
                 Log.e("VAL::: ", "value = " + data);
@@ -124,9 +124,29 @@ public class ECGFragment extends Fragment implements OnChartValueSelectedListene
                 handler.postDelayed(r, 1000);
 
             }
-        });
+        });*/
 
         return v;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == android.R.id.home) {
+            getFragmentManager().popBackStack();
+            return true;
+
+        } else if (id == R.id.action_upload) {
+            openDialog(true);
+
+
+        } else if (id == R.id.action_record) {
+            openDialog(false);
+       }
+
+        return super.onOptionsItemSelected(item);
     }
 
     final Handler handler = new Handler();
@@ -255,28 +275,6 @@ public class ECGFragment extends Fragment implements OnChartValueSelectedListene
         super.onCreateOptionsMenu(menu, inflater);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == android.R.id.home) {
-            getFragmentManager().popBackStack();
-            return true;
-
-        } else if (id == R.id.action_upload) {
-            openDialog();
-
-
-        } else if (id == R.id.action_record) {
-            Map<String, String> params = new HashMap<>();
-            params.put("patient_id", "1");
-            new AllFragmentPresenter(this).getApiData("sensors/view_sensors_data_api/"+ mPatientId+"/" + ConstantValues.SENSOR_ECG, params);
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
     private void openDialog(final ArrayList<HistoryData> list) {
         final Dialog dialog = new Dialog(getActivity());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -322,13 +320,19 @@ public class ECGFragment extends Fragment implements OnChartValueSelectedListene
         dialog.show();
     }
 
-    private void openDialog() {
+    private void openDialog(final boolean dialogType) {
         final Dialog dialog = new Dialog(getActivity());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_entry_patient_info);
 
         final EditText editTextPatientId = (EditText) dialog.findViewById(R.id.editTextId);
         final EditText editTextTestId = (EditText) dialog.findViewById(R.id.editTextTestId);
+
+        if (dialogType) {
+            editTextTestId.setVisibility(View.VISIBLE);
+        } else {
+            editTextTestId.setVisibility(View.GONE);
+        }
 
         Button btnCancel = (Button) dialog.findViewById(R.id.btnCancel);
         btnCancel.setOnClickListener(new View.OnClickListener() {
@@ -347,14 +351,26 @@ public class ECGFragment extends Fragment implements OnChartValueSelectedListene
                 mPatientId = editTextPatientId.getText().toString();
                 mTestId = editTextTestId.getText().toString();
 
-                Map<String, String> params = new HashMap<>();
-                params.put("patient_id", mPatientId);
-                params.put("test_id", mTestId);
-                params.put("data", mStringBuilder.toString());
-                params.put("sensor_type", ConstantValues.SENSOR_ECG);
-                params.put("userid", "1");
-                new AllFragmentPresenter(ECGFragment.this).postData("sensors/save_data_from_app", params);
+                if (dialogType) {
+
+                    Map<String, String> params = new HashMap<>();
+                    params.put("patient_id", mPatientId);
+                    params.put("test_id", mTestId);
+                    params.put("data", mStringBuilder.toString());
+                    params.put("sensor_type", ConstantValues.SENSOR_ECG);
+                    params.put("userid", "1");
+                    new AllFragmentPresenter(ECGFragment.this).postData("sensors/save_data_from_app", params);
+
+
+                } else{
+                    Map<String, String> params = new HashMap<>();
+                    params.put("patient_id", "1");
+                    new AllFragmentPresenter(ECGFragment.this).getApiData("sensors/view_sensors_data_api/"+ mPatientId+"/" + ConstantValues.SENSOR_ECG, params);
+
+                }
+
                 dialog.dismiss();
+
 
             }
         });

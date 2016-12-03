@@ -22,6 +22,7 @@ import java.util.Map;
  */
 
 public class AllFragmentPresenter {
+    private static String TAG = "ALLFragmentPresenter";
     Context context;
     ServerApiCallback serverApiCallback;
     FragmentView fragmentView;
@@ -51,6 +52,7 @@ public class AllFragmentPresenter {
         serverApiCallback.callLoginApi(url, params, new OnResponseComplete() {
             @Override
             public void onRequestComplete(String response) {
+                Log.e("Get_data", "==" + response);
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     JSONArray jsonArray = jsonObject.getJSONArray("result");
@@ -59,7 +61,7 @@ public class AllFragmentPresenter {
                     for (int i = 0; i < jsonArraySize; i++) {
                         HistoryData historyData = new HistoryData();
                         historyData.setDate(jsonArray.getJSONObject(i).getString("created_at"));
-                        historyData.setDatas(jsonArray.getJSONObject(i).getString("datas"));
+                        historyData.setDatas(jsonArray.getJSONObject(i).getString("data"));
                         historyDatas.add(historyData);
 
                     }
@@ -68,6 +70,7 @@ public class AllFragmentPresenter {
 
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    Log.e(TAG, "" + e.getMessage());
                 }
                 Log.e("response", "msg " + response);
 
