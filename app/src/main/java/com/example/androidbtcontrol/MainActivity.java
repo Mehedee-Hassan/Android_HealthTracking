@@ -189,21 +189,11 @@ public class MainActivity extends AppCompatActivity implements MainView {
                         strTemp = strTemp.concat(data);
                         //if (strTemp.contains(":") && strTemp.contains(",")) {
                         if (strTemp.contains("*") && strTemp.contains("#")) {
-<<<<<<< HEAD
-<<<<<<< HEAD
-                            Log.e("DATA", "=>" + strTemp);
-                            int startOfLineIndex = strTemp.indexOf("*") + 1;
-                            int endOfLineIndex = strTemp.indexOf("#");
-=======
-                            int endOfLineIndex = strTemp.indexOf(",");
-                            int startOfLineIndex = strTemp.indexOf(":") + 1;
->>>>>>> 5a62fb2aee6006ea60b69198d206b7b040d5023e
-=======
+
                             Log.e("DATA", "=>" + strTemp);
                             int startOfLineIndex = strTemp.indexOf("*") + 1;
                             int endOfLineIndex = strTemp.indexOf("#");
 
->>>>>>> 65b9a1a05cfb309a2b9edceae5a18e30ee0ecc04
                             strTemp = strTemp.substring(startOfLineIndex, endOfLineIndex).trim();
 
                             //Log.d("Data ECG", "" + strTemp);
@@ -214,11 +204,6 @@ public class MainActivity extends AppCompatActivity implements MainView {
                             } catch (Exception e) {
 
                             }
-
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 65b9a1a05cfb309a2b9edceae5a18e30ee0ecc04
                             strTemp = "";
                         }
                     } else if (mSensorType.equalsIgnoreCase(ConstantValues.SENSOR_SPO)) {
@@ -230,11 +215,6 @@ public class MainActivity extends AppCompatActivity implements MainView {
 
                             strTemp = strTemp.substring(startOfLineIndex, endOfLineIndex).trim();
                             onReceiveData.onReceiveData(strTemp);
-<<<<<<< HEAD
-=======
->>>>>>> 5a62fb2aee6006ea60b69198d206b7b040d5023e
-=======
->>>>>>> 65b9a1a05cfb309a2b9edceae5a18e30ee0ecc04
                             strTemp = "";
                         }
 

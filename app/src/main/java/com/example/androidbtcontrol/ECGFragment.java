@@ -54,7 +54,7 @@ public class ECGFragment extends Fragment implements OnChartValueSelectedListene
     private int lastX = 0;
     GraphView graph;
     private LineChart mChart;
-    private String mClientId = "";
+    private String mPatientId = "";
     private String mTestId = "";
 
     private StringBuilder mStringBuilder = new StringBuilder();
@@ -79,7 +79,7 @@ public class ECGFragment extends Fragment implements OnChartValueSelectedListene
 
         for (int i = 0; i < 100; i++) {
             float x = (float) (Math.random() * 50f) + 50f;
-            mStringBuilder.append("" + x);
+            mStringBuilder.append(x + ",");
         }
 
 
@@ -107,7 +107,7 @@ public class ECGFragment extends Fragment implements OnChartValueSelectedListene
         });
 
 
-        ((MainActivity) getActivity()).doWrite(ConstantValues.SENSOR_ECG, new MainActivity.OnReceiveGraphData() {
+        /*((MainActivity) getActivity()).doWrite(ConstantValues.SENSOR_ECG, new MainActivity.OnReceiveGraphData() {
             @Override
             public void onReceiveData(final float data) {
                 Log.e("VAL::: ", "value = " + data);
@@ -122,7 +122,7 @@ public class ECGFragment extends Fragment implements OnChartValueSelectedListene
                 handler.postDelayed(r, 1000);
 
             }
-        });
+        });*/
 
         return v;
     }
@@ -263,18 +263,13 @@ public class ECGFragment extends Fragment implements OnChartValueSelectedListene
             return true;
 
         } else if (id == R.id.action_upload) {
-            Map<String, String> params = new HashMap<>();
-            params.put("client_id", "1");
-            params.put("test_id", "T1");
-            params.put("data", mStringBuilder.toString());
-            params.put("sensor_type", "1");
-            params.put("userid", "1");
-            new AllFragmentPresenter(this).postData("sensors/save_data_from_app", params);
+            openDialog();
+
 
         } else if (id == R.id.action_record) {
             Map<String, String> params = new HashMap<>();
-            params.put("client_id", "1");
-            new AllFragmentPresenter(this).getApiData("sensors/view_sensors_data_api/1/", params);
+            params.put("patient_id", "1");
+            new AllFragmentPresenter(this).getApiData("sensors/view_sensors_data_api/"+ mPatientId+"/" + ConstantValues.SENSOR_ECG, params);
         }
 
         return super.onOptionsItemSelected(item);
@@ -325,17 +320,19 @@ public class ECGFragment extends Fragment implements OnChartValueSelectedListene
         dialog.show();
     }
 
-    private void openDilaog() {
+    private void openDialog() {
         final Dialog dialog = new Dialog(getActivity());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_entry_patient_info);
 
-        final EditText editTextEmail = (EditText) dialog.findViewById(R.id.editTextId);
+        final EditText editTextPatientId = (EditText) dialog.findViewById(R.id.editTextId);
+        final EditText editTextTestId = (EditText) dialog.findViewById(R.id.editTextTestId);
 
         Button btnCancel = (Button) dialog.findViewById(R.id.btnCancel);
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 dialog.dismiss();
 
             }
@@ -345,6 +342,16 @@ public class ECGFragment extends Fragment implements OnChartValueSelectedListene
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mPatientId = editTextPatientId.getText().toString();
+                mTestId = editTextTestId.getText().toString();
+
+                Map<String, String> params = new HashMap<>();
+                params.put("patient_id", mPatientId);
+                params.put("test_id", mTestId);
+                params.put("data", mStringBuilder.toString());
+                params.put("sensor_type", ConstantValues.SENSOR_ECG);
+                params.put("userid", "1");
+                new AllFragmentPresenter(ECGFragment.this).postData("sensors/save_data_from_app", params);
                 dialog.dismiss();
 
             }

@@ -158,6 +158,11 @@ public class SPO2Fragment extends Fragment implements FragmentView {
     }
 
     @Override
+    public void onPostCompleted(Object obj) {
+
+    }
+
+    @Override
     public void showMessage() {
 
     }
