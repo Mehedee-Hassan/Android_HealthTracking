@@ -77,10 +77,12 @@ public class ECGFragment extends Fragment implements OnChartValueSelectedListene
 
         mChart.invalidate();
 
+        /* Make dummy data for uploading to the server
+
         for (int i = 0; i < 100; i++) {
             float x = (float) (Math.random() * 50f) + 50f;
             mStringBuilder.append(x + ",");
-        }
+        }*/
 
 
         send.setOnClickListener(new View.OnClickListener() {
@@ -107,7 +109,7 @@ public class ECGFragment extends Fragment implements OnChartValueSelectedListene
         });
 
 
-        /*((MainActivity) getActivity()).doWrite(ConstantValues.SENSOR_ECG, new MainActivity.OnReceiveGraphData() {
+        ((MainActivity) getActivity()).doWrite(ConstantValues.SENSOR_ECG, new MainActivity.OnReceiveGraphData() {
             @Override
             public void onReceiveData(final float data) {
                 Log.e("VAL::: ", "value = " + data);
@@ -122,7 +124,7 @@ public class ECGFragment extends Fragment implements OnChartValueSelectedListene
                 handler.postDelayed(r, 1000);
 
             }
-        });*/
+        });
 
         return v;
     }
