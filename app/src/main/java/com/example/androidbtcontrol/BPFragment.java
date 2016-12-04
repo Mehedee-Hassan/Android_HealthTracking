@@ -61,13 +61,21 @@ public class BPFragment extends Fragment implements FragmentView {
             }
         });
 
-        ((MainActivity)getActivity()).doWrite(ConstantValues.SENSOR_BODY_POSITION, new MainActivity.OnReceiveData() {
+
+        //Making dummy data
+        for (int i = 0; i < 20; i++) {
+            float x = (float) (Math.random() * 50f) + 50f;
+            mStringBuilder.append(x + ",");
+        }
+
+
+        /*((MainActivity)getActivity()).doWrite(ConstantValues.SENSOR_BODY_POSITION, new MainActivity.OnReceiveData() {
             @Override
             public void onReceiveData(String data) {
                 mStringBuilder.append(String.valueOf(data) + ",");
                 txtViewValue.append(data.toString());
             }
-        });
+        });*/
 
         return view;
     }
@@ -88,7 +96,11 @@ public class BPFragment extends Fragment implements FragmentView {
             return true;
 
         } else if (id == R.id.action_upload) {
-            openDialog(true);
+            if (!mStringBuilder.toString().equals("")) {
+                openDialog(true);
+            } else {
+                Toast.makeText(getActivity(), "Uploading failed! Data is empty.", Toast.LENGTH_SHORT).show();
+            }
 
 
         } else if (id == R.id.action_record) {
@@ -214,7 +226,7 @@ public class BPFragment extends Fragment implements FragmentView {
                     params.put("patient_id", mPatientId);
                     params.put("test_id", mTestId);
                     params.put("data", mStringBuilder.toString());
-                    params.put("sensor_type", ConstantValues.SENSOR_ECG);
+                    params.put("sensor_type", ConstantValues.SENSOR_BLOOD_PRESSURE);
                     params.put("userid", "1");
                     new AllFragmentPresenter(BPFragment.this).postData("sensors/save_data_from_app", params);
 
@@ -222,7 +234,7 @@ public class BPFragment extends Fragment implements FragmentView {
                 } else{
                     Map<String, String> params = new HashMap<>();
                     params.put("patient_id", "1");
-                    new AllFragmentPresenter(BPFragment.this).getApiData("sensors/view_sensors_data_api/"+ mPatientId+"/" + ConstantValues.SENSOR_BLOOD_PRESSURE, params);
+                    new AllFragmentPresenter(BPFragment.this).getApiData("sensors/view_sensors_data_api/"+ mPatientId +"/" + ConstantValues.SENSOR_BLOOD_PRESSURE, params);
 
                 }
 

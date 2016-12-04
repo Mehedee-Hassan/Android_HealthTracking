@@ -61,6 +61,7 @@ public class AirFlowFragment extends Fragment implements FragmentView {
             }
         });
 
+        //Making dummy data
         for (int i = 0; i < 20; i++) {
             float x = (float) (Math.random() * 50f) + 50f;
             mStringBuilder.append(x + ",");
@@ -94,8 +95,11 @@ public class AirFlowFragment extends Fragment implements FragmentView {
             return true;
 
         } else if (id == R.id.action_upload) {
-            openDialog(true);
-
+            if (!mStringBuilder.toString().equals("")) {
+                openDialog(true);
+            } else {
+                Toast.makeText(getActivity(), "Uploading failed! Data is empty.", Toast.LENGTH_SHORT).show();
+            }
 
         } else if (id == R.id.action_record) {
             openDialog(false);
@@ -117,7 +121,7 @@ public class AirFlowFragment extends Fragment implements FragmentView {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getActivity(), DetailsECGActivity.class);
+                Intent intent = new Intent(getActivity(), HistoryDetailsActivity.class);
                 intent.putExtra(mDate,list.get(position).getDate());
                 intent.putExtra(mDatas, list.get(position).getDatas());
                 startActivity(intent);

@@ -74,6 +74,7 @@ public class ECGFragment extends Fragment implements OnChartValueSelectedListene
         mChart.setDrawGridBackground(false);
         mChart.getDescription().setEnabled(false);
 
+
         // add an empty data object
         mChart.setData(new LineData());
         mChart.getXAxis().setDrawLabels(false);
@@ -81,12 +82,11 @@ public class ECGFragment extends Fragment implements OnChartValueSelectedListene
 
         mChart.invalidate();
 
-        /* Make dummy data for uploading to the server
-
+        //Making dummy data for uploading to the server
         for (int i = 0; i < 100; i++) {
             float x = (float) (Math.random() * 50f) + 50f;
             mStringBuilder.append(x + ",");
-        }*/
+        }
 
 
         send.setOnClickListener(new View.OnClickListener() {
@@ -142,7 +142,11 @@ public class ECGFragment extends Fragment implements OnChartValueSelectedListene
             return true;
 
         } else if (id == R.id.action_upload) {
-            openDialog(true);
+            if (!mStringBuilder.toString().equals("")) {
+                openDialog(true);
+            } else {
+                Toast.makeText(getActivity(), "Upload can not be performed! ECG data sheet is empty.", Toast.LENGTH_SHORT).show();
+            }
 
 
         } else if (id == R.id.action_record) {
@@ -151,8 +155,6 @@ public class ECGFragment extends Fragment implements OnChartValueSelectedListene
 
         return super.onOptionsItemSelected(item);
     }
-
-
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {

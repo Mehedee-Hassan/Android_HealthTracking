@@ -62,13 +62,16 @@ public class BodyPositionFragment extends Fragment implements FragmentView {
             }
         });
 
-        ((MainActivity)getActivity()).doWrite(ConstantValues.SENSOR_BODY_POSITION, new MainActivity.OnReceiveData() {
+        //Making dummy data
+        mStringBuilder.append("Position Left | Standing");
+
+        /*((MainActivity)getActivity()).doWrite(ConstantValues.SENSOR_BODY_POSITION, new MainActivity.OnReceiveData() {
             @Override
             public void onReceiveData(String data) {
                 mStringBuilder.append(data + ",");
                 txtViewValue.append(data.toString());
             }
-        });
+        });*/
 
         return view;
     }
@@ -90,7 +93,11 @@ public class BodyPositionFragment extends Fragment implements FragmentView {
             return true;
 
         } else if (id == R.id.action_upload) {
-            openDialog(true);
+            if (!mStringBuilder.toString().equals("")) {
+                openDialog(true);
+            } else {
+                Toast.makeText(getActivity(), "Uploading failed! Data is empty.", Toast.LENGTH_SHORT).show();
+            }
 
 
         } else if (id == R.id.action_record) {
@@ -154,7 +161,7 @@ public class BodyPositionFragment extends Fragment implements FragmentView {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getActivity(), DetailsECGActivity.class);
+                Intent intent = new Intent(getActivity(), HistoryDetailsActivity.class);
                 intent.putExtra(mDate,list.get(position).getDate());
                 intent.putExtra(mDatas, list.get(position).getDatas());
                 startActivity(intent);

@@ -29,7 +29,7 @@ public class ServerApiCallback {
 
     public void callLoginApi(String url, final Map<String, String> params, OnResponseComplete loginApiInterface) {
         this.apiCallingInterface = loginApiInterface;
-
+        Log.e("ÜRL", "" + ConstantValues.BASE_API_URL + url);
         StringRequest myReq = new StringRequest(Request.Method.POST, ConstantValues.BASE_API_URL + url, createMyReqSuccessListener(), createMyReqErrorListener()) {
             protected Map<String, String> getParams() throws com.android.volley.AuthFailureError {
                 Log.e("PARAMS", params.toString());

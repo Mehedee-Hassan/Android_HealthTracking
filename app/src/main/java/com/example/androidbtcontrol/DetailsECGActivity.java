@@ -48,6 +48,8 @@ public class DetailsECGActivity extends AppCompatActivity {
         mChart.getXAxis().setDrawLabels(false);
         mChart.getXAxis().setDrawGridLines(false);
 
+        mChart.setMaxVisibleValueCount(30);
+
         mChart.invalidate();
         //addEntry(0.0f);
         String datas = getIntent().getExtras().getString(mDatas);
@@ -70,17 +72,24 @@ public class DetailsECGActivity extends AppCompatActivity {
     private LineDataSet createSet() {
 
         LineDataSet set = new LineDataSet(null, "DataSet ECG");
-        set.setDrawValues(true);
+
+        set.setDrawValues(false);
         set.setLineWidth(2.5f);
-        set.setCircleRadius(0.0f);
+        //set.setCircleRadius(0.0f);
         set.setDrawCircles(false);
+        set.setCircleHoleRadius(2.5f);
         //set.setCircleColor(Color.RED);
         set.setColor(Color.rgb(240, 99, 99));
         set.setHighLightColor(Color.rgb(190, 190, 190));
 
         set.setAxisDependency(YAxis.AxisDependency.LEFT);
         set.setValueTextSize(5f);
-        set.setCubicIntensity(100f);
+
+        set.setMode(set.getMode() == LineDataSet.Mode.CUBIC_BEZIER
+                ? LineDataSet.Mode.LINEAR
+                :  LineDataSet.Mode.CUBIC_BEZIER);
+        //set.setDrawCubic(true);
+        set.setCubicIntensity(0.01f);
 
         return set;
     }
@@ -108,7 +117,9 @@ public class DetailsECGActivity extends AppCompatActivity {
         // let the chart know it's data has changed
         mChart.notifyDataSetChanged();
 
-        mChart.setVisibleXRangeMaximum(10);
+
+
+        mChart.setVisibleXRangeMaximum(15);
         //mChart.setVisibleYRangeMaximum(15, AxisDependency.LEFT);
 //
 //            // this automatically refreshes the chart (calls invalidate())
