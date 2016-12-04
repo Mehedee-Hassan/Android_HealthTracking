@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.androidbtcontrol.adapter.HistoryListAdapter;
 import com.example.androidbtcontrol.datamodel.HistoryData;
@@ -60,12 +61,18 @@ public class AirFlowFragment extends Fragment implements FragmentView {
             }
         });
 
-        ((MainActivity) getActivity()).doWrite(ConstantValues.SENSOR_AIR_FLOW, new MainActivity.OnReceiveData() {
+        for (int i = 0; i < 20; i++) {
+            float x = (float) (Math.random() * 50f) + 50f;
+            mStringBuilder.append(x + ",");
+        }
+
+        /*((MainActivity) getActivity()).doWrite(ConstantValues.SENSOR_AIR_FLOW, new MainActivity.OnReceiveData() {
             @Override
             public void onReceiveData(String data) {
+                mStringBuilder.append(data + "");
                 txtViewValue.append(data.toString());
             }
-        });
+        });*/
 
         return view;
     }
@@ -103,9 +110,6 @@ public class AirFlowFragment extends Fragment implements FragmentView {
         dialog.setContentView(R.layout.dialog_history);
 
         final ListView listView = (ListView) dialog.findViewById(R.id.listHistory);
-        //ArrayAdapter<String> pairedDeviceAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, list);
-        //listView.setAdapter(pairedDeviceAdapter);
-
         HistoryListAdapter arrayAdapter = new HistoryListAdapter(getActivity(), list);
         listView.setAdapter(arrayAdapter);
 
@@ -179,7 +183,7 @@ public class AirFlowFragment extends Fragment implements FragmentView {
                     params.put("patient_id", mPatientId);
                     params.put("test_id", mTestId);
                     params.put("data", mStringBuilder.toString());
-                    params.put("sensor_type", ConstantValues.SENSOR_ECG);
+                    params.put("sensor_type", ConstantValues.SENSOR_AIR_FLOW);
                     params.put("userid", "1");
                     new AllFragmentPresenter(AirFlowFragment.this).postData("sensors/save_data_from_app", params);
 
@@ -187,7 +191,7 @@ public class AirFlowFragment extends Fragment implements FragmentView {
                 } else{
                     Map<String, String> params = new HashMap<>();
                     params.put("patient_id", "1");
-                    new AllFragmentPresenter(AirFlowFragment.this).getApiData("sensors/view_sensors_data_api/"+ mPatientId+"/" + ConstantValues.SENSOR_ECG, params);
+                    new AllFragmentPresenter(AirFlowFragment.this).getApiData("sensors/view_sensors_data_api/"+ mPatientId+"/" + ConstantValues.SENSOR_AIR_FLOW, params);
 
                 }
 
@@ -213,7 +217,13 @@ public class AirFlowFragment extends Fragment implements FragmentView {
 
     @Override
     public void onPostCompleted(Object obj) {
-
+        String response = (String) obj;
+        if (response.equals("1")) {
+            Toast.makeText(getActivity(), "Data has been uploaded", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getActivity(), "Something went wrong", Toast.LENGTH_SHORT).show();
+        }
+        mStringBuilder = new StringBuilder();
     }
 
     @Override

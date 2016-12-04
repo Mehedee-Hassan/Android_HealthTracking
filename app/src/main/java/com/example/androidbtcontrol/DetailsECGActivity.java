@@ -2,11 +2,8 @@ package com.example.androidbtcontrol;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.YAxis;
@@ -53,15 +50,18 @@ public class DetailsECGActivity extends AppCompatActivity {
 
         mChart.invalidate();
         //addEntry(0.0f);
-        /*String datas = getIntent().getExtras().getString(mDatas);
-        List<String> list = new ArrayList<String>(Arrays.asList(datas.split(",")));
-        list.get(1);*/
+        String datas = getIntent().getExtras().getString(mDatas);
+        List<String> list = new ArrayList<>(Arrays.asList(datas.split(",")));
 
-        for (int i = 0; i < 100; i++) {
+        /*for (int i = 0; i < 100; i++) {
             float yValue = (float) (Math.random() * 10) + 50f;
             addEntry(yValue);
-        }
+        }*/
 
+        for (int i = 0; i < list.size(); i++) {
+            float yValue = Float.parseFloat(list.get(i));
+            addEntry(yValue);
+        }
 
 
         //addDataSet();
@@ -70,14 +70,17 @@ public class DetailsECGActivity extends AppCompatActivity {
     private LineDataSet createSet() {
 
         LineDataSet set = new LineDataSet(null, "DataSet ECG");
-        set.setDrawValues(false);
+        set.setDrawValues(true);
         set.setLineWidth(2.5f);
-        set.setCircleRadius(4.5f);
+        set.setCircleRadius(0.0f);
+        set.setDrawCircles(false);
+        //set.setCircleColor(Color.RED);
         set.setColor(Color.rgb(240, 99, 99));
-        set.setCircleColor(Color.rgb(240, 99, 99));
         set.setHighLightColor(Color.rgb(190, 190, 190));
+
         set.setAxisDependency(YAxis.AxisDependency.LEFT);
-        set.setValueTextSize(10f);
+        set.setValueTextSize(5f);
+        set.setCubicIntensity(100f);
 
         return set;
     }

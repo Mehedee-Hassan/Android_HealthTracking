@@ -19,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.androidbtcontrol.adapter.HistoryListAdapter;
 import com.example.androidbtcontrol.datamodel.HistoryData;
@@ -48,15 +49,18 @@ import java.util.Random;
 public class ECGFragment extends Fragment implements OnChartValueSelectedListener, FragmentView {
     private static final Random RANDOM = new Random();
     public GraphView graphView;
+
+    GraphView graph;
+    Handler handler = new Handler();
+    int[] mColors = ColorTemplate.VORDIPLOM_COLORS;
+
     private String mDatas = "datas";
     private String mDate = "date";
     private LineGraphSeries<DataPoint> series;
     private int lastX = 0;
-    GraphView graph;
     private LineChart mChart;
     private String mPatientId = "";
     private String mTestId = "";
-
     private StringBuilder mStringBuilder = new StringBuilder();
 
     @Override
@@ -133,7 +137,6 @@ public class ECGFragment extends Fragment implements OnChartValueSelectedListene
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == android.R.id.home) {
             getFragmentManager().popBackStack();
             return true;
@@ -149,9 +152,62 @@ public class ECGFragment extends Fragment implements OnChartValueSelectedListene
         return super.onOptionsItemSelected(item);
     }
 
-    final Handler handler = new Handler();
 
-    int[] mColors = ColorTemplate.VORDIPLOM_COLORS;
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_for_upload_data, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public void onValueSelected(Entry entry, Highlight highlight) {
+
+    }
+
+    @Override
+    public void onNothingSelected() {
+
+    }
+
+    @Override
+    public void onReceiveAPIData(Object obj) {
+        ArrayList<HistoryData> historyDatas = (ArrayList<HistoryData>) obj;
+        ArrayList<String> strings = new ArrayList<>();
+        for (HistoryData s: historyDatas) {
+            strings.add(s.getDate());
+
+        }
+        openDialog(historyDatas);
+
+    }
+
+    @Override
+    public void onPostCompleted(Object obj) {
+        String response = (String) obj;
+        if (response.equals("1")) {
+            Toast.makeText(getActivity(), "Data has been uploaded", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getActivity(), "Something went wrong", Toast.LENGTH_SHORT).show();
+        }
+        mStringBuilder = new StringBuilder();
+
+    }
+
+    @Override
+    public void showMessage() {
+
+    }
+
+    @Override
+    public void showLoading() {
+
+    }
+
+    @Override
+    public void hideLoading() {
+
+    }
 
     private void addEntry(float yData) {
 
@@ -228,7 +284,7 @@ public class ECGFragment extends Fragment implements OnChartValueSelectedListene
             int color = mColors[count % mColors.length];
 
             set.setColor(color);
-            set.setCircleColor(color);
+            set.setCircleColor(Color.WHITE);
             set.setHighLightColor(color);
             set.setValueTextSize(10f);
             set.setValueTextColor(color);
@@ -268,22 +324,12 @@ public class ECGFragment extends Fragment implements OnChartValueSelectedListene
         return set;
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        //menu.clear();
-        inflater.inflate(R.menu.menu_for_upload_data, menu);
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-
     private void openDialog(final ArrayList<HistoryData> list) {
         final Dialog dialog = new Dialog(getActivity());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_history);
 
         final ListView listView = (ListView) dialog.findViewById(R.id.listHistory);
-        //ArrayAdapter<String> pairedDeviceAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, list);
-        //listView.setAdapter(pairedDeviceAdapter);
-
         HistoryListAdapter arrayAdapter = new HistoryListAdapter(getActivity(), list);
         listView.setAdapter(arrayAdapter);
 
@@ -378,58 +424,5 @@ public class ECGFragment extends Fragment implements OnChartValueSelectedListene
         dialog.show();
     }
 
-    //Interface Declaration
-    public OnChangeCommand onChangeCommand1;
-
-    public void doChange(OnChangeCommand onChangeCommand) {
-        onChangeCommand1 = onChangeCommand;
-
-    }
-
-    @Override
-    public void onValueSelected(Entry entry, Highlight highlight) {
-
-    }
-
-    @Override
-    public void onNothingSelected() {
-
-    }
-
-    @Override
-    public void onReceiveAPIData(Object obj) {
-        ArrayList<HistoryData> historyDatas = (ArrayList<HistoryData>) obj;
-        ArrayList<String> strings = new ArrayList<>();
-        for (HistoryData s: historyDatas) {
-            strings.add(s.getDate());
-
-        }
-        openDialog(historyDatas);
-
-    }
-
-    @Override
-    public void onPostCompleted(Object obj) {
-        mStringBuilder = new StringBuilder();
-    }
-
-    @Override
-    public void showMessage() {
-
-    }
-
-    @Override
-    public void showLoading() {
-
-    }
-
-    @Override
-    public void hideLoading() {
-
-    }
-
-    interface OnChangeCommand {
-        void onChangeCommand();
-    }
 
 }

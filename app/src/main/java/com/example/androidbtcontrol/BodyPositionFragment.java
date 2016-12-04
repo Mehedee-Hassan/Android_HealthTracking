@@ -65,6 +65,7 @@ public class BodyPositionFragment extends Fragment implements FragmentView {
         ((MainActivity)getActivity()).doWrite(ConstantValues.SENSOR_BODY_POSITION, new MainActivity.OnReceiveData() {
             @Override
             public void onReceiveData(String data) {
+                mStringBuilder.append(data + ",");
                 txtViewValue.append(data.toString());
             }
         });
@@ -74,7 +75,7 @@ public class BodyPositionFragment extends Fragment implements FragmentView {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        menu.clear();
+        //menu.clear();
         inflater.inflate(R.menu.menu_for_upload_data, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
@@ -86,18 +87,58 @@ public class BodyPositionFragment extends Fragment implements FragmentView {
         //noinspection SimplifiableIfStatement
         if (id == android.R.id.home) {
             getFragmentManager().popBackStack();
-            //get.setDisplayHomeAsUpEnabled(false);
             return true;
+
         } else if (id == R.id.action_upload) {
-            Toast.makeText(getActivity(), "Body Position Data has been uploaded", Toast.LENGTH_SHORT).show();
+            openDialog(true);
+
 
         } else if (id == R.id.action_record) {
-            Map<String, String> params = new HashMap<>();
-            params.put("client_id", "1");
-            new AllFragmentPresenter(this).getApiData("sensors/view_sensors_datas_api/1", params);
+            openDialog(false);
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onReceiveAPIData(Object obj) {
+        ArrayList<HistoryData> historyDatas = (ArrayList<HistoryData>) obj;
+        ArrayList<String> strings = new ArrayList<>();
+        for (HistoryData s: historyDatas) {
+            strings.add(s.getDate());
+
+        }
+        openDialog(historyDatas);
+    }
+
+    @Override
+    public void onPostCompleted(Object obj) {
+        String response = (String) obj;
+        if (response.equals("1")) {
+            Toast.makeText(getActivity(), "Data has been uploaded", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getActivity(), "Something went wrong", Toast.LENGTH_SHORT).show();
+        }
+        mStringBuilder = new StringBuilder();
+    }
+
+    @Override
+    public void showMessage() {
+
+    }
+
+    @Override
+    public void showLoading() {
+
+    }
+
+    @Override
+    public void hideLoading() {
+
+    }
+
+    interface OnChangeCommand{
+        void onChangeCommand();
     }
 
     private void openDialog(final ArrayList<HistoryData> list) {
@@ -106,9 +147,6 @@ public class BodyPositionFragment extends Fragment implements FragmentView {
         dialog.setContentView(R.layout.dialog_history);
 
         final ListView listView = (ListView) dialog.findViewById(R.id.listHistory);
-        //ArrayAdapter<String> pairedDeviceAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, list);
-        //listView.setAdapter(pairedDeviceAdapter);
-
         HistoryListAdapter arrayAdapter = new HistoryListAdapter(getActivity(), list);
         listView.setAdapter(arrayAdapter);
 
@@ -116,7 +154,7 @@ public class BodyPositionFragment extends Fragment implements FragmentView {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getActivity(), HistoryDetailsActivity.class);
+                Intent intent = new Intent(getActivity(), DetailsECGActivity.class);
                 intent.putExtra(mDate,list.get(position).getDate());
                 intent.putExtra(mDatas, list.get(position).getDatas());
                 startActivity(intent);
@@ -182,7 +220,7 @@ public class BodyPositionFragment extends Fragment implements FragmentView {
                     params.put("patient_id", mPatientId);
                     params.put("test_id", mTestId);
                     params.put("data", mStringBuilder.toString());
-                    params.put("sensor_type", ConstantValues.SENSOR_ECG);
+                    params.put("sensor_type", ConstantValues.SENSOR_BODY_POSITION);
                     params.put("userid", "1");
                     new AllFragmentPresenter(BodyPositionFragment.this).postData("sensors/save_data_from_app", params);
 
@@ -190,7 +228,7 @@ public class BodyPositionFragment extends Fragment implements FragmentView {
                 } else{
                     Map<String, String> params = new HashMap<>();
                     params.put("patient_id", "1");
-                    new AllFragmentPresenter(BodyPositionFragment.this).getApiData("sensors/view_sensors_data_api/"+ mPatientId+"/" + ConstantValues.SENSOR_ECG, params);
+                    new AllFragmentPresenter(BodyPositionFragment.this).getApiData("sensors/view_sensors_data_api/"+ mPatientId+"/" + ConstantValues.SENSOR_BODY_POSITION, params);
 
                 }
 
@@ -203,46 +241,6 @@ public class BodyPositionFragment extends Fragment implements FragmentView {
         dialog.show();
     }
 
-    public OnChangeCommand onChangeCommand1;
-    public void doChange(OnChangeCommand onChangeCommand) {
-        onChangeCommand1 = onChangeCommand;
-
-    }
-
-    @Override
-    public void onReceiveAPIData(Object obj) {
-        ArrayList<HistoryData> historyDatas = (ArrayList<HistoryData>) obj;
-        ArrayList<String> strings = new ArrayList<>();
-        for (HistoryData s: historyDatas) {
-            strings.add(s.getDate());
-
-        }
-        openDialog(historyDatas);
-    }
-
-    @Override
-    public void onPostCompleted(Object obj) {
-
-    }
-
-    @Override
-    public void showMessage() {
-
-    }
-
-    @Override
-    public void showLoading() {
-
-    }
-
-    @Override
-    public void hideLoading() {
-
-    }
-
-    interface OnChangeCommand{
-        void onChangeCommand();
-    }
 
 
 

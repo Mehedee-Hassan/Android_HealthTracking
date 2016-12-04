@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.androidbtcontrol.adapter.HistoryListAdapter;
 import com.example.androidbtcontrol.datamodel.HistoryData;
@@ -73,7 +74,6 @@ public class BPFragment extends Fragment implements FragmentView {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        //menu.clear();
         inflater.inflate(R.menu.menu_for_upload_data, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
@@ -98,15 +98,49 @@ public class BPFragment extends Fragment implements FragmentView {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onReceiveAPIData(Object obj) {
+        ArrayList<HistoryData> historyDatas = (ArrayList<HistoryData>) obj;
+        ArrayList<String> strings = new ArrayList<>();
+        for (HistoryData s: historyDatas) {
+            strings.add(s.getDate());
+
+        }
+        openDialog(historyDatas);
+    }
+
+    @Override
+    public void onPostCompleted(Object obj) {
+        String response = (String) obj;
+        if (response.equals("1")) {
+            Toast.makeText(getActivity(), "Data has been uploaded", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getActivity(), "Something went wrong", Toast.LENGTH_SHORT).show();
+        }
+        mStringBuilder = new StringBuilder();
+    }
+
+    @Override
+    public void showMessage() {
+
+    }
+
+    @Override
+    public void showLoading() {
+
+    }
+
+    @Override
+    public void hideLoading() {
+
+    }
+
     private void openDialog(final ArrayList<HistoryData> list) {
         final Dialog dialog = new Dialog(getActivity());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_history);
 
         final ListView listView = (ListView) dialog.findViewById(R.id.listHistory);
-        //ArrayAdapter<String> pairedDeviceAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, list);
-        //listView.setAdapter(pairedDeviceAdapter);
-
         HistoryListAdapter arrayAdapter = new HistoryListAdapter(getActivity(), list);
         listView.setAdapter(arrayAdapter);
 
@@ -188,7 +222,7 @@ public class BPFragment extends Fragment implements FragmentView {
                 } else{
                     Map<String, String> params = new HashMap<>();
                     params.put("patient_id", "1");
-                    new AllFragmentPresenter(BPFragment.this).getApiData("sensors/view_sensors_data_api/"+ mPatientId+"/" + ConstantValues.SENSOR_ECG, params);
+                    new AllFragmentPresenter(BPFragment.this).getApiData("sensors/view_sensors_data_api/"+ mPatientId+"/" + ConstantValues.SENSOR_BLOOD_PRESSURE, params);
 
                 }
 
@@ -204,37 +238,6 @@ public class BPFragment extends Fragment implements FragmentView {
     public OnChangeCommand onChangeCommand1;
     public void doChange(OnChangeCommand onChangeCommand) {
         onChangeCommand1 = onChangeCommand;
-
-    }
-
-    @Override
-    public void onReceiveAPIData(Object obj) {
-        ArrayList<HistoryData> historyDatas = (ArrayList<HistoryData>) obj;
-        ArrayList<String> strings = new ArrayList<>();
-        for (HistoryData s: historyDatas) {
-            strings.add(s.getDate());
-
-        }
-        openDialog(historyDatas);
-    }
-
-    @Override
-    public void onPostCompleted(Object obj) {
-
-    }
-
-    @Override
-    public void showMessage() {
-
-    }
-
-    @Override
-    public void showLoading() {
-
-    }
-
-    @Override
-    public void hideLoading() {
 
     }
 

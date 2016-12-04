@@ -39,7 +39,7 @@ public class AllFragmentPresenter {
                 Log.e("response", "msg " + response);
                 if (response.equalsIgnoreCase("1")) {
                     fragmentView.onPostCompleted(response);
-                    Toast.makeText(context, "ECG Data has been uploaded", Toast.LENGTH_SHORT).show();
+
                 } else {
                     Toast.makeText(context, "Could not uploaded!", Toast.LENGTH_SHORT).show();
                 }
