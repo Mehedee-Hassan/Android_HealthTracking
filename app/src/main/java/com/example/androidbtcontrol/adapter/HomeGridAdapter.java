@@ -10,15 +10,15 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.androidbtcontrol.AirFlowFragment;
-import com.example.androidbtcontrol.BPFragment;
-import com.example.androidbtcontrol.BodyPositionFragment;
-import com.example.androidbtcontrol.ECGFragment;
-import com.example.androidbtcontrol.GLMeterFragment;
+import com.example.androidbtcontrol.fragments.AirFlowFragment;
+import com.example.androidbtcontrol.fragments.BPFragment;
+import com.example.androidbtcontrol.fragments.BodyPositionFragment;
+import com.example.androidbtcontrol.fragments.ECGFragment;
+import com.example.androidbtcontrol.fragments.GLMeterFragment;
 import com.example.androidbtcontrol.MainActivity;
 import com.example.androidbtcontrol.R;
-import com.example.androidbtcontrol.SPO2Fragment;
-import com.example.androidbtcontrol.TemperatureFragment;
+import com.example.androidbtcontrol.fragments.SPO2Fragment;
+import com.example.androidbtcontrol.fragments.TemperatureFragment;
 import com.example.androidbtcontrol.datamodel.MenuData;
 
 import java.util.ArrayList;

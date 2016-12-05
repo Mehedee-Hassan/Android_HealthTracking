@@ -1,11 +1,10 @@
-package com.example.androidbtcontrol;
+package com.example.androidbtcontrol.fragments;
 
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.ContentLoadingProgressBar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,6 +19,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.androidbtcontrol.HistoryDetailsActivity;
+import com.example.androidbtcontrol.MainActivity;
+import com.example.androidbtcontrol.R;
 import com.example.androidbtcontrol.adapter.HistoryListAdapter;
 import com.example.androidbtcontrol.datamodel.HistoryData;
 import com.example.androidbtcontrol.interfaces.FragmentView;
@@ -33,7 +35,7 @@ import java.util.Map;
 /**
  * Created by Masum on 15/02/2015.
  */
-public class BodyPositionFragment extends Fragment implements FragmentView {
+public class AirFlowFragment extends Fragment implements FragmentView {
     private String mDatas = "datas";
     private String mDate = "date";
     private String mPatientId = "";
@@ -42,7 +44,7 @@ public class BodyPositionFragment extends Fragment implements FragmentView {
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_body_position, container, false);
+        View view = inflater.inflate(R.layout.fragment_air_flow, container, false);
         setHasOptionsMenu(true);
 
         final TextView txtViewValue = (TextView) view.findViewById(R.id.textViewValue);
@@ -53,7 +55,7 @@ public class BodyPositionFragment extends Fragment implements FragmentView {
             @Override
             public void onClick(View v) {
                 txtViewValue.setText("");
-                ((MainActivity) getActivity()).doWrite(ConstantValues.SENSOR_BODY_POSITION, new MainActivity.OnReceiveData() {
+                ((MainActivity) getActivity()).doWrite(ConstantValues.SENSOR_AIR_FLOW, new MainActivity.OnReceiveData() {
                     @Override
                     public void onReceiveData(String data) {
                         txtViewValue.append(data.toString());
@@ -62,19 +64,19 @@ public class BodyPositionFragment extends Fragment implements FragmentView {
             }
         });
 
-        if (ConstantValues.PRODUCTION_READY) {
-            ((MainActivity) getActivity()).doWrite(ConstantValues.SENSOR_BODY_POSITION, new MainActivity.OnReceiveData() {
-                @Override
-                public void onReceiveData(String data) {
-                    mStringBuilder.append(data + ",");
-                    txtViewValue.append(data.toString());
-                }
-            });
-        } else {
-            //Making dummy data
-            mStringBuilder.append("Position Left | Standing");
+        //Making dummy data
+        for (int i = 0; i < 20; i++) {
+            float x = (float) (Math.random() * 50f) + 50f;
+            mStringBuilder.append(x + ",");
         }
 
+        /*((MainActivity) getActivity()).doWrite(ConstantValues.SENSOR_AIR_FLOW, new MainActivity.OnReceiveData() {
+            @Override
+            public void onReceiveData(String data) {
+                mStringBuilder.append(data + "");
+                txtViewValue.append(data.toString());
+            }
+        });*/
 
         return view;
     }
@@ -90,7 +92,6 @@ public class BodyPositionFragment extends Fragment implements FragmentView {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == android.R.id.home) {
             getFragmentManager().popBackStack();
             return true;
@@ -101,7 +102,6 @@ public class BodyPositionFragment extends Fragment implements FragmentView {
             } else {
                 Toast.makeText(getActivity(), "Uploading failed! Data is empty.", Toast.LENGTH_SHORT).show();
             }
-
 
         } else if (id == R.id.action_record) {
             openDialog(false);
@@ -145,10 +145,6 @@ public class BodyPositionFragment extends Fragment implements FragmentView {
     @Override
     public void hideLoading() {
 
-    }
-
-    interface OnChangeCommand {
-        void onChangeCommand();
     }
 
     private void openDialog(final ArrayList<HistoryData> list) {
@@ -230,15 +226,15 @@ public class BodyPositionFragment extends Fragment implements FragmentView {
                     params.put("patient_id", mPatientId);
                     params.put("test_id", mTestId);
                     params.put("data", mStringBuilder.toString());
-                    params.put("sensor_type", ConstantValues.SENSOR_BODY_POSITION);
+                    params.put("sensor_type", ConstantValues.SENSOR_AIR_FLOW);
                     params.put("userid", "1");
-                    new AllFragmentPresenter(BodyPositionFragment.this).postData("sensors/save_data_from_app", params);
+                    new AllFragmentPresenter(AirFlowFragment.this).postData("sensors/save_data_from_app", params);
 
 
                 } else {
                     Map<String, String> params = new HashMap<>();
                     params.put("patient_id", "1");
-                    new AllFragmentPresenter(BodyPositionFragment.this).getApiData("sensors/view_sensors_data_api/" + mPatientId + "/" + ConstantValues.SENSOR_BODY_POSITION, params);
+                    new AllFragmentPresenter(AirFlowFragment.this).getApiData("sensors/view_sensors_data_api/" + mPatientId + "/" + ConstantValues.SENSOR_AIR_FLOW, params);
 
                 }
 
@@ -250,6 +246,5 @@ public class BodyPositionFragment extends Fragment implements FragmentView {
 
         dialog.show();
     }
-
 
 }

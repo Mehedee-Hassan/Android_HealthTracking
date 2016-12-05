@@ -1,4 +1,4 @@
-package com.example.androidbtcontrol;
+package com.example.androidbtcontrol.fragments;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -19,6 +19,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.androidbtcontrol.HistoryDetailsActivity;
+import com.example.androidbtcontrol.MainActivity;
+import com.example.androidbtcontrol.R;
 import com.example.androidbtcontrol.adapter.HistoryListAdapter;
 import com.example.androidbtcontrol.datamodel.HistoryData;
 import com.example.androidbtcontrol.interfaces.FragmentView;
@@ -32,7 +35,7 @@ import java.util.Map;
 /**
  * Created by Masum on 15/02/2015.
  */
-public class SPO2Fragment extends Fragment implements FragmentView {
+public class BPFragment extends Fragment implements FragmentView {
     private String mDatas = "datas";
     private String mDate = "date";
     private String mPatientId = "";
@@ -41,7 +44,7 @@ public class SPO2Fragment extends Fragment implements FragmentView {
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_spo2, container, false);
+        View view = inflater.inflate(R.layout.fragment_bp, container, false);
         setHasOptionsMenu(true);
 
         final TextView txtViewValue = (TextView) view.findViewById(R.id.textViewValue);
@@ -52,7 +55,7 @@ public class SPO2Fragment extends Fragment implements FragmentView {
             @Override
             public void onClick(View v) {
                 txtViewValue.setText("");
-                ((MainActivity) getActivity()).doWrite(ConstantValues.SENSOR_SPO, new MainActivity.OnReceiveData() {
+                ((MainActivity) getActivity()).doWrite(ConstantValues.SENSOR_BODY_POSITION, new MainActivity.OnReceiveData() {
                     @Override
                     public void onReceiveData(String data) {
                         txtViewValue.append(data.toString());
@@ -61,23 +64,24 @@ public class SPO2Fragment extends Fragment implements FragmentView {
             }
         });
 
-
         if (ConstantValues.PRODUCTION_READY) {
-            ((MainActivity) getActivity()).doWrite(ConstantValues.SENSOR_SPO, new MainActivity.OnReceiveData() {
+            ((MainActivity) getActivity()).doWrite(ConstantValues.SENSOR_BODY_POSITION, new MainActivity.OnReceiveData() {
                 @Override
                 public void onReceiveData(String data) {
-                    mStringBuilder.append(data + ",");
+                    mStringBuilder.append(String.valueOf(data) + ",");
                     txtViewValue.append(data.toString());
                 }
             });
-        } else {
 
-            //Making dummy data
+        } else {
+            //Dummy data
             for (int i = 0; i < 20; i++) {
                 float x = (float) (Math.random() * 50f) + 50f;
                 mStringBuilder.append(x + ",");
             }
         }
+
+
         return view;
     }
 
@@ -228,14 +232,15 @@ public class SPO2Fragment extends Fragment implements FragmentView {
                     params.put("patient_id", mPatientId);
                     params.put("test_id", mTestId);
                     params.put("data", mStringBuilder.toString());
-                    params.put("sensor_type", ConstantValues.SENSOR_SPO);
+                    params.put("sensor_type", ConstantValues.SENSOR_BLOOD_PRESSURE);
                     params.put("userid", "1");
-                    new AllFragmentPresenter(SPO2Fragment.this).postData("sensors/save_data_from_app", params);
+                    new AllFragmentPresenter(BPFragment.this).postData("sensors/save_data_from_app", params);
+
 
                 } else {
                     Map<String, String> params = new HashMap<>();
                     params.put("patient_id", "1");
-                    new AllFragmentPresenter(SPO2Fragment.this).getApiData("sensors/view_sensors_data_api/" + mPatientId + "/" + ConstantValues.SENSOR_SPO, params);
+                    new AllFragmentPresenter(BPFragment.this).getApiData("sensors/view_sensors_data_api/" + mPatientId + "/" + ConstantValues.SENSOR_BLOOD_PRESSURE, params);
 
                 }
 
@@ -246,6 +251,17 @@ public class SPO2Fragment extends Fragment implements FragmentView {
         });
 
         dialog.show();
+    }
+
+    public OnChangeCommand onChangeCommand1;
+
+    public void doChange(OnChangeCommand onChangeCommand) {
+        onChangeCommand1 = onChangeCommand;
+
+    }
+
+    interface OnChangeCommand {
+        void onChangeCommand();
     }
 
 

@@ -2,7 +2,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.example.androidbtcontrol.GLMeterFragment">
+    tools:context="com.example.androidbtcontrol.fragments.GLMeterFragment">
 
     <TextView
         android:id="@+id/textView3"
