@@ -41,7 +41,7 @@ public class BPFragment extends Fragment implements FragmentView {
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view= inflater.inflate(R.layout.fragment_bp, container,false);
+        View view = inflater.inflate(R.layout.fragment_bp, container, false);
         setHasOptionsMenu(true);
 
         final TextView txtViewValue = (TextView) view.findViewById(R.id.textViewValue);
@@ -52,7 +52,7 @@ public class BPFragment extends Fragment implements FragmentView {
             @Override
             public void onClick(View v) {
                 txtViewValue.setText("");
-                ((MainActivity)getActivity()).doWrite(ConstantValues.SENSOR_BODY_POSITION, new MainActivity.OnReceiveData() {
+                ((MainActivity) getActivity()).doWrite(ConstantValues.SENSOR_BODY_POSITION, new MainActivity.OnReceiveData() {
                     @Override
                     public void onReceiveData(String data) {
                         txtViewValue.append(data.toString());
@@ -61,21 +61,23 @@ public class BPFragment extends Fragment implements FragmentView {
             }
         });
 
+        if (ConstantValues.PRODUCTION_READY) {
+            ((MainActivity) getActivity()).doWrite(ConstantValues.SENSOR_BODY_POSITION, new MainActivity.OnReceiveData() {
+                @Override
+                public void onReceiveData(String data) {
+                    mStringBuilder.append(String.valueOf(data) + ",");
+                    txtViewValue.append(data.toString());
+                }
+            });
 
-        //Making dummy data
-        for (int i = 0; i < 20; i++) {
-            float x = (float) (Math.random() * 50f) + 50f;
-            mStringBuilder.append(x + ",");
+        } else {
+            //Dummy data
+            for (int i = 0; i < 20; i++) {
+                float x = (float) (Math.random() * 50f) + 50f;
+                mStringBuilder.append(x + ",");
+            }
         }
 
-
-        /*((MainActivity)getActivity()).doWrite(ConstantValues.SENSOR_BODY_POSITION, new MainActivity.OnReceiveData() {
-            @Override
-            public void onReceiveData(String data) {
-                mStringBuilder.append(String.valueOf(data) + ",");
-                txtViewValue.append(data.toString());
-            }
-        });*/
 
         return view;
     }
@@ -115,7 +117,7 @@ public class BPFragment extends Fragment implements FragmentView {
     public void onReceiveAPIData(Object obj) {
         ArrayList<HistoryData> historyDatas = (ArrayList<HistoryData>) obj;
         ArrayList<String> strings = new ArrayList<>();
-        for (HistoryData s: historyDatas) {
+        for (HistoryData s : historyDatas) {
             strings.add(s.getDate());
 
         }
@@ -162,7 +164,7 @@ public class BPFragment extends Fragment implements FragmentView {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getActivity(), HistoryDetailsActivity.class);
-                intent.putExtra(mDate,list.get(position).getDate());
+                intent.putExtra(mDate, list.get(position).getDate());
                 intent.putExtra(mDatas, list.get(position).getDatas());
                 startActivity(intent);
 
@@ -232,10 +234,10 @@ public class BPFragment extends Fragment implements FragmentView {
                     new AllFragmentPresenter(BPFragment.this).postData("sensors/save_data_from_app", params);
 
 
-                } else{
+                } else {
                     Map<String, String> params = new HashMap<>();
                     params.put("patient_id", "1");
-                    new AllFragmentPresenter(BPFragment.this).getApiData("sensors/view_sensors_data_api/"+ mPatientId +"/" + ConstantValues.SENSOR_BLOOD_PRESSURE, params);
+                    new AllFragmentPresenter(BPFragment.this).getApiData("sensors/view_sensors_data_api/" + mPatientId + "/" + ConstantValues.SENSOR_BLOOD_PRESSURE, params);
 
                 }
 
@@ -249,15 +251,15 @@ public class BPFragment extends Fragment implements FragmentView {
     }
 
     public OnChangeCommand onChangeCommand1;
+
     public void doChange(OnChangeCommand onChangeCommand) {
         onChangeCommand1 = onChangeCommand;
 
     }
 
-    interface OnChangeCommand{
+    interface OnChangeCommand {
         void onChangeCommand();
     }
-
 
 
 }

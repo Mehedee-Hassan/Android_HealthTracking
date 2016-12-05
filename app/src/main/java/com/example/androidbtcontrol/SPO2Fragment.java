@@ -61,21 +61,23 @@ public class SPO2Fragment extends Fragment implements FragmentView {
             }
         });
 
-        //Making dummy data
-        for (int i = 0; i < 20; i++) {
-            float x = (float) (Math.random() * 50f) + 50f;
-            mStringBuilder.append(x + ",");
-        }
 
+        if (ConstantValues.PRODUCTION_READY) {
+            ((MainActivity) getActivity()).doWrite(ConstantValues.SENSOR_SPO, new MainActivity.OnReceiveData() {
+                @Override
+                public void onReceiveData(String data) {
+                    mStringBuilder.append(data + ",");
+                    txtViewValue.append(data.toString());
+                }
+            });
+        } else {
 
-        /*((MainActivity)getActivity()).doWrite(ConstantValues.SENSOR_SPO, new MainActivity.OnReceiveData() {
-            @Override
-            public void onReceiveData(String data) {
-                mStringBuilder.append(data + ",");
-                txtViewValue.append(data.toString());
+            //Making dummy data
+            for (int i = 0; i < 20; i++) {
+                float x = (float) (Math.random() * 50f) + 50f;
+                mStringBuilder.append(x + ",");
             }
-        });*/
-
+        }
         return view;
     }
 
@@ -230,12 +232,10 @@ public class SPO2Fragment extends Fragment implements FragmentView {
                     params.put("userid", "1");
                     new AllFragmentPresenter(SPO2Fragment.this).postData("sensors/save_data_from_app", params);
 
-
                 } else {
                     Map<String, String> params = new HashMap<>();
                     params.put("patient_id", "1");
                     new AllFragmentPresenter(SPO2Fragment.this).getApiData("sensors/view_sensors_data_api/" + mPatientId + "/" + ConstantValues.SENSOR_SPO, params);
-
 
                 }
 

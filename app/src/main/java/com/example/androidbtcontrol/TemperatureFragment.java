@@ -62,16 +62,21 @@ public class TemperatureFragment extends Fragment implements FragmentView {
             }
         });
 
-        //Making dummy data
-        mStringBuilder.append("98 F");
+        if (ConstantValues.PRODUCTION_READY) {
 
-        /*((MainActivity)getActivity()).doWrite(ConstantValues.SENSOR_TEMPERATURE, new MainActivity.OnReceiveData() {
-            @Override
-            public void onReceiveData(String data) {
-                mStringBuilder.append(data);
-                txtViewValue.append(data.toString());
-            }
-        });*/
+            ((MainActivity) getActivity()).doWrite(ConstantValues.SENSOR_TEMPERATURE, new MainActivity.OnReceiveData() {
+                @Override
+                public void onReceiveData(String data) {
+                    mStringBuilder.append(data);
+                    txtViewValue.append(data.toString());
+                }
+            });
+
+        } else {
+            //Making dummy data
+            mStringBuilder.append("98 F");
+
+        }
 
         return view;
     }

@@ -62,16 +62,19 @@ public class BodyPositionFragment extends Fragment implements FragmentView {
             }
         });
 
-        //Making dummy data
-        mStringBuilder.append("Position Left | Standing");
+        if (ConstantValues.PRODUCTION_READY) {
+            ((MainActivity) getActivity()).doWrite(ConstantValues.SENSOR_BODY_POSITION, new MainActivity.OnReceiveData() {
+                @Override
+                public void onReceiveData(String data) {
+                    mStringBuilder.append(data + ",");
+                    txtViewValue.append(data.toString());
+                }
+            });
+        } else {
+            //Making dummy data
+            mStringBuilder.append("Position Left | Standing");
+        }
 
-        /*((MainActivity)getActivity()).doWrite(ConstantValues.SENSOR_BODY_POSITION, new MainActivity.OnReceiveData() {
-            @Override
-            public void onReceiveData(String data) {
-                mStringBuilder.append(data + ",");
-                txtViewValue.append(data.toString());
-            }
-        });*/
 
         return view;
     }

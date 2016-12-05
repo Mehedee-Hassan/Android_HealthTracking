@@ -33,7 +33,7 @@ import java.util.Map;
 /**
  * Created by Masum on 15/02/2015.
  */
-public class GLMeterFragment extends Fragment implements FragmentView{
+public class GLMeterFragment extends Fragment implements FragmentView {
     private String mDatas = "datas";
     private String mDate = "date";
     private String mPatientId = "";
@@ -42,7 +42,7 @@ public class GLMeterFragment extends Fragment implements FragmentView{
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_gl_meter, container,false);
+        View view = inflater.inflate(R.layout.fragment_gl_meter, container, false);
         setHasOptionsMenu(true);
 
         final TextView txtViewValue = (TextView) view.findViewById(R.id.textViewValue);
@@ -53,7 +53,7 @@ public class GLMeterFragment extends Fragment implements FragmentView{
             @Override
             public void onClick(View v) {
                 txtViewValue.setText("");
-                ((MainActivity)getActivity()).doWrite(ConstantValues.SENSOR_GL_METER, new MainActivity.OnReceiveData() {
+                ((MainActivity) getActivity()).doWrite(ConstantValues.SENSOR_GL_METER, new MainActivity.OnReceiveData() {
                     @Override
                     public void onReceiveData(String data) {
                         txtViewValue.append(data.toString());
@@ -62,20 +62,21 @@ public class GLMeterFragment extends Fragment implements FragmentView{
             }
         });
 
-        //Making dummy data
-        for (int i = 0; i < 20; i++) {
-            float x = (float) (Math.random() * 50f) + 50f;
-            mStringBuilder.append(x + ",");
-        }
-
-
-        /*((MainActivity)getActivity()).doWrite(ConstantValues.SENSOR_GL_METER, new MainActivity.OnReceiveData() {
-            @Override
-            public void onReceiveData(String data) {
-                mStringBuilder.append(data + ",");
-                txtViewValue.append(data.toString());
+        if (ConstantValues.PRODUCTION_READY) {
+            ((MainActivity) getActivity()).doWrite(ConstantValues.SENSOR_GL_METER, new MainActivity.OnReceiveData() {
+                @Override
+                public void onReceiveData(String data) {
+                    mStringBuilder.append(data + ",");
+                    txtViewValue.append(data.toString());
+                }
+            });
+        } else {
+            //Making dummy data
+            for (int i = 0; i < 20; i++) {
+                float x = (float) (Math.random() * 50f) + 50f;
+                mStringBuilder.append(x + ",");
             }
-        });*/
+        }
 
         return view;
     }
@@ -115,7 +116,7 @@ public class GLMeterFragment extends Fragment implements FragmentView{
     public void onReceiveAPIData(Object obj) {
         ArrayList<HistoryData> historyDatas = (ArrayList<HistoryData>) obj;
         ArrayList<String> strings = new ArrayList<>();
-        for (HistoryData s: historyDatas) {
+        for (HistoryData s : historyDatas) {
             strings.add(s.getDate());
 
         }
@@ -162,7 +163,7 @@ public class GLMeterFragment extends Fragment implements FragmentView{
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getActivity(), HistoryDetailsActivity.class);
-                intent.putExtra(mDate,list.get(position).getDate());
+                intent.putExtra(mDate, list.get(position).getDate());
                 intent.putExtra(mDatas, list.get(position).getDatas());
                 startActivity(intent);
 
@@ -232,10 +233,10 @@ public class GLMeterFragment extends Fragment implements FragmentView{
                     new AllFragmentPresenter(GLMeterFragment.this).postData("sensors/save_data_from_app", params);
 
 
-                } else{
+                } else {
                     Map<String, String> params = new HashMap<>();
                     params.put("patient_id", "1");
-                    new AllFragmentPresenter(GLMeterFragment.this).getApiData("sensors/view_sensors_data_api/"+ mPatientId+"/" + ConstantValues.SENSOR_GL_METER, params);
+                    new AllFragmentPresenter(GLMeterFragment.this).getApiData("sensors/view_sensors_data_api/" + mPatientId + "/" + ConstantValues.SENSOR_GL_METER, params);
 
                 }
 

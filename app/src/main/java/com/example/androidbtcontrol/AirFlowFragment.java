@@ -89,7 +89,6 @@ public class AirFlowFragment extends Fragment implements FragmentView {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == android.R.id.home) {
             getFragmentManager().popBackStack();
             return true;
@@ -108,6 +107,43 @@ public class AirFlowFragment extends Fragment implements FragmentView {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onReceiveAPIData(Object obj) {
+        ArrayList<HistoryData> historyDatas = (ArrayList<HistoryData>) obj;
+        ArrayList<String> strings = new ArrayList<>();
+        for (HistoryData s : historyDatas) {
+            strings.add(s.getDate());
+
+        }
+        openDialog(historyDatas);
+    }
+
+    @Override
+    public void onPostCompleted(Object obj) {
+        String response = (String) obj;
+        if (response.equals("1")) {
+            Toast.makeText(getActivity(), "Data has been uploaded", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getActivity(), "Something went wrong", Toast.LENGTH_SHORT).show();
+        }
+        mStringBuilder = new StringBuilder();
+    }
+
+    @Override
+    public void showMessage() {
+
+    }
+
+    @Override
+    public void showLoading() {
+
+    }
+
+    @Override
+    public void hideLoading() {
+
+    }
+
     private void openDialog(final ArrayList<HistoryData> list) {
         final Dialog dialog = new Dialog(getActivity());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -122,7 +158,7 @@ public class AirFlowFragment extends Fragment implements FragmentView {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getActivity(), HistoryDetailsActivity.class);
-                intent.putExtra(mDate,list.get(position).getDate());
+                intent.putExtra(mDate, list.get(position).getDate());
                 intent.putExtra(mDatas, list.get(position).getDatas());
                 startActivity(intent);
 
@@ -192,10 +228,10 @@ public class AirFlowFragment extends Fragment implements FragmentView {
                     new AllFragmentPresenter(AirFlowFragment.this).postData("sensors/save_data_from_app", params);
 
 
-                } else{
+                } else {
                     Map<String, String> params = new HashMap<>();
                     params.put("patient_id", "1");
-                    new AllFragmentPresenter(AirFlowFragment.this).getApiData("sensors/view_sensors_data_api/"+ mPatientId+"/" + ConstantValues.SENSOR_AIR_FLOW, params);
+                    new AllFragmentPresenter(AirFlowFragment.this).getApiData("sensors/view_sensors_data_api/" + mPatientId + "/" + ConstantValues.SENSOR_AIR_FLOW, params);
 
                 }
 
@@ -208,40 +244,4 @@ public class AirFlowFragment extends Fragment implements FragmentView {
         dialog.show();
     }
 
-    @Override
-    public void onReceiveAPIData(Object obj) {
-        ArrayList<HistoryData> historyDatas = (ArrayList<HistoryData>) obj;
-        ArrayList<String> strings = new ArrayList<>();
-        for (HistoryData s: historyDatas) {
-            strings.add(s.getDate());
-
-        }
-        openDialog(historyDatas);
-    }
-
-    @Override
-    public void onPostCompleted(Object obj) {
-        String response = (String) obj;
-        if (response.equals("1")) {
-            Toast.makeText(getActivity(), "Data has been uploaded", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(getActivity(), "Something went wrong", Toast.LENGTH_SHORT).show();
-        }
-        mStringBuilder = new StringBuilder();
-    }
-
-    @Override
-    public void showMessage() {
-
-    }
-
-    @Override
-    public void showLoading() {
-
-    }
-
-    @Override
-    public void hideLoading() {
-
-    }
 }

@@ -82,13 +82,6 @@ public class ECGFragment extends Fragment implements OnChartValueSelectedListene
 
         mChart.invalidate();
 
-        //Making dummy data for uploading to the server
-        for (int i = 0; i < 100; i++) {
-            float x = (float) (Math.random() * 50f) + 50f;
-            mStringBuilder.append(x + ",");
-        }
-
-
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -113,22 +106,34 @@ public class ECGFragment extends Fragment implements OnChartValueSelectedListene
         });
 
 
-        /*((MainActivity) getActivity()).doWrite(ConstantValues.SENSOR_ECG, new MainActivity.OnReceiveGraphData() {
-            @Override
-            public void onReceiveData(final float data) {
-                Log.e("VAL::: ", "value = " + data);
+        if (ConstantValues.PRODUCTION_READY) {
 
-                final Runnable r = new Runnable() {
-                    public void run() {
-                        addEntry(data);
+            ((MainActivity) getActivity()).doWrite(ConstantValues.SENSOR_ECG, new MainActivity.OnReceiveGraphData() {
+                @Override
+                public void onReceiveData(final float data) {
+                    Log.e("VAL::: ", "value = " + data);
 
-                    }
-                };
+                    final Runnable r = new Runnable() {
+                        public void run() {
+                            addEntry(data);
 
-                handler.postDelayed(r, 1000);
+                        }
+                    };
 
+                    handler.postDelayed(r, 1000);
+
+                }
+            });
+
+        } else {
+            //Making dummy data for uploading to the server
+            for (int i = 0; i < 100; i++) {
+                float x = (float) (Math.random() * 50f) + 50f;
+                mStringBuilder.append(x + ",");
             }
-        });*/
+
+        }
+
 
         return v;
     }
@@ -151,7 +156,7 @@ public class ECGFragment extends Fragment implements OnChartValueSelectedListene
 
         } else if (id == R.id.action_record) {
             openDialog(false);
-       }
+        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -177,7 +182,7 @@ public class ECGFragment extends Fragment implements OnChartValueSelectedListene
     public void onReceiveAPIData(Object obj) {
         ArrayList<HistoryData> historyDatas = (ArrayList<HistoryData>) obj;
         ArrayList<String> strings = new ArrayList<>();
-        for (HistoryData s: historyDatas) {
+        for (HistoryData s : historyDatas) {
             strings.add(s.getDate());
 
         }
@@ -217,8 +222,6 @@ public class ECGFragment extends Fragment implements OnChartValueSelectedListene
         LineData data = mChart.getData();
 
         ILineDataSet set = data.getDataSetByIndex(0);
-//        set.setDrawValues(false);
-        // set.addEntry(...); // can be called as well
 
         if (set == null) {
             set = createSet();
@@ -237,8 +240,8 @@ public class ECGFragment extends Fragment implements OnChartValueSelectedListene
 
         mChart.setVisibleXRangeMaximum(15);
         //mChart.setVisibleYRangeMaximum(15, AxisDependency.LEFT);
-//
-//            // this automatically refreshes the chart (calls invalidate())
+
+        // this automatically refreshes the chart (calls invalidate())
         mChart.moveViewTo(data.getEntryCount() - 7, 50f, YAxis.AxisDependency.LEFT);
         mChart.invalidate();
 
@@ -341,7 +344,7 @@ public class ECGFragment extends Fragment implements OnChartValueSelectedListene
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getActivity(), DetailsECGActivity.class);
-                intent.putExtra(mDate,list.get(position).getDate());
+                intent.putExtra(mDate, list.get(position).getDate());
                 intent.putExtra(mDatas, list.get(position).getDatas());
                 startActivity(intent);
 
@@ -411,10 +414,10 @@ public class ECGFragment extends Fragment implements OnChartValueSelectedListene
                     new AllFragmentPresenter(ECGFragment.this).postData("sensors/save_data_from_app", params);
 
 
-                } else{
+                } else {
                     Map<String, String> params = new HashMap<>();
                     params.put("patient_id", "1");
-                    new AllFragmentPresenter(ECGFragment.this).getApiData("sensors/view_sensors_data_api/"+ mPatientId+"/" + ConstantValues.SENSOR_ECG, params);
+                    new AllFragmentPresenter(ECGFragment.this).getApiData("sensors/view_sensors_data_api/" + mPatientId + "/" + ConstantValues.SENSOR_ECG, params);
 
                 }
 
