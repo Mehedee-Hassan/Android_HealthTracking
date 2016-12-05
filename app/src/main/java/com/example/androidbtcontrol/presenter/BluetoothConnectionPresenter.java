@@ -4,7 +4,7 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.util.Log;
 
-import com.example.androidbtcontrol.MainView;
+import com.example.androidbtcontrol.interfaces.MainView;
 import com.example.androidbtcontrol.interfaces.OnConnected;
 import com.example.androidbtcontrol.model.BluetoothConnectedThread;
 import com.example.androidbtcontrol.model.BluetoothConnectionThread;

@@ -1,4 +1,4 @@
-package com.example.androidbtcontrol;
+package com.example.androidbtcontrol.interfaces;
 
 import android.bluetooth.BluetoothSocket;
 

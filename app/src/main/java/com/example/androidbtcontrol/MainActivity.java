@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import com.example.androidbtcontrol.fragments.DeviceListFragment;
 import com.example.androidbtcontrol.fragments.MenuFragment;
+import com.example.androidbtcontrol.interfaces.MainView;
 import com.example.androidbtcontrol.interfaces.OnWriteCompleted;
 import com.example.androidbtcontrol.model.BluetoothConnectedThread;
 import com.example.androidbtcontrol.presenter.BluetoothConnectionPresenter;
