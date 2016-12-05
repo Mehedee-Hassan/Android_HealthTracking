@@ -8,7 +8,6 @@
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_record"
-        android:icon="@drawable/ico_curve"
         android:title="@string/history_button"
         app:showAsAction="ifRoom" />
 
