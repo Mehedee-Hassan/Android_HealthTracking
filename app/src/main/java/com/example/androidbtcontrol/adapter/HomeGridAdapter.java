@@ -15,6 +15,7 @@ import com.example.androidbtcontrol.BPFragment;
 import com.example.androidbtcontrol.BodyPositionFragment;
 import com.example.androidbtcontrol.ECGFragment;
 import com.example.androidbtcontrol.GLMeterFragment;
+import com.example.androidbtcontrol.MainActivity;
 import com.example.androidbtcontrol.R;
 import com.example.androidbtcontrol.SPO2Fragment;
 import com.example.androidbtcontrol.TemperatureFragment;
@@ -66,51 +67,58 @@ public class HomeGridAdapter extends RecyclerView.Adapter<HomeGridAdapter.ViewHo
         holder.textViewTitle.setText(mDataset.get(position).getMenuTitle());
         holder.imageViewMenuIcon.setImageResource(mDataset.get(position).getImage());
 
+        holder.imageViewMenuIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openFragment(position);
+            }
+        });
+
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                openFragment(position);
+            }
+        });
+
+    }
+
+    public void openFragment(int position) {
+        Fragment fragment = null;
         if (position == 0) {
-            holder.cardView.setCardBackgroundColor(R.color.colorLabel);
+            ((MainActivity) context).openBackButton("Blood Pressure");
+            fragment = new BPFragment();
+
         } else if (position == 1) {
-            holder.cardView.setCardBackgroundColor(R.color.colorAccent);
+            ((MainActivity) context).openBackButton("ECG");
+            fragment = new ECGFragment();
+
         } else if (position == 2) {
-            holder.cardView.setCardBackgroundColor(R.color.colorAccentLight);
+            ((MainActivity) context).openBackButton("SPO");
+            fragment = new SPO2Fragment();
+
         } else if (position == 3) {
-            holder.cardView.setCardBackgroundColor(R.color.colorTimeText);
+            ((MainActivity) context).openBackButton("Airflow");
+            fragment = new AirFlowFragment();
+
         } else if (position == 4) {
-            holder.cardView.setCardBackgroundColor(R.color.colorPrimaryDark);
+            ((MainActivity) context).openBackButton("Body Position");
+            fragment = new BodyPositionFragment();
+
         } else if (position == 5) {
-            holder.cardView.setCardBackgroundColor(R.color.colorLabel);
+            ((MainActivity) context).openBackButton("Glow Meter");
+            fragment = new GLMeterFragment();
+
         } else if (position == 6) {
-            holder.cardView.setCardBackgroundColor(R.color.orange_yellow);
+            ((MainActivity) context).openBackButton("Temperature");
+            fragment = new TemperatureFragment();
+
         } else {
 
         }
 
-
-        holder.imageViewMenuIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Fragment fragment = null;
-                if (position == 0) {
-                    fragment = new BPFragment();
-                } else if (position == 1) {
-                    fragment = new ECGFragment();
-                } else if (position == 2) {
-                    fragment = new SPO2Fragment();
-                } else if (position == 3) {
-                    fragment = new AirFlowFragment();
-                } else if (position == 4) {
-                    fragment = new BodyPositionFragment();
-                } else if (position == 5) {
-                    fragment = new GLMeterFragment();
-                } else if (position == 6) {
-                    fragment = new TemperatureFragment();
-                } else {
-
-                }
-
-                onOpenFragment.openFragment(fragment);
-            }
-        });
-
+        onOpenFragment.openFragment(fragment);
     }
 
     // Return the size of your data set (invoked by the layout manager)

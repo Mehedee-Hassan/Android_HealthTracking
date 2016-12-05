@@ -31,7 +31,7 @@ public class MenuFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_menu, container, false);
-        //setHasOptionsMenu(true);
+        setHasOptionsMenu(true);
 
         Button button = (Button) view.findViewById(R.id.ButtonECG);
 
@@ -82,8 +82,8 @@ public class MenuFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        //menu.clear();
-        inflater.inflate(R.menu.menu_for_upload_data, menu);
+        menu.clear();
+        inflater.inflate(R.menu.menu_sensors, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -91,14 +91,15 @@ public class MenuFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == android.R.id.home) {
             getFragmentManager().popBackStack();
             //get.setDisplayHomeAsUpEnabled(false);
             return true;
-        } else if (id == R.id.action_upload) {
-            Toast.makeText(getActivity(), "Menu Fragment Data has been uploaded", Toast.LENGTH_SHORT).show();
 
+        } else if (id == R.id.action_disconnect) {
+            ((MainActivity) getActivity()).closeBtConnection();
+
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -125,9 +126,9 @@ public class MenuFragment extends Fragment {
 
         @Override
         public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-            outRect.left = space;
-            outRect.right = space;
-            outRect.bottom = space;
+            outRect.left = getResources().getDimensionPixelSize(R.dimen.grid_item_space_edge);
+            outRect.right = getResources().getDimensionPixelSize(R.dimen.grid_item_space);
+            outRect.bottom = getResources().getDimensionPixelSize(R.dimen.grid_item_space_edge);
             outRect.top = space;
 
             // Add top margin only for the first item to avoid double space between items

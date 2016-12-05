@@ -80,7 +80,7 @@ public class AirFlowFragment extends Fragment implements FragmentView {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        //menu.clear();
+        menu.clear();
         inflater.inflate(R.menu.menu_for_upload_data, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }

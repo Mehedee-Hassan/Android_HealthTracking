@@ -22,6 +22,8 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.androidbtcontrol.adapter.DeviceListAdapter;
+
 import java.util.ArrayList;
 import java.util.Set;
 
@@ -48,8 +50,9 @@ public class DeviceListFragment extends Fragment {
                     }
                 }
 
-                ArrayAdapter<BluetoothDevice> pairedDeviceAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, pairedDeviceArrayList);
-                listView.setAdapter(pairedDeviceAdapter);
+                DeviceListAdapter deviceListAdapter = new DeviceListAdapter(getActivity(), pairedDeviceArrayList);
+                ///ArrayAdapter<BluetoothDevice> pairedDeviceAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, pairedDeviceArrayList);
+                listView.setAdapter(deviceListAdapter);
 
                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 

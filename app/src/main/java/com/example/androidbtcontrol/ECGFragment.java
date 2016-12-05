@@ -158,6 +158,7 @@ public class ECGFragment extends Fragment implements OnChartValueSelectedListene
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        menu.clear();
         inflater.inflate(R.menu.menu_for_upload_data, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }

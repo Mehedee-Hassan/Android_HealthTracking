@@ -42,7 +42,7 @@ public class TemperatureFragment extends Fragment implements FragmentView {
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_temperature, container,false);
+        View view = inflater.inflate(R.layout.fragment_temperature, container, false);
         setHasOptionsMenu(true);
 
         final TextView txtViewValue = (TextView) view.findViewById(R.id.textViewValue);
@@ -53,7 +53,7 @@ public class TemperatureFragment extends Fragment implements FragmentView {
             @Override
             public void onClick(View v) {
                 txtViewValue.setText("");
-                ((MainActivity)getActivity()).doWrite(ConstantValues.SENSOR_TEMPERATURE, new MainActivity.OnReceiveData() {
+                ((MainActivity) getActivity()).doWrite(ConstantValues.SENSOR_TEMPERATURE, new MainActivity.OnReceiveData() {
                     @Override
                     public void onReceiveData(String data) {
                         txtViewValue.append(data.toString());
@@ -78,7 +78,7 @@ public class TemperatureFragment extends Fragment implements FragmentView {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        //menu.clear();
+        menu.clear();
         inflater.inflate(R.menu.menu_for_upload_data, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
@@ -111,7 +111,7 @@ public class TemperatureFragment extends Fragment implements FragmentView {
     public void onReceiveAPIData(Object obj) {
         ArrayList<HistoryData> historyDatas = (ArrayList<HistoryData>) obj;
         ArrayList<String> strings = new ArrayList<>();
-        for (HistoryData s: historyDatas) {
+        for (HistoryData s : historyDatas) {
             strings.add(s.getDate());
 
         }
@@ -158,7 +158,7 @@ public class TemperatureFragment extends Fragment implements FragmentView {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getActivity(), HistoryDetailsActivity.class);
-                intent.putExtra(mDate,list.get(position).getDate());
+                intent.putExtra(mDate, list.get(position).getDate());
                 intent.putExtra(mDatas, list.get(position).getDatas());
                 startActivity(intent);
 
@@ -228,10 +228,10 @@ public class TemperatureFragment extends Fragment implements FragmentView {
                     new AllFragmentPresenter(TemperatureFragment.this).postData("sensors/save_data_from_app", params);
 
 
-                } else{
+                } else {
                     Map<String, String> params = new HashMap<>();
                     params.put("patient_id", "1");
-                    new AllFragmentPresenter(TemperatureFragment.this).getApiData("sensors/view_sensors_data_api/"+ mPatientId+"/" + ConstantValues.SENSOR_TEMPERATURE, params);
+                    new AllFragmentPresenter(TemperatureFragment.this).getApiData("sensors/view_sensors_data_api/" + mPatientId + "/" + ConstantValues.SENSOR_TEMPERATURE, params);
 
                 }
 

@@ -42,7 +42,7 @@ public class BodyPositionFragment extends Fragment implements FragmentView {
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_body_position, container,false);
+        View view = inflater.inflate(R.layout.fragment_body_position, container, false);
         setHasOptionsMenu(true);
 
         final TextView txtViewValue = (TextView) view.findViewById(R.id.textViewValue);
@@ -53,7 +53,7 @@ public class BodyPositionFragment extends Fragment implements FragmentView {
             @Override
             public void onClick(View v) {
                 txtViewValue.setText("");
-                ((MainActivity)getActivity()).doWrite(ConstantValues.SENSOR_BODY_POSITION, new MainActivity.OnReceiveData() {
+                ((MainActivity) getActivity()).doWrite(ConstantValues.SENSOR_BODY_POSITION, new MainActivity.OnReceiveData() {
                     @Override
                     public void onReceiveData(String data) {
                         txtViewValue.append(data.toString());
@@ -78,7 +78,7 @@ public class BodyPositionFragment extends Fragment implements FragmentView {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        //menu.clear();
+        menu.clear();
         inflater.inflate(R.menu.menu_for_upload_data, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
@@ -111,7 +111,7 @@ public class BodyPositionFragment extends Fragment implements FragmentView {
     public void onReceiveAPIData(Object obj) {
         ArrayList<HistoryData> historyDatas = (ArrayList<HistoryData>) obj;
         ArrayList<String> strings = new ArrayList<>();
-        for (HistoryData s: historyDatas) {
+        for (HistoryData s : historyDatas) {
             strings.add(s.getDate());
 
         }
@@ -144,7 +144,7 @@ public class BodyPositionFragment extends Fragment implements FragmentView {
 
     }
 
-    interface OnChangeCommand{
+    interface OnChangeCommand {
         void onChangeCommand();
     }
 
@@ -162,7 +162,7 @@ public class BodyPositionFragment extends Fragment implements FragmentView {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getActivity(), HistoryDetailsActivity.class);
-                intent.putExtra(mDate,list.get(position).getDate());
+                intent.putExtra(mDate, list.get(position).getDate());
                 intent.putExtra(mDatas, list.get(position).getDatas());
                 startActivity(intent);
 
@@ -232,10 +232,10 @@ public class BodyPositionFragment extends Fragment implements FragmentView {
                     new AllFragmentPresenter(BodyPositionFragment.this).postData("sensors/save_data_from_app", params);
 
 
-                } else{
+                } else {
                     Map<String, String> params = new HashMap<>();
                     params.put("patient_id", "1");
-                    new AllFragmentPresenter(BodyPositionFragment.this).getApiData("sensors/view_sensors_data_api/"+ mPatientId+"/" + ConstantValues.SENSOR_BODY_POSITION, params);
+                    new AllFragmentPresenter(BodyPositionFragment.this).getApiData("sensors/view_sensors_data_api/" + mPatientId + "/" + ConstantValues.SENSOR_BODY_POSITION, params);
 
                 }
 
@@ -247,8 +247,6 @@ public class BodyPositionFragment extends Fragment implements FragmentView {
 
         dialog.show();
     }
-
-
 
 
 }

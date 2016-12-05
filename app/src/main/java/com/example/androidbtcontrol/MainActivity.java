@@ -13,6 +13,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -54,30 +56,6 @@ public class MainActivity extends AppCompatActivity implements MainView {
         listViewPairedDevice = (ListView) findViewById(R.id.pairedlist);
         inputPane = (LinearLayout) findViewById(R.id.inputpane);
 
-        btnDisconnect = (Button) findViewById(R.id.btnDisconnect);
-        btnDisconnect.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                btnDisconnect.setVisibility(View.GONE);
-                if (bluetoothSocket1 != null) {
-                    try {
-                        myThreadConnected.cancel();
-                        bluetoothSocket1.close();
-                        btConnectionPresenter.closeConnection();
-
-                        Toast.makeText(MainActivity.this, "Connection is turned off.", Toast.LENGTH_LONG).show();
-                        textStatus.setText("Disconnected");
-                        textStatus.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.amber_dark));
-                        loadDeviceListFragment();
-
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        Log.e("Connection", "" + e.getMessage());
-                    }
-
-                }
-            }
-        });
 
         if (!getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH)) {
             Toast.makeText(this, "FEATURE_BLUETOOTH NOT support", Toast.LENGTH_LONG).show();
@@ -115,6 +93,23 @@ public class MainActivity extends AppCompatActivity implements MainView {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        FragmentManager manager = getSupportFragmentManager();
+        int count = manager.getBackStackEntryCount();
+        Log.e("Count", "" + count);
+
+        if (count == 1) {
+            getSupportActionBar().setTitle("Health Tracker");
+            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+            manager.popBackStack();
+            return;
+        } else {
+            finish();
+        }
+
+    }
+
 
     @Override
     protected void onDestroy() {
@@ -130,6 +125,51 @@ public class MainActivity extends AppCompatActivity implements MainView {
         }
         super.onDestroy();
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == android.R.id.home) {
+            getSupportFragmentManager().popBackStack();
+            getSupportActionBar().setTitle("Health Tracker");
+            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+            invalidateOptionsMenu();
+            return true;
+
+        } /*else if (id == R.id.action_settings) {
+
+            if (bluetoothSocket1 != null) {
+                try {
+                    myThreadConnected.cancel();
+                    bluetoothSocket1.close();
+                    btConnectionPresenter.closeConnection();
+
+                    Toast.makeText(MainActivity.this, "Connection is turned off.", Toast.LENGTH_LONG).show();
+                    textStatus.setText("Disconnected");
+                    textStatus.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.amber_dark));
+                    loadDeviceListFragment();
+                    getSupportActionBar().setTitle("Health Tracker");
+                    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    Log.e("Connection", "" + e.getMessage());
+                }
+
+            }
+
+            return true;
+        }*/
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -350,6 +390,36 @@ public class MainActivity extends AppCompatActivity implements MainView {
         textStatus.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.amber));
         btConnectionPresenter.openConnection(device);
 
+    }
+
+    public void closeBtConnection() {
+        Toast.makeText(MainActivity.this, "Connection is turned off.", Toast.LENGTH_LONG).show();
+        if (bluetoothSocket1 != null) {
+            try {
+                myThreadConnected.cancel();
+                bluetoothSocket1.close();
+                btConnectionPresenter.closeConnection();
+                textStatus.setText("Disconnected");
+                textStatus.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.amber_dark));
+                loadDeviceListFragment();
+                getSupportActionBar().setTitle("Health Tracker");
+                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                Log.e("Connection", "" + e.getMessage());
+            }
+
+        }
+    }
+
+    public void openBackButton(String actionTitle) {
+        getSupportActionBar().setTitle(actionTitle);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    public void closeBackButton() {
+        getActionBar().setDisplayHomeAsUpEnabled(false);
     }
 
     OnCreatedDeviceList onCreatedDeviceList;
