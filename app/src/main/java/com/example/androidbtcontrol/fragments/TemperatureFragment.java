@@ -41,6 +41,7 @@ public class TemperatureFragment extends Fragment implements FragmentView {
     private String mPatientId = "";
     private String mTestId = "";
     private StringBuilder mStringBuilder = new StringBuilder();
+    private TextView txtViewValue;
 
 
     @Override
@@ -48,7 +49,7 @@ public class TemperatureFragment extends Fragment implements FragmentView {
         View view = inflater.inflate(R.layout.fragment_temperature, container, false);
         setHasOptionsMenu(true);
 
-        final TextView txtViewValue = (TextView) view.findViewById(R.id.textViewValue);
+        txtViewValue = (TextView) view.findViewById(R.id.textViewValue);
 
         Button button = (Button) view.findViewById(R.id.btnRefresh);
         button.setOnClickListener(new View.OnClickListener() {
@@ -130,6 +131,7 @@ public class TemperatureFragment extends Fragment implements FragmentView {
     public void onPostCompleted(Object obj) {
         String response = (String) obj;
         if (response.equals("1")) {
+            txtViewValue.setText("");
             Toast.makeText(getActivity(), "Data has been uploaded", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(getActivity(), "Something went wrong", Toast.LENGTH_SHORT).show();

@@ -41,13 +41,14 @@ public class AirFlowFragment extends Fragment implements FragmentView {
     private String mPatientId = "";
     private String mTestId = "";
     private StringBuilder mStringBuilder = new StringBuilder();
+    private TextView txtViewValue;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_air_flow, container, false);
         setHasOptionsMenu(true);
 
-        final TextView txtViewValue = (TextView) view.findViewById(R.id.textViewValue);
+        txtViewValue = (TextView) view.findViewById(R.id.textViewValue);
 
         Button button = (Button) view.findViewById(R.id.btnRefresh);
         button.setOnClickListener(new View.OnClickListener() {
@@ -64,19 +65,25 @@ public class AirFlowFragment extends Fragment implements FragmentView {
             }
         });
 
-        //Making dummy data
-        for (int i = 0; i < 20; i++) {
-            float x = (float) (Math.random() * 50f) + 50f;
-            mStringBuilder.append(x + ",");
+
+        if (ConstantValues.PRODUCTION_READY) {
+            ((MainActivity) getActivity()).doWrite(ConstantValues.SENSOR_AIR_FLOW, new MainActivity.OnReceiveData() {
+                @Override
+                public void onReceiveData(String data) {
+                    mStringBuilder.append(data + ", ");
+                    txtViewValue.append(data.toString());
+                }
+            });
+
+        } else {
+            //Making dummy data
+            for (int i = 0; i < 20; i++) {
+                float x = (float) (Math.random() * 50f) + 50f;
+                mStringBuilder.append(x + ",");
+            }
+
         }
 
-        /*((MainActivity) getActivity()).doWrite(ConstantValues.SENSOR_AIR_FLOW, new MainActivity.OnReceiveData() {
-            @Override
-            public void onReceiveData(String data) {
-                mStringBuilder.append(data + "");
-                txtViewValue.append(data.toString());
-            }
-        });*/
 
         return view;
     }
@@ -126,9 +133,12 @@ public class AirFlowFragment extends Fragment implements FragmentView {
         String response = (String) obj;
         if (response.equals("1")) {
             Toast.makeText(getActivity(), "Data has been uploaded", Toast.LENGTH_SHORT).show();
+            txtViewValue.setText("");
+
         } else {
             Toast.makeText(getActivity(), "Something went wrong", Toast.LENGTH_SHORT).show();
         }
+
         mStringBuilder = new StringBuilder();
     }
 
