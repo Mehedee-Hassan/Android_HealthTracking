@@ -1,13 +1,13 @@
-package com.example.androidbtcontrol;
+package com.example.androidbtcontrol.activities;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
+
+import com.example.androidbtcontrol.R;
 
 public class SplashActivity extends AppCompatActivity {
     private final View.OnTouchListener mDelayHideTouchListener = new View.OnTouchListener() {

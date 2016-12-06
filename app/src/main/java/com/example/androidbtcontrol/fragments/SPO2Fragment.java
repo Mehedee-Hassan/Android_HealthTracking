@@ -19,8 +19,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.androidbtcontrol.HistoryDetailsActivity;
-import com.example.androidbtcontrol.MainActivity;
+import com.example.androidbtcontrol.activities.HistoryDetailsActivity;
+import com.example.androidbtcontrol.activities.MainActivity;
 import com.example.androidbtcontrol.R;
 import com.example.androidbtcontrol.adapter.HistoryListAdapter;
 import com.example.androidbtcontrol.datamodel.HistoryData;

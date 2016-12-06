@@ -15,7 +15,7 @@ import com.example.androidbtcontrol.fragments.BPFragment;
 import com.example.androidbtcontrol.fragments.BodyPositionFragment;
 import com.example.androidbtcontrol.fragments.ECGFragment;
 import com.example.androidbtcontrol.fragments.GLMeterFragment;
-import com.example.androidbtcontrol.MainActivity;
+import com.example.androidbtcontrol.activities.MainActivity;
 import com.example.androidbtcontrol.R;
 import com.example.androidbtcontrol.fragments.SPO2Fragment;
 import com.example.androidbtcontrol.fragments.TemperatureFragment;

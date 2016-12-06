@@ -14,11 +14,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.example.androidbtcontrol.MainActivity;
+import com.example.androidbtcontrol.activities.MainActivity;
 import com.example.androidbtcontrol.R;
 import com.example.androidbtcontrol.adapter.HomeGridAdapter;
 import com.example.androidbtcontrol.datamodel.MenuData;
-import com.example.androidbtcontrol.fragments.ECGFragment;
 
 import java.util.ArrayList;
 

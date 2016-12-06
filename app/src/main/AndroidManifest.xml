@@ -18,7 +18,7 @@
         android:label="@string/app_name"
         android:theme="@style/MyMaterialTheme">
         <activity
-            android:name=".SplashActivity"
+            android:name=".activities.SplashActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,13 +28,13 @@
         </activity>
         <!-- <activity android:name=".HumanSignalActivity"></activity> -->
         <activity
-            android:name=".MainActivity"
+            android:name=".activities.MainActivity"
             android:label="@string/app_name" />
         <activity
-            android:name=".DetailsECGActivity"
+            android:name=".activities.DetailsECGActivity"
             android:label="@string/title_activity_details_ecg"
             android:theme="@style/MyMaterialTheme.NoActionBar" />
-        <activity android:name=".HistoryDetailsActivity"></activity>
+        <activity android:name=".activities.HistoryDetailsActivity"></activity>
     </application>
 
 </manifest>

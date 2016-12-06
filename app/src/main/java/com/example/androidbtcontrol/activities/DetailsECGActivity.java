@@ -1,10 +1,11 @@
-package com.example.androidbtcontrol;
+package com.example.androidbtcontrol.activities;
 
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
+import com.example.androidbtcontrol.R;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
