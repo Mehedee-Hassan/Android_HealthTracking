@@ -48,7 +48,6 @@ public class BluetoothConnectedThread extends Thread {
             int bytes = 0;
             //bytes = connectedInputStream.read(buffer);
             while (true) {
-
                 if (connectedInputStream.available() > 0) {
                     bytes = connectedInputStream.read(buffer);
                     String strReceived = new String(buffer, 0, bytes);

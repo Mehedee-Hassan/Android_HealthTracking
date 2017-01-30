@@ -10,6 +10,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:textSize="18sp"
+        android:scrollbars="vertical"
         android:padding="8dp"
         android:text="Air Flow" />
 

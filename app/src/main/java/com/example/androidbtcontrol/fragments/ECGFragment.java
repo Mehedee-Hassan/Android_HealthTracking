@@ -119,6 +119,7 @@ public class ECGFragment extends Fragment implements OnChartValueSelectedListene
 
                     final Runnable r = new Runnable() {
                         public void run() {
+                            mStringBuilder.append(data + ", ");
                             addEntry(data);
 
                         }

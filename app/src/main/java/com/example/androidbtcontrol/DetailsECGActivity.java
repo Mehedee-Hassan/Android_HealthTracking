@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.YAxis;
@@ -53,6 +54,7 @@ public class DetailsECGActivity extends AppCompatActivity {
         mChart.invalidate();
         //addEntry(0.0f);
         String datas = getIntent().getExtras().getString(mDatas);
+        Log.e("Get ECG: ", "" + datas);
         List<String> list = new ArrayList<>(Arrays.asList(datas.split(",")));
 
         /*for (int i = 0; i < 100; i++) {
@@ -61,8 +63,15 @@ public class DetailsECGActivity extends AppCompatActivity {
         }*/
 
         for (int i = 0; i < list.size(); i++) {
-            float yValue = Float.parseFloat(list.get(i));
-            addEntry(yValue);
+            Log.e("Single ECG: " ,"" + list.get(i).trim().toString());
+            try {
+                float yValue = Float.parseFloat(list.get(i).trim().toString());
+                addEntry(yValue);
+
+            } catch(Exception e) {
+                Log.e("Exception format:", "error: " + e.getMessage());
+            }
+
         }
 
 

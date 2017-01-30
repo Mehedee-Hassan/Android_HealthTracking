@@ -199,7 +199,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
                 public void run() {
                     textStatus.setText("Connected");
                     textStatus.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.green));
-                    btnDisconnect.setVisibility(View.VISIBLE);
+                   // btnDisconnect.setVisibility(View.VISIBLE);
                     listViewPairedDevice.setVisibility(View.GONE);
                     bluetoothSocket1 = bluetoothSocket;
                     loadMenuFragment();
@@ -294,7 +294,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
                             onReceiveData.onReceiveData(strTemp);
                             strTemp = "";
                         }
-                        Log.e("BODY POSITION: ", "" + data);
+                        Log.e("AIR FLOW: ", "" + data);
                     } else {
                         onReceiveData.onReceiveData(data);
                     }

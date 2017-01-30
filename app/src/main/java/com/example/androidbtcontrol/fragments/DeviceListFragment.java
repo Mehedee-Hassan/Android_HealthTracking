@@ -6,8 +6,6 @@ import android.bluetooth.BluetoothDevice;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -16,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -68,13 +65,13 @@ public class DeviceListFragment extends Fragment {
                                         + "BluetoothClass: " + device.getBluetoothClass() + "\n"
                                         + "Class: " + device.getClass(), Toast.LENGTH_LONG).show();
 
-                        /*textStatus.setText("Connecting...");
-                        btConnectionPresenter.openConnection(device);*/
-                        ((MainActivity) getActivity()).loadMenuFragment();
 
-                        /*((MainActivity) getActivity()).communicateToPresenter(device);
-                         openDilaog();*/
+                        //For testing purpose
+                        //((MainActivity) getActivity()).loadMenuFragment();
 
+                        //When device available
+                        ((MainActivity) getActivity()).communicateToPresenter(device);
+                         //openDilaog();
 
 
                     }

@@ -58,25 +58,25 @@ public class AirFlowFragment extends Fragment implements FragmentView {
                 ((MainActivity) getActivity()).doWrite(ConstantValues.SENSOR_AIR_FLOW, new MainActivity.OnReceiveData() {
                     @Override
                     public void onReceiveData(String data) {
-                        txtViewValue.append(data.toString());
+                        txtViewValue.append("\n" + data.toString());
                     }
                 });
             }
         });
 
         //Making dummy data
-        for (int i = 0; i < 20; i++) {
+       /* for (int i = 0; i < 20; i++) {
             float x = (float) (Math.random() * 50f) + 50f;
             mStringBuilder.append(x + ",");
-        }
+        }*/
 
-        /*((MainActivity) getActivity()).doWrite(ConstantValues.SENSOR_AIR_FLOW, new MainActivity.OnReceiveData() {
+        ((MainActivity) getActivity()).doWrite(ConstantValues.SENSOR_AIR_FLOW, new MainActivity.OnReceiveData() {
             @Override
             public void onReceiveData(String data) {
-                mStringBuilder.append(data + "");
-                txtViewValue.append(data.toString());
+                mStringBuilder.append(data + "\n");
+                txtViewValue.append(data.toString()+",");
             }
-        });*/
+        });
 
         return view;
     }
@@ -123,13 +123,15 @@ public class AirFlowFragment extends Fragment implements FragmentView {
 
     @Override
     public void onPostCompleted(Object obj) {
+        mStringBuilder = new StringBuilder();
+
         String response = (String) obj;
         if (response.equals("1")) {
             Toast.makeText(getActivity(), "Data has been uploaded", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(getActivity(), "Something went wrong", Toast.LENGTH_SHORT).show();
         }
-        mStringBuilder = new StringBuilder();
+
     }
 
     @Override
@@ -223,7 +225,7 @@ public class AirFlowFragment extends Fragment implements FragmentView {
                 if (dialogType) {
 
                     Map<String, String> params = new HashMap<>();
-                    params.put("patient_id", mPatientId);
+                    params.put("patient_id", "1");
                     params.put("test_id", mTestId);
                     params.put("data", mStringBuilder.toString());
                     params.put("sensor_type", ConstantValues.SENSOR_AIR_FLOW);

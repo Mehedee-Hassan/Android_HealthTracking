@@ -18,7 +18,6 @@ import com.example.androidbtcontrol.MainActivity;
 import com.example.androidbtcontrol.R;
 import com.example.androidbtcontrol.adapter.HomeGridAdapter;
 import com.example.androidbtcontrol.datamodel.MenuData;
-import com.example.androidbtcontrol.fragments.ECGFragment;
 
 import java.util.ArrayList;
 
@@ -28,6 +27,7 @@ import java.util.ArrayList;
 public class MenuFragment extends Fragment {
     private int[] menuIcon = {R.drawable.ico_area, R.drawable.ico_curve, R.drawable.ico_default, R.drawable.ico_columns, R.drawable.ico_l_rd, R.drawable.ico_legend, R.drawable.ico_curve};
     private String[] menuTitle = {"Blood Pressure", "ECG", "SPO2", "Air Flow", "Body Position", "GL Meter", "Temperature"};
+
 
 
     @Override
@@ -117,7 +117,6 @@ public class MenuFragment extends Fragment {
     interface OnChangeCommand {
         void onChangeCommand();
     }
-
 
     public class SpacesItemDecoration extends RecyclerView.ItemDecoration {
         private int space;

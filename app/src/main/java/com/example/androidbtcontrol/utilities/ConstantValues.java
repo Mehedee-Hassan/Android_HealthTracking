@@ -7,7 +7,7 @@ package com.example.androidbtcontrol.utilities;
 public class ConstantValues {
     public static String BASE_API_URL = "http://androidtime.net/health_tracking/";
     //public static String BASE_API_URL = "http://localhost:8080/HealthTracking/";
-    public static boolean PRODUCTION_READY = false;
+    public static boolean PRODUCTION_READY = true;
 
     public static String SENSOR_BLOOD_PRESSURE = "1";
     public static String SENSOR_ECG = "2";
