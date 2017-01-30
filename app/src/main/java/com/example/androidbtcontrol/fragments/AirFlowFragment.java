@@ -65,21 +65,19 @@ public class AirFlowFragment extends Fragment implements FragmentView {
             }
         });
 
-<<<<<<< HEAD
         //Making dummy data
        /* for (int i = 0; i < 20; i++) {
             float x = (float) (Math.random() * 50f) + 50f;
             mStringBuilder.append(x + ",");
         }*/
 
-        ((MainActivity) getActivity()).doWrite(ConstantValues.SENSOR_AIR_FLOW, new MainActivity.OnReceiveData() {
+      /*  ((MainActivity) getActivity()).doWrite(ConstantValues.SENSOR_AIR_FLOW, new MainActivity.OnReceiveData() {
             @Override
             public void onReceiveData(String data) {
                 mStringBuilder.append(data + "\n");
                 txtViewValue.append(data.toString()+",");
             }
-        });
-=======
+        });*/
 
         if (ConstantValues.PRODUCTION_READY) {
             ((MainActivity) getActivity()).doWrite(ConstantValues.SENSOR_AIR_FLOW, new MainActivity.OnReceiveData() {
@@ -99,7 +97,6 @@ public class AirFlowFragment extends Fragment implements FragmentView {
 
         }
 
->>>>>>> fd4ddd0881f31b8da1468f57910e82dd092dbc0f
 
         return view;
     }
@@ -157,10 +154,8 @@ public class AirFlowFragment extends Fragment implements FragmentView {
             Toast.makeText(getActivity(), "Something went wrong", Toast.LENGTH_SHORT).show();
         }
 
-<<<<<<< HEAD
-=======
+
         mStringBuilder = new StringBuilder();
->>>>>>> fd4ddd0881f31b8da1468f57910e82dd092dbc0f
     }
 
     @Override
