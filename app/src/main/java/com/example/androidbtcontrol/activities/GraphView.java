@@ -8,7 +8,7 @@
 
 // Uses Arduino sketch 'ECG_BlueSerial'
 
-package com.example.androidbtcontrol;
+package com.example.androidbtcontrol.activities;
 
 import android.content.Context;
 import android.graphics.Canvas;

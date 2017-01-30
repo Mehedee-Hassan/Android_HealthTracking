@@ -21,9 +21,9 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.example.androidbtcontrol.DetailsECGActivity;
-import com.example.androidbtcontrol.GraphView;
-import com.example.androidbtcontrol.MainActivity;
+import com.example.androidbtcontrol.activities.DetailsECGActivity;
+import com.example.androidbtcontrol.activities.GraphView;
+import com.example.androidbtcontrol.activities.MainActivity;
 import com.example.androidbtcontrol.R;
 import com.example.androidbtcontrol.adapter.HistoryListAdapter;
 import com.example.androidbtcontrol.datamodel.HistoryData;

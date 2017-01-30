@@ -19,8 +19,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.androidbtcontrol.HistoryDetailsActivity;
-import com.example.androidbtcontrol.MainActivity;
+import com.example.androidbtcontrol.activities.HistoryDetailsActivity;
+import com.example.androidbtcontrol.activities.MainActivity;
 import com.example.androidbtcontrol.R;
 import com.example.androidbtcontrol.adapter.HistoryListAdapter;
 import com.example.androidbtcontrol.datamodel.HistoryData;
@@ -42,12 +42,14 @@ public class BodyPositionFragment extends Fragment implements FragmentView {
     private String mTestId = "";
     private StringBuilder mStringBuilder = new StringBuilder();
 
+    private TextView txtViewValue;
+
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_body_position, container, false);
         setHasOptionsMenu(true);
 
-        final TextView txtViewValue = (TextView) view.findViewById(R.id.textViewValue);
+        txtViewValue = (TextView) view.findViewById(R.id.textViewValue);
 
         Button button = (Button) view.findViewById(R.id.btnRefresh);
         button.setOnClickListener(new View.OnClickListener() {
@@ -128,6 +130,7 @@ public class BodyPositionFragment extends Fragment implements FragmentView {
         String response = (String) obj;
         if (response.equals("1")) {
             Toast.makeText(getActivity(), "Data has been uploaded", Toast.LENGTH_SHORT).show();
+            txtViewValue.setText("");
         } else {
             Toast.makeText(getActivity(), "Something went wrong", Toast.LENGTH_SHORT).show();
         }

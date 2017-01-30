@@ -5,7 +5,7 @@
     android:background="@color/white"
     android:theme="@style/MyMaterialTheme"
     android:gravity="center"
-    tools:context="com.example.androidbtcontrol.SplashActivity">
+    tools:context="com.example.androidbtcontrol.activities.SplashActivity">
 
     <!-- The primary full-screen view. This can be replaced with whatever view
          is needed to present your content, e.g. VideoView, SurfaceView,

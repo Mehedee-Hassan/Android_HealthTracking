@@ -1,4 +1,4 @@
-package com.example.androidbtcontrol;
+package com.example.androidbtcontrol.activities;
 
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
@@ -22,6 +22,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.androidbtcontrol.R;
 import com.example.androidbtcontrol.fragments.DeviceListFragment;
 import com.example.androidbtcontrol.fragments.MenuFragment;
 import com.example.androidbtcontrol.interfaces.MainView;
