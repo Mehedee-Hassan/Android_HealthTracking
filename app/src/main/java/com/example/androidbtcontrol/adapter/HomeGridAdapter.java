@@ -19,10 +19,12 @@ import com.example.androidbtcontrol.fragments.GLMeterFragment;
 import com.example.androidbtcontrol.activities.MainActivity;
 import com.example.androidbtcontrol.R;
 
+import com.example.androidbtcontrol.fragments.HeightFragment;
 import com.example.androidbtcontrol.fragments.MenuFragment;
 import com.example.androidbtcontrol.fragments.SPO2Fragment;
 import com.example.androidbtcontrol.fragments.TemperatureFragment;
 import com.example.androidbtcontrol.datamodel.MenuData;
+import com.example.androidbtcontrol.fragments.WeightFragment;
 import com.example.androidbtcontrol.utilities.ConstantValues;
 
 import java.util.ArrayList;
@@ -137,11 +139,11 @@ public class HomeGridAdapter extends RecyclerView.Adapter<HomeGridAdapter.ViewHo
 
         } else if (position == 7) {
         ((MainActivity) context).openBackButton("Height");
-//        fragment = new HeightFramgment();
+        fragment = new HeightFragment();
 
         } else if (position == 8) {
         ((MainActivity) context).openBackButton("Weight");
-//        fragment = new WeightFramgment();
+        fragment = new WeightFragment();
 
         } else {
 
