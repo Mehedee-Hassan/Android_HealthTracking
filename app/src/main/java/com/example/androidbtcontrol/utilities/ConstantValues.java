@@ -5,6 +5,7 @@ package com.example.androidbtcontrol.utilities;
  */
 
 public class ConstantValues {
+    public static boolean CONNECTED_TO_DEVICE = false;
     public static String BASE_API_URL = "http://androidtime.net/health_tracking/";
     //public static String BASE_API_URL = "http://localhost:8080/HealthTracking/";
     public static boolean PRODUCTION_READY = true;
@@ -16,6 +17,13 @@ public class ConstantValues {
     public static String SENSOR_BODY_POSITION = "5";
     public static String SENSOR_GL_METER = "6";
     public static String SENSOR_TEMPERATURE = "7";
+//    new added sensor
 
+
+    public static String SENSOR_WEIGHT = "8";
+    public static String SENSOR_HEIGHT = "9";
+
+
+    public static String BLUETOOTH_DEVICE_1  = "HC-05";
 
 }

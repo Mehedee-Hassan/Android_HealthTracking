@@ -6,6 +6,7 @@ import android.bluetooth.BluetoothDevice;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -30,7 +31,9 @@ import java.util.Set;
  * Created by Masum on 15/02/2015.
  */
 public class DeviceListFragment extends Fragment {
+
     private ArrayList<BluetoothDevice> pairedDeviceArrayList;
+    private static final String TAG = "DeviceListFragment";
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -40,7 +43,10 @@ public class DeviceListFragment extends Fragment {
         ((MainActivity) getActivity()).getDeviceList(new MainActivity.OnCreatedDeviceList() {
             @Override
             public void getDeviceList(BluetoothAdapter bluetoothAdapter) {
+
                 Set<BluetoothDevice> pairedDevices = bluetoothAdapter.getBondedDevices();
+
+
                 if (pairedDevices.size() > 0) {
                     pairedDeviceArrayList = new ArrayList<>();
 
@@ -71,9 +77,9 @@ public class DeviceListFragment extends Fragment {
 
                         //When device available
                         ((MainActivity) getActivity()).communicateToPresenter(device);
-                         //openDilaog();
 
-
+                        Log.d(TAG,"communication "+device.getName());
+                        //openDilaog();
                     }
                 });
 

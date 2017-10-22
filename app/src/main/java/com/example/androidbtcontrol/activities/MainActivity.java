@@ -4,7 +4,10 @@ import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -32,11 +35,14 @@ import com.example.androidbtcontrol.presenter.BluetoothConnectionPresenter;
 import com.example.androidbtcontrol.utilities.ConstantValues;
 
 import java.io.IOException;
+import java.util.Set;
 import java.util.UUID;
+import java.util.logging.Handler;
 
 
 public class MainActivity extends AppCompatActivity implements MainView {
 
+    private static final String TAG = "MainActivity";
     private static final int REQUEST_ENABLE_BT = 1;
     private BluetoothAdapter bluetoothAdapter;
 
@@ -80,8 +86,9 @@ public class MainActivity extends AppCompatActivity implements MainView {
         String stInfo = bluetoothAdapter.getName() + "\n" + bluetoothAdapter.getAddress();
         textInfo.setText(stInfo);
 
-        loadDeviceListFragment();
-
+//       loadDeviceListFragment();
+        createBluetooth();
+        loadMenuFragment();
     }
 
     @Override
@@ -208,11 +215,16 @@ public class MainActivity extends AppCompatActivity implements MainView {
             });
 
             myThreadConnected = new BluetoothConnectedThread(bluetoothSocket, new OnWriteCompleted() {
+
                 @Override
                 public String onWriteCompleted(String data) {
+
                     onDataReceived(data);
+
                     return null;
+
                 }
+
             });
             myThreadConnected.start();
         }
@@ -296,7 +308,36 @@ public class MainActivity extends AppCompatActivity implements MainView {
                             strTemp = "";
                         }
                         Log.e("AIR FLOW: ", "" + data);
-                    } else {
+                    }
+                    else if (mSensorType.equalsIgnoreCase(ConstantValues.SENSOR_WEIGHT) && false) {
+
+//                        strTemp = strTemp.concat(data);
+//
+//
+//                        if (strTemp.contains("*") && strTemp.contains("#")) {
+//                            int startOfLineIndex = strTemp.indexOf("*") + 1;
+//                            int endOfLineIndex = strTemp.indexOf("#");
+//
+//                            strTemp = strTemp.substring(startOfLineIndex, endOfLineIndex).trim();
+//                            onReceiveData.onReceiveData(strTemp);
+//                            strTemp = "";
+//                        }
+                        Log.e("Weight : ", "" + data);
+                    }
+                    else if (mSensorType.equalsIgnoreCase(ConstantValues.SENSOR_HEIGHT) && false) {
+//                        strTemp = strTemp.concat(data);
+//                        if (strTemp.contains("*") && strTemp.contains("#")) {
+//                            int startOfLineIndex = strTemp.indexOf("*") + 1;
+//                            int endOfLineIndex = strTemp.indexOf("#");
+//
+//                            strTemp = strTemp.substring(startOfLineIndex, endOfLineIndex).trim();
+//                            onReceiveData.onReceiveData(strTemp);
+//                            strTemp = "";
+//                        }
+                        Log.e("Height: ", "" + data);
+                    }
+
+                    else {
                         onReceiveData.onReceiveData(data);
                     }
 
@@ -312,11 +353,17 @@ public class MainActivity extends AppCompatActivity implements MainView {
 
     // Method and Interface declaration
     private void loadDeviceListFragment() {
+
+
+
+
         Fragment fragment = new DeviceListFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         FragmentManager frgManager = getSupportFragmentManager();
+
         int count = frgManager.getBackStackEntryCount();
+
         for (int i = 0; i < count; ++i) {
             frgManager.popBackStackImmediate();
         }
@@ -325,9 +372,20 @@ public class MainActivity extends AppCompatActivity implements MainView {
         //ft.addToBackStack(null);
         ft.replace(R.id.content_frame, fragment);
         ft.commit();
+
     }
 
     public void loadMenuFragment() {
+
+        createConnectionThread();
+
+
+
+//           Toast.makeText(this,"Not connected yet",Toast.LENGTH_LONG ).show();
+
+
+
+
         Fragment fragment = new MenuFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
@@ -341,10 +399,55 @@ public class MainActivity extends AppCompatActivity implements MainView {
         //ft.addToBackStack(null);
         ft.replace(R.id.content_frame, fragment, "MENU_FRAGMENT");
         ft.commit();
+
+
     }
 
-    private void setup() {
+
+    public void createConnection(){
+
+
+        Set<BluetoothDevice> pairedDevices = bluetoothAdapter.getBondedDevices();
+
+        boolean flag = false;
+        for ( BluetoothDevice bd : pairedDevices){
+            Log.d(TAG," device ="+ bd.getName());
+
+            if (bd.getName().equals(ConstantValues.BLUETOOTH_DEVICE_1)){
+                communicateToPresenter(bd);
+
+
+                flag = true;
+
+                Log.d(TAG," connected 1");
+            }
+        }
+
+        if (flag = false ){
+            Toast.makeText(this,
+                    "Device could not found name: "
+                            +ConstantValues.BLUETOOTH_DEVICE_1
+                    ,Toast.LENGTH_LONG ).show();
+
+        }
+
+    }
+
+    public void setup() {
         btConnectionPresenter = new BluetoothConnectionPresenter(this, mUUID);
+
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+                try {
+                    createConnection();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        thread.start();
+
     }
 
     public void doWrite(String data) {
@@ -373,6 +476,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
     }
 
     public void openFragment(Fragment fragment) {
+
         //Fragment fragment = new ECGFragment();;
         Bundle args = new Bundle();
         fragment.setArguments(args);
@@ -390,9 +494,15 @@ public class MainActivity extends AppCompatActivity implements MainView {
     }
 
     public void communicateToPresenter(BluetoothDevice device) {
+
+        Log.d(TAG," connected 2");
+
         textStatus.setText("Connecting...");
         textStatus.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.amber));
         btConnectionPresenter.openConnection(device);
+
+
+        Log.d(TAG," connected 3");
 
     }
 
@@ -405,7 +515,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
                 btConnectionPresenter.closeConnection();
                 textStatus.setText("Disconnected");
                 textStatus.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.amber_dark));
-                loadDeviceListFragment();
+//                loadDeviceListFragment();
                 getSupportActionBar().setTitle("Health Tracker");
                 getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
@@ -445,4 +555,52 @@ public class MainActivity extends AppCompatActivity implements MainView {
     }
 
 
+    public void createBluetooth(){
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(BluetoothDevice.ACTION_ACL_CONNECTED);
+        filter.addAction(BluetoothDevice.ACTION_ACL_DISCONNECT_REQUESTED);
+        filter.addAction(BluetoothDevice.ACTION_ACL_DISCONNECTED);
+        this.registerReceiver(mReceiverBluetooth, filter);
+    }
+
+    private final BroadcastReceiver mReceiverBluetooth = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+
+            if (BluetoothDevice.ACTION_FOUND.equals(action)) {
+
+            }
+            else if (BluetoothDevice.ACTION_ACL_CONNECTED.equals(action)) {
+                Toast.makeText(MainActivity.this ,"connected ..",Toast.LENGTH_SHORT).show();
+                ConstantValues.CONNECTED_TO_DEVICE= true;
+
+            }
+            else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
+            }
+            else if (BluetoothDevice.ACTION_ACL_DISCONNECT_REQUESTED.equals(action)) {
+            }
+            else if (BluetoothDevice.ACTION_ACL_DISCONNECTED.equals(action)) {
+                Toast.makeText(MainActivity.this ,"disconnected ..",Toast.LENGTH_SHORT).show();
+                ConstantValues.CONNECTED_TO_DEVICE= false;
+
+
+            }
+        }
+    };
+
+    public void createConnectionThread(){
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+                try {
+                    createConnection();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        thread.start();
+    }
 }

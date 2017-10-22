@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.androidbtcontrol.fragments.AirFlowFragment;
 import com.example.androidbtcontrol.fragments.BPFragment;
@@ -17,9 +18,12 @@ import com.example.androidbtcontrol.fragments.ECGFragment;
 import com.example.androidbtcontrol.fragments.GLMeterFragment;
 import com.example.androidbtcontrol.activities.MainActivity;
 import com.example.androidbtcontrol.R;
+
+import com.example.androidbtcontrol.fragments.MenuFragment;
 import com.example.androidbtcontrol.fragments.SPO2Fragment;
 import com.example.androidbtcontrol.fragments.TemperatureFragment;
 import com.example.androidbtcontrol.datamodel.MenuData;
+import com.example.androidbtcontrol.utilities.ConstantValues;
 
 import java.util.ArrayList;
 
@@ -70,7 +74,16 @@ public class HomeGridAdapter extends RecyclerView.Adapter<HomeGridAdapter.ViewHo
         holder.imageViewMenuIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openFragment(position);
+
+                if(ConstantValues.CONNECTED_TO_DEVICE ) {
+                    openFragment(position);
+
+                }else {
+
+                    ((MainActivity)context).setup();
+
+                    Toast.makeText(context, "Not yet connected properly", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -78,7 +91,15 @@ public class HomeGridAdapter extends RecyclerView.Adapter<HomeGridAdapter.ViewHo
             @Override
             public void onClick(View v) {
 
-                openFragment(position);
+                if(ConstantValues.CONNECTED_TO_DEVICE ) {
+                    openFragment(position);
+                }else {
+
+                    ((MainActivity)context).setup();
+
+                    Toast.makeText(context, "Not yet connected properly", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
 
@@ -113,6 +134,14 @@ public class HomeGridAdapter extends RecyclerView.Adapter<HomeGridAdapter.ViewHo
         } else if (position == 6) {
             ((MainActivity) context).openBackButton("Temperature");
             fragment = new TemperatureFragment();
+
+        } else if (position == 7) {
+        ((MainActivity) context).openBackButton("Height");
+//        fragment = new HeightFramgment();
+
+        } else if (position == 8) {
+        ((MainActivity) context).openBackButton("Weight");
+//        fragment = new WeightFramgment();
 
         } else {
 

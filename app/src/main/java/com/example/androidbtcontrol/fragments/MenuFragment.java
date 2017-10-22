@@ -25,8 +25,31 @@ import java.util.ArrayList;
  * Created by Masum on 15/02/2015.
  */
 public class MenuFragment extends Fragment {
-    private int[] menuIcon = {R.drawable.ico_area, R.drawable.ico_curve, R.drawable.ico_default, R.drawable.ico_columns, R.drawable.ico_l_rd, R.drawable.ico_legend, R.drawable.ico_curve};
-    private String[] menuTitle = {"Blood Pressure", "ECG", "SPO2", "Air Flow", "Body Position", "GL Meter", "Temperature"};
+
+    private int[] menuIcon = {R.drawable.ico_area,
+            R.drawable.ico_curve,
+            R.drawable.ico_default,
+            R.drawable.ico_columns,
+            R.drawable.ico_l_rd,
+            R.drawable.ico_legend,
+            R.drawable.ico_curve,
+            R.drawable.ico_height,
+            R.drawable.ico_weight
+
+    };
+
+    private String[] menuTitle = {"Blood Pressure"
+            , "ECG"
+            , "SPO2"
+            , "Air Flow"
+            , "Body Position"
+            , "GL Meter"
+            , "Temperature"
+            , "Height"
+            , "Weight"
+    };
+
+
 
 
 
@@ -35,13 +58,28 @@ public class MenuFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_menu, container, false);
         setHasOptionsMenu(true);
 
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+                try {
+                    ((MainActivity) getActivity()).createConnection();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        thread.start();
+
+
         Button button = (Button) view.findViewById(R.id.ButtonECG);
 
         button.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
+
                 ((MainActivity) getActivity()).openFragment(new ECGFragment());
+
             }
         });
 
