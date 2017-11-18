@@ -1,4 +1,4 @@
-package com.example.androidbtcontrol.fragments;
+package dummyfragment;
 
 import android.app.Dialog;
 import android.bluetooth.BluetoothAdapter;
@@ -20,8 +20,8 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.example.androidbtcontrol.activities.MainActivity;
 import com.example.androidbtcontrol.R;
+import com.example.androidbtcontrol.activities.MainActivity;
 import com.example.androidbtcontrol.adapter.DeviceListAdapter;
 
 import java.util.ArrayList;
@@ -30,7 +30,7 @@ import java.util.Set;
 /**
  * Created by Masum on 15/02/2015.
  */
-public class DeviceListFragment extends Fragment {
+public class DeviceListFragmentDum extends Fragment {
 
     private ArrayList<BluetoothDevice> pairedDeviceArrayList;
     private static final String TAG = "DeviceListFragmentDum";

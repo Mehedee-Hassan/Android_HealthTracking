@@ -20,7 +20,6 @@ import com.example.androidbtcontrol.activities.MainActivity;
 import com.example.androidbtcontrol.R;
 
 import com.example.androidbtcontrol.fragments.HeightFragment;
-import com.example.androidbtcontrol.fragments.MenuFragment;
 import com.example.androidbtcontrol.fragments.SPO2Fragment;
 import com.example.androidbtcontrol.fragments.TemperatureFragment;
 import com.example.androidbtcontrol.datamodel.MenuData;
@@ -28,6 +27,16 @@ import com.example.androidbtcontrol.fragments.WeightFragment;
 import com.example.androidbtcontrol.utilities.ConstantValues;
 
 import java.util.ArrayList;
+
+import dummyfragment.AirFlowFragmentDum;
+import dummyfragment.BPFragmentDum;
+import dummyfragment.BodyPositionFragmentDum;
+import dummyfragment.ECGFragmentDum;
+import dummyfragment.GLMeterFragmentDum;
+import dummyfragment.HeightFragmentDum;
+import dummyfragment.SPO2FragmentDum;
+import dummyfragment.TemperatureFragmentDum;
+import dummyfragment.WeightFragmentDum;
 
 public class HomeGridAdapter extends RecyclerView.Adapter<HomeGridAdapter.ViewHolder> {
     private ArrayList<MenuData> mDataset = new ArrayList<>();
@@ -48,7 +57,7 @@ public class HomeGridAdapter extends RecyclerView.Adapter<HomeGridAdapter.ViewHo
 
         /*@Override
         public void onClick(View v) {
-            Fragment fragment = new ECGFragment();
+            Fragment fragment = new ECGFragmentDum();
             onOpenFragment.openFragment(fragment);
         }*/
     }
@@ -78,7 +87,7 @@ public class HomeGridAdapter extends RecyclerView.Adapter<HomeGridAdapter.ViewHo
             public void onClick(View v) {
 
                 if(ConstantValues.CONNECTED_TO_DEVICE ) {
-                    openFragment(position);
+                    openFragment(position,false);
 
                 }else {
 
@@ -94,12 +103,12 @@ public class HomeGridAdapter extends RecyclerView.Adapter<HomeGridAdapter.ViewHo
             public void onClick(View v) {
 
                 if(ConstantValues.CONNECTED_TO_DEVICE ) {
-                    openFragment(position);
+                    openFragment(position, false);
                 }else {
 
                     ((MainActivity)context).setup();
-
-                    Toast.makeText(context, "Not yet connected properly", Toast.LENGTH_SHORT).show();
+                     openFragment(position,true);
+//                     Toast.makeText(context, "external device not connected", Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -107,43 +116,73 @@ public class HomeGridAdapter extends RecyclerView.Adapter<HomeGridAdapter.ViewHo
 
     }
 
-    public void openFragment(int position) {
+    public void openFragment(int position, boolean offline) {
         Fragment fragment = null;
         if (position == 0) {
             ((MainActivity) context).openBackButton("Blood Pressure");
-            fragment = new BPFragment();
+
+            if (offline)
+                fragment = new BPFragmentDum();
+            else
+                fragment = new BPFragment();
 
         } else if (position == 1) {
             ((MainActivity) context).openBackButton("ECG");
-            fragment = new ECGFragment();
+            if(offline)
+                fragment = new ECGFragmentDum();
+            else
+                fragment = new ECGFragment();
 
         } else if (position == 2) {
             ((MainActivity) context).openBackButton("SPO");
-            fragment = new SPO2Fragment();
+            if(offline)
+                fragment = new SPO2FragmentDum();
+            else
+                fragment = new SPO2Fragment();
 
         } else if (position == 3) {
             ((MainActivity) context).openBackButton("Airflow");
-            fragment = new AirFlowFragment();
+            if(offline)
+                fragment = new AirFlowFragmentDum();
+            else
+                fragment = new AirFlowFragment();
 
         } else if (position == 4) {
             ((MainActivity) context).openBackButton("Body Position");
-            fragment = new BodyPositionFragment();
+            if(offline)
+                fragment = new BodyPositionFragmentDum();
+            else
+                fragment = new BodyPositionFragment();
 
         } else if (position == 5) {
             ((MainActivity) context).openBackButton("Glow Meter");
-            fragment = new GLMeterFragment();
+            if(offline)
+                fragment = new GLMeterFragmentDum();
+            else
+                fragment = new GLMeterFragment();
 
         } else if (position == 6) {
             ((MainActivity) context).openBackButton("Temperature");
-            fragment = new TemperatureFragment();
+
+            if(offline)
+                fragment = new TemperatureFragmentDum();
+            else
+                fragment = new TemperatureFragment();
 
         } else if (position == 7) {
         ((MainActivity) context).openBackButton("Height");
-        fragment = new HeightFragment();
+
+            if(offline)
+                fragment = new HeightFragmentDum();
+            else
+                fragment = new HeightFragment();
 
         } else if (position == 8) {
         ((MainActivity) context).openBackButton("Weight");
-        fragment = new WeightFragment();
+            if(offline)
+                fragment = new WeightFragmentDum();
+            else
+                fragment = new WeightFragment();
 
         } else {
 

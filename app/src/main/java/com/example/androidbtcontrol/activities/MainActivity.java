@@ -309,7 +309,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
                         }
                         Log.e("AIR FLOW: ", "" + data);
                     }
-                    else if (mSensorType.equalsIgnoreCase(ConstantValues.SENSOR_WEIGHT) && false) {
+                    else if (mSensorType.equalsIgnoreCase(ConstantValues.SENSOR_WEIGHT)) {
 
 //                        strTemp = strTemp.concat(data);
 //
@@ -323,8 +323,9 @@ public class MainActivity extends AppCompatActivity implements MainView {
 //                            strTemp = "";
 //                        }
                         Log.e("Weight : ", "" + data);
+                        onReceiveData.onReceiveData(data);
                     }
-                    else if (mSensorType.equalsIgnoreCase(ConstantValues.SENSOR_HEIGHT) && false) {
+                    else if (mSensorType.equalsIgnoreCase(ConstantValues.SENSOR_HEIGHT)) {
 //                        strTemp = strTemp.concat(data);
 //                        if (strTemp.contains("*") && strTemp.contains("#")) {
 //                            int startOfLineIndex = strTemp.indexOf("*") + 1;
@@ -334,6 +335,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
 //                            onReceiveData.onReceiveData(strTemp);
 //                            strTemp = "";
 //                        }
+                        onReceiveData.onReceiveData(data);
                         Log.e("Height: ", "" + data);
                     }
 
@@ -477,7 +479,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
 
     public void openFragment(Fragment fragment) {
 
-        //Fragment fragment = new ECGFragment();;
+        //Fragment fragment = new ECGFragmentDum();;
         Bundle args = new Bundle();
         fragment.setArguments(args);
         FragmentManager frgManager = getSupportFragmentManager();

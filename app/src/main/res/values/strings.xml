@@ -15,6 +15,7 @@
     <string name="upload_button">Upload</string>
     <string name="history_button">History</string>
     <string name="disconnect_button">Disconnect</string>
+    <string name="set_bluetooth_device_name">Bluetooth Device</string>
 
     <color name="card_bg">#FF1744</color>
 

@@ -1,4 +1,4 @@
-package com.example.androidbtcontrol.fragments;
+package dummyfragment;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -21,16 +21,15 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.androidbtcontrol.R;
 import com.example.androidbtcontrol.activities.DetailsECGActivity;
 import com.example.androidbtcontrol.activities.GraphView;
 import com.example.androidbtcontrol.activities.MainActivity;
-import com.example.androidbtcontrol.R;
 import com.example.androidbtcontrol.adapter.HistoryListAdapter;
 import com.example.androidbtcontrol.datamodel.HistoryData;
 import com.example.androidbtcontrol.interfaces.FragmentView;
 import com.example.androidbtcontrol.presenter.AllFragmentPresenter;
 import com.example.androidbtcontrol.utilities.ConstantValues;
-import com.example.androidbtcontrol.utilities.EncryptedDataMaker;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
@@ -51,7 +50,7 @@ import java.util.Random;
 /**
  * Created by Masum on 15/02/2015.
  */
-public class ECGFragment extends Fragment implements OnChartValueSelectedListener, FragmentView {
+public class ECGFragmentDum extends Fragment implements OnChartValueSelectedListener, FragmentView {
     private static final Random RANDOM = new Random();
     public GraphView graphView;
 
@@ -67,8 +66,6 @@ public class ECGFragment extends Fragment implements OnChartValueSelectedListene
     private String mPatientId = "";
     private String mTestId = "";
     private StringBuilder mStringBuilder = new StringBuilder();
-    private EncryptedDataMaker encryptedDataMaker = new EncryptedDataMaker();
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -113,35 +110,6 @@ public class ECGFragment extends Fragment implements OnChartValueSelectedListene
         });
 
 
-        if (ConstantValues.PRODUCTION_READY) {
-
-            ((MainActivity) getActivity()).doWrite(ConstantValues.SENSOR_ECG, new MainActivity.OnReceiveGraphData() {
-                @Override
-                public void onReceiveData(final float data) {
-                    Log.e("VAL::: ", "value = " + data);
-
-                    final Runnable r = new Runnable() {
-                        public void run() {
-                            mStringBuilder.append(data + ", ");
-                            addEntry(data);
-
-                        }
-                    };
-
-                    handler.postDelayed(r, 1000);
-
-                }
-            });
-
-        } else {
-            //Making dummy data for uploading to the server
-            for (int i = 0; i < 100; i++) {
-                float x = (float) (Math.random() * 50f) + 50f;
-                mStringBuilder.append(x + ",");
-            }
-
-        }
-
 
         return v;
     }
@@ -155,12 +123,13 @@ public class ECGFragment extends Fragment implements OnChartValueSelectedListene
             return true;
 
         } else if (id == R.id.action_upload) {
-            if (!mStringBuilder.toString().equals("")) {
-                openDialog(true);
-            } else {
-                Toast.makeText(getActivity(), "Upload can not be performed! ECG data sheet is empty.", Toast.LENGTH_SHORT).show();
-            }
+//            if (!mStringBuilder.toString().equals("")) {
+//                openDialog(true);
+//            } else {
+//                Toast.makeText(getActivity(), "Upload can not be performed! ECG data sheet is empty.", Toast.LENGTH_SHORT).show();
+//            }
 
+            Toast.makeText(getActivity(), "Device Is Offline", Toast.LENGTH_SHORT).show();
 
         } else if (id == R.id.action_record) {
             openDialog(false);
@@ -416,18 +385,16 @@ public class ECGFragment extends Fragment implements OnChartValueSelectedListene
                     Map<String, String> params = new HashMap<>();
                     params.put("patient_id", mPatientId);
                     params.put("test_id", mTestId);
-
-                    String encryptData = encryptedDataMaker.encrypt(mStringBuilder);
-                    params.put("data", encryptData);
+                    params.put("data", mStringBuilder.toString());
                     params.put("sensor_type", ConstantValues.SENSOR_ECG);
                     params.put("userid", "1");
-                    new AllFragmentPresenter(ECGFragment.this).postData("sensors/save_data_from_app", params);
+                    new AllFragmentPresenter(ECGFragmentDum.this).postData("sensors/save_data_from_app", params);
 
 
                 } else {
                     Map<String, String> params = new HashMap<>();
                     params.put("patient_id", "1");
-                    new AllFragmentPresenter(ECGFragment.this).getApiData("sensors/view_sensors_data_api/" + mPatientId + "/" + ConstantValues.SENSOR_ECG, params);
+                    new AllFragmentPresenter(ECGFragmentDum.this).getApiData("sensors/view_sensors_data_api/" + mPatientId + "/" + ConstantValues.SENSOR_ECG, params);
 
                 }
 

@@ -27,6 +27,7 @@ import com.example.androidbtcontrol.datamodel.HistoryData;
 import com.example.androidbtcontrol.interfaces.FragmentView;
 import com.example.androidbtcontrol.presenter.AllFragmentPresenter;
 import com.example.androidbtcontrol.utilities.ConstantValues;
+import com.example.androidbtcontrol.utilities.EncryptedDataMaker;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,6 +45,8 @@ public class GLMeterFragment extends Fragment implements FragmentView {
     private TextView txtViewValue;
 
     private StringBuilder mStringBuilder = new StringBuilder();
+
+    private EncryptedDataMaker encryptedDataMaker = new EncryptedDataMaker();
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -233,7 +236,9 @@ public class GLMeterFragment extends Fragment implements FragmentView {
                     Map<String, String> params = new HashMap<>();
                     params.put("patient_id", mPatientId);
                     params.put("test_id", mTestId);
-                    params.put("data", mStringBuilder.toString());
+
+                    String encryptData = encryptedDataMaker.encrypt(mStringBuilder);
+                    params.put("data", encryptData);
                     params.put("sensor_type", ConstantValues.SENSOR_GL_METER);
                     params.put("userid", "1");
                     new AllFragmentPresenter(GLMeterFragment.this).postData("sensors/save_data_from_app", params);

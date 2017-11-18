@@ -27,6 +27,7 @@ import com.example.androidbtcontrol.datamodel.HistoryData;
 import com.example.androidbtcontrol.interfaces.FragmentView;
 import com.example.androidbtcontrol.presenter.AllFragmentPresenter;
 import com.example.androidbtcontrol.utilities.ConstantValues;
+import com.example.androidbtcontrol.utilities.EncryptedDataMaker;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -43,6 +44,7 @@ public class BodyPositionFragment extends Fragment implements FragmentView {
     private StringBuilder mStringBuilder = new StringBuilder();
 
     private TextView txtViewValue;
+    private EncryptedDataMaker encryptedDataMaker = new EncryptedDataMaker();
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -234,7 +236,10 @@ public class BodyPositionFragment extends Fragment implements FragmentView {
                     Map<String, String> params = new HashMap<>();
                     params.put("patient_id", mPatientId);
                     params.put("test_id", mTestId);
-                    params.put("data", mStringBuilder.toString());
+
+                    String encryptData = encryptedDataMaker.encrypt(mStringBuilder);
+
+                    params.put("data", encryptData);
                     params.put("sensor_type", ConstantValues.SENSOR_BODY_POSITION);
                     params.put("userid", "1");
                     new AllFragmentPresenter(BodyPositionFragment.this).postData("sensors/save_data_from_app", params);

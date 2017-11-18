@@ -27,6 +27,7 @@ import com.example.androidbtcontrol.datamodel.HistoryData;
 import com.example.androidbtcontrol.interfaces.FragmentView;
 import com.example.androidbtcontrol.presenter.AllFragmentPresenter;
 import com.example.androidbtcontrol.utilities.ConstantValues;
+import com.example.androidbtcontrol.utilities.EncryptedDataMaker;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -41,7 +42,11 @@ public class SPO2Fragment extends Fragment implements FragmentView {
     private String mPatientId = "";
     private String mTestId = "";
     private StringBuilder mStringBuilder = new StringBuilder();
+    private String lastValue = "";
     private TextView txtViewValue;
+    private String singleValue = "";
+    private EncryptedDataMaker encryptedDataMaker = new EncryptedDataMaker();
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -71,6 +76,7 @@ public class SPO2Fragment extends Fragment implements FragmentView {
                 @Override
                 public void onReceiveData(String data) {
                     mStringBuilder.append(data + ",");
+                    lastValue = ""+data;
                     txtViewValue.append(data.toString());
                 }
             });
@@ -80,6 +86,7 @@ public class SPO2Fragment extends Fragment implements FragmentView {
             for (int i = 0; i < 20; i++) {
                 float x = (float) (Math.random() * 50f) + 50f;
                 mStringBuilder.append(x + ",");
+                lastValue = ""+x;
             }
         }
         return view;
@@ -102,7 +109,8 @@ public class SPO2Fragment extends Fragment implements FragmentView {
             return true;
 
         } else if (id == R.id.action_upload) {
-            if (!mStringBuilder.toString().equals("")) {
+//            if (!mStringBuilder.toString().equals("")) {
+            if (!lastValue.equals("")) {
                 openDialog(true);
             } else {
                 Toast.makeText(getActivity(), "Uploading failed! Data is empty.", Toast.LENGTH_SHORT).show();
@@ -137,6 +145,7 @@ public class SPO2Fragment extends Fragment implements FragmentView {
             Toast.makeText(getActivity(), "Something went wrong", Toast.LENGTH_SHORT).show();
         }
         mStringBuilder = new StringBuilder();
+        lastValue = "";
     }
 
     @Override
@@ -232,7 +241,10 @@ public class SPO2Fragment extends Fragment implements FragmentView {
                     Map<String, String> params = new HashMap<>();
                     params.put("patient_id", mPatientId);
                     params.put("test_id", mTestId);
-                    params.put("data", mStringBuilder.toString());
+//                    params.put("data", mStringBuilder.toString());
+
+                    lastValue = encryptedDataMaker.encrypt(lastValue);
+                    params.put("data", lastValue);
                     params.put("sensor_type", ConstantValues.SENSOR_SPO);
                     params.put("userid", "1");
                     new AllFragmentPresenter(SPO2Fragment.this).postData("sensors/save_data_from_app", params);

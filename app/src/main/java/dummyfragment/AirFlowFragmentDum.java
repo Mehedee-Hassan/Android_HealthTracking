@@ -1,4 +1,4 @@
-package com.example.androidbtcontrol.fragments;
+package dummyfragment;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -19,15 +19,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.androidbtcontrol.R;
 import com.example.androidbtcontrol.activities.HistoryDetailsActivity;
 import com.example.androidbtcontrol.activities.MainActivity;
-import com.example.androidbtcontrol.R;
 import com.example.androidbtcontrol.adapter.HistoryListAdapter;
 import com.example.androidbtcontrol.datamodel.HistoryData;
 import com.example.androidbtcontrol.interfaces.FragmentView;
 import com.example.androidbtcontrol.presenter.AllFragmentPresenter;
 import com.example.androidbtcontrol.utilities.ConstantValues;
-import com.example.androidbtcontrol.utilities.EncryptedDataMaker;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,54 +35,41 @@ import java.util.Map;
 /**
  * Created by Masum on 15/02/2015.
  */
-public class TemperatureFragment extends Fragment implements FragmentView {
+public class AirFlowFragmentDum extends Fragment implements FragmentView {
     private String mDatas = "datas";
     private String mDate = "date";
     private String mPatientId = "";
     private String mTestId = "";
     private StringBuilder mStringBuilder = new StringBuilder();
-
     private TextView txtViewValue;
-    private EncryptedDataMaker encryptedDataMaker = new EncryptedDataMaker();
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_temperature, container, false);
+        View view = inflater.inflate(R.layout.fragment_air_flow, container, false);
         setHasOptionsMenu(true);
 
         txtViewValue = (TextView) view.findViewById(R.id.textViewValue);
 
         Button button = (Button) view.findViewById(R.id.btnRefresh);
-        button.setOnClickListener(new View.OnClickListener() {
+        button.setVisibility(View.GONE);
 
+        txtViewValue = (TextView) view.findViewById(R.id.textViewValue);
+        txtViewValue.setText("");
+        //Making dummy data
+       /* for (int i = 0; i < 20; i++) {
+            float x = (float) (Math.random() * 50f) + 50f;
+            mStringBuilder.append(x + ",");
+        }*/
+
+      /*  ((MainActivity) getActivity()).doWrite(ConstantValues.SENSOR_AIR_FLOW, new MainActivity.OnReceiveData() {
             @Override
-            public void onClick(View v) {
-                txtViewValue.setText("");
-                ((MainActivity) getActivity()).doWrite(ConstantValues.SENSOR_TEMPERATURE, new MainActivity.OnReceiveData() {
-                    @Override
-                    public void onReceiveData(String data) {
-                        txtViewValue.append(data.toString());
-                    }
-                });
+            public void onReceiveData(String data) {
+                mStringBuilder.append(data + "\n");
+                txtViewValue.append(data.toString()+",");
             }
-        });
+        });*/
 
-        if (ConstantValues.PRODUCTION_READY) {
 
-            ((MainActivity) getActivity()).doWrite(ConstantValues.SENSOR_TEMPERATURE, new MainActivity.OnReceiveData() {
-                @Override
-                public void onReceiveData(String data) {
-                    mStringBuilder.append(data);
-                    txtViewValue.append(data.toString());
-                }
-            });
-
-        } else {
-            //Making dummy data
-            mStringBuilder.append("98 F");
-
-        }
 
         return view;
     }
@@ -99,18 +85,17 @@ public class TemperatureFragment extends Fragment implements FragmentView {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == android.R.id.home) {
             getFragmentManager().popBackStack();
             return true;
 
         } else if (id == R.id.action_upload) {
-            if (!mStringBuilder.toString().equals("")) {
-                openDialog(true);
-            } else {
-                Toast.makeText(getActivity(), "Uploading failed! Data is empty.", Toast.LENGTH_SHORT).show();
-            }
-
+//            if (!mStringBuilder.toString().equals("")) {
+//                openDialog(true);
+//            } else {
+//                Toast.makeText(getActivity(), "Uploading failed! Data is empty.", Toast.LENGTH_SHORT).show();
+//            }
+            Toast.makeText(getActivity(), "Device Is Offline", Toast.LENGTH_SHORT).show();
 
         } else if (id == R.id.action_record) {
             openDialog(false);
@@ -132,13 +117,18 @@ public class TemperatureFragment extends Fragment implements FragmentView {
 
     @Override
     public void onPostCompleted(Object obj) {
+        mStringBuilder = new StringBuilder();
+
         String response = (String) obj;
         if (response.equals("1")) {
-            txtViewValue.setText("");
             Toast.makeText(getActivity(), "Data has been uploaded", Toast.LENGTH_SHORT).show();
+            txtViewValue.setText("");
+
         } else {
             Toast.makeText(getActivity(), "Something went wrong", Toast.LENGTH_SHORT).show();
         }
+
+
         mStringBuilder = new StringBuilder();
     }
 
@@ -233,21 +223,18 @@ public class TemperatureFragment extends Fragment implements FragmentView {
                 if (dialogType) {
 
                     Map<String, String> params = new HashMap<>();
-                    params.put("patient_id", mPatientId);
+                    params.put("patient_id", "1");
                     params.put("test_id", mTestId);
-
-
-                    String encryptData = encryptedDataMaker.encrypt(mStringBuilder);
-                    params.put("data", encryptData);
-                    params.put("sensor_type", ConstantValues.SENSOR_TEMPERATURE);
+                    params.put("data", mStringBuilder.toString());
+                    params.put("sensor_type", ConstantValues.SENSOR_AIR_FLOW);
                     params.put("userid", "1");
-                    new AllFragmentPresenter(TemperatureFragment.this).postData("sensors/save_data_from_app", params);
+                    new AllFragmentPresenter(AirFlowFragmentDum.this).postData("sensors/save_data_from_app", params);
 
 
                 } else {
                     Map<String, String> params = new HashMap<>();
                     params.put("patient_id", "1");
-                    new AllFragmentPresenter(TemperatureFragment.this).getApiData("sensors/view_sensors_data_api/" + mPatientId + "/" + ConstantValues.SENSOR_TEMPERATURE, params);
+                    new AllFragmentPresenter(AirFlowFragmentDum.this).getApiData("sensors/view_sensors_data_api/" + mPatientId + "/" + ConstantValues.SENSOR_AIR_FLOW, params);
 
                 }
 
@@ -259,6 +246,5 @@ public class TemperatureFragment extends Fragment implements FragmentView {
 
         dialog.show();
     }
-
 
 }
