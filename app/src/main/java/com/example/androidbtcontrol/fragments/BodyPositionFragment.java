@@ -238,8 +238,8 @@ public class BodyPositionFragment extends Fragment implements FragmentView {
                     params.put("test_id", mTestId);
 
                     String encryptData = encryptedDataMaker.encrypt(mStringBuilder);
-
                     params.put("data", encryptData);
+
                     params.put("sensor_type", ConstantValues.SENSOR_BODY_POSITION);
                     params.put("userid", "1");
                     new AllFragmentPresenter(BodyPositionFragment.this).postData("sensors/save_data_from_app", params);

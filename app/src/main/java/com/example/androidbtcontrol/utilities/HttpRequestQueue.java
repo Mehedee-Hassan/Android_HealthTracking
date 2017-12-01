@@ -12,6 +12,7 @@ import com.android.volley.toolbox.Volley;
  */
 public class HttpRequestQueue extends Application {
     public static final String TAG = HttpRequestQueue.class.getSimpleName();
+    public boolean IS_CONNECTED = false;
     private static HttpRequestQueue mInstance;
 
     private RequestQueue mRequestQueue;
@@ -25,7 +26,7 @@ public class HttpRequestQueue extends Application {
         super.onCreate();
         mRequestQueue = Volley.newRequestQueue(getApplicationContext());
         mInstance = this;
-
+        IS_CONNECTED = false;
     }
 
     public RequestQueue getRequestQueue() {

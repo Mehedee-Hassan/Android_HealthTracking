@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -41,7 +42,6 @@ public class WeightFragment extends Fragment implements FragmentView {
     private String mTestId = "";
     private StringBuilder mStringBuilder = new StringBuilder();
     private String lastValue = "";
-    private String secondLastValue = ""; //the real one to upload
     private TextView txtViewValue;
     private EncryptedDataMaker encryptedDataMaker = new EncryptedDataMaker();
 
@@ -72,9 +72,7 @@ public class WeightFragment extends Fragment implements FragmentView {
             ((MainActivity) getActivity()).doWrite(ConstantValues.SENSOR_WEIGHT, new MainActivity.OnReceiveData() {
                 @Override
                 public void onReceiveData(String data) {
-                    mStringBuilder.append(data + ",");
-                    secondLastValue = lastValue;
-                    lastValue = data;
+                    mStringBuilder.append(data + " ");
                     txtViewValue.append(data.toString());
                 }
             });
@@ -83,9 +81,7 @@ public class WeightFragment extends Fragment implements FragmentView {
             //Making dummy data
             for (int i = 0; i < 20; i++) {
                 float x = (float) (Math.random() * 50f) + 50f;
-                mStringBuilder.append(x + ",");
-                secondLastValue = lastValue;
-                lastValue = ""+x;
+                mStringBuilder.append(x + " ");
 
             }
         }
@@ -109,14 +105,7 @@ public class WeightFragment extends Fragment implements FragmentView {
             return true;
 
         } else if (id == R.id.action_upload) {
-//            if (!mStringBuilder.toString().equals("")) {
-
-            if (secondLastValue.equals("")){
-                secondLastValue = lastValue;
-            }
-
-
-            if (!secondLastValue.equals("")) {
+            if (!mStringBuilder.toString().equals("")) {
                 openDialog(true);
             } else {
                 Toast.makeText(getActivity(), "Uploading failed! Data is empty.", Toast.LENGTH_SHORT).show();
@@ -151,8 +140,6 @@ public class WeightFragment extends Fragment implements FragmentView {
             Toast.makeText(getActivity(), "Something went wrong", Toast.LENGTH_SHORT).show();
         }
         mStringBuilder = new StringBuilder();
-        lastValue = "";
-        secondLastValue ="";
     }
 
     @Override
@@ -248,10 +235,20 @@ public class WeightFragment extends Fragment implements FragmentView {
                     Map<String, String> params = new HashMap<>();
                     params.put("patient_id", mPatientId);
                     params.put("test_id", mTestId);
-//                    params.put("data", mStringBuilder.toString());
 
-                    secondLastValue = encryptedDataMaker.encrypt(secondLastValue);
-                    params.put("data", secondLastValue);
+//                    params.put("data", mStringBuilder.toString());
+//                    secondLastValue = encryptedDataMaker.encrypt(secondLastValue);
+
+                    lastValue = mStringBuilder.toString();
+                    int pos =  lastValue.lastIndexOf(':');
+                    if (pos != -1)
+                    {
+                        lastValue = lastValue.substring(pos+1);
+                    }
+                    lastValue = encryptedDataMaker.encrypt(lastValue);
+
+
+                    params.put("data", lastValue);
 
                     params.put("sensor_type", ConstantValues.SENSOR_WEIGHT);
                     params.put("userid", "1");

@@ -81,6 +81,7 @@
     <string name="dummy_button">ALL RIGHT RESERVED 2016</string>
     <string name="dummy_content">MY HEALTH</string>
     <string name="title_activity_details_ecg">ECG Record</string>
+    <string name="msg_tst_device_offline">Device is offline</string>
 
 
 </resources>

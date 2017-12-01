@@ -46,13 +46,14 @@ public class SPO2FragmentDum extends Fragment implements FragmentView {
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_spo2, container, false);
+        View view = inflater.inflate(R.layout.fragment_spo2_dum, container, false);
         setHasOptionsMenu(true);
 
         txtViewValue = (TextView) view.findViewById(R.id.textViewValue);
 
         Button button = (Button) view.findViewById(R.id.btnRefresh);
         button.setVisibility(View.GONE);
+
         txtViewValue = (TextView) view.findViewById(R.id.textViewValue);
         txtViewValue.setText("");
 
@@ -72,16 +73,13 @@ public class SPO2FragmentDum extends Fragment implements FragmentView {
 
         //noinspection SimplifiableIfStatement
         if (id == android.R.id.home) {
+
             getFragmentManager().popBackStack();
             return true;
 
         } else if (id == R.id.action_upload) {
-//            if (!mStringBuilder.toString().equals("")) {
-//                openDialog(true);
-//            } else {
-                Toast.makeText(getActivity(), "Device Is Offline", Toast.LENGTH_SHORT).show();
-//            }
 
+            Toast.makeText(getActivity(), R.string.msg_tst_device_offline, Toast.LENGTH_SHORT).show();
 
         } else if (id == R.id.action_record) {
             openDialog(false);

@@ -1,10 +1,16 @@
 package com.example.androidbtcontrol.fragments;
 
 import android.app.Dialog;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -44,7 +50,7 @@ public class HeightFragment extends Fragment implements FragmentView {
     private TextView txtViewValue;
 
     private EncryptedDataMaker encryptedDataMaker = new EncryptedDataMaker();
-
+    private static final String TAG = "HeightFragment";
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -52,17 +58,20 @@ public class HeightFragment extends Fragment implements FragmentView {
         setHasOptionsMenu(true);
 
         txtViewValue = (TextView) view.findViewById(R.id.textViewValue);
-
+//        createBluetooth();
         Button button = (Button) view.findViewById(R.id.btnRefresh);
+
         button.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 txtViewValue.setText("");
+                mStringBuilder = new StringBuilder();
                 ((MainActivity) getActivity()).doWrite(ConstantValues.SENSOR_HEIGHT, new MainActivity.OnReceiveData() {
                     @Override
                     public void onReceiveData(String data) {
                         txtViewValue.append(data.toString());
+                        mStringBuilder.append(data + " ");
                     }
                 });
             }
@@ -73,9 +82,7 @@ public class HeightFragment extends Fragment implements FragmentView {
             ((MainActivity) getActivity()).doWrite(ConstantValues.SENSOR_HEIGHT, new MainActivity.OnReceiveData() {
                 @Override
                 public void onReceiveData(String data) {
-                    mStringBuilder.append(data + ",");
-                    lastValue = data+"";
-
+                    mStringBuilder.append(data + " ");
                     txtViewValue.append(data.toString());
                 }
             });
@@ -84,8 +91,7 @@ public class HeightFragment extends Fragment implements FragmentView {
             //Making dummy data
             for (int i = 0; i < 20; i++) {
                 float x = (float) (Math.random() * 50f) + 50f;
-                mStringBuilder.append(x + ",");
-                lastValue = x+"";
+                mStringBuilder.append(x + " ");
             }
         }
         return view;
@@ -108,8 +114,7 @@ public class HeightFragment extends Fragment implements FragmentView {
             return true;
 
         } else if (id == R.id.action_upload) {
-//            if (!mStringBuilder.toString().equals("")) {
-            if (!lastValue.equals("")) {
+            if (!mStringBuilder.toString().equals("")) {
                 openDialog(true);
             } else {
                 Toast.makeText(getActivity(), "Uploading failed! Data is empty.", Toast.LENGTH_SHORT).show();
@@ -144,7 +149,6 @@ public class HeightFragment extends Fragment implements FragmentView {
             Toast.makeText(getActivity(), "Something went wrong", Toast.LENGTH_SHORT).show();
         }
         mStringBuilder = new StringBuilder();
-        lastValue = "";
     }
 
     @Override
@@ -240,12 +244,25 @@ public class HeightFragment extends Fragment implements FragmentView {
                     Map<String, String> params = new HashMap<>();
                     params.put("patient_id", mPatientId);
                     params.put("test_id", mTestId);
+
+//                   lastValue = encryptedDataMaker.encrypt(mStringBuilder.toString());
+//                    params.put("data", lastValue);
 //                    params.put("data", mStringBuilder.toString());
 
+
+
+                    lastValue = mStringBuilder.toString();
+                    int pos =  lastValue.lastIndexOf(':');
+                    Log.e(TAG, "onClick: 1 = "+pos);
+
+                    if (pos != -1)
+                    {
+                        lastValue = lastValue.substring(pos+1);
+                    }
                     lastValue = encryptedDataMaker.encrypt(lastValue);
+
+
                     params.put("data", lastValue);
-
-
                     params.put("sensor_type", ConstantValues.SENSOR_HEIGHT);
                     params.put("userid", "1");
                     new AllFragmentPresenter(HeightFragment.this).postData("sensors/save_data_from_app", params);
@@ -261,10 +278,11 @@ public class HeightFragment extends Fragment implements FragmentView {
 
 
             }
+
+
         });
 
         dialog.show();
     }
-
 
 }

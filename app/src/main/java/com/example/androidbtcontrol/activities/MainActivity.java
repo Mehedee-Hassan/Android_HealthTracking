@@ -8,6 +8,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -33,6 +34,7 @@ import com.example.androidbtcontrol.interfaces.OnWriteCompleted;
 import com.example.androidbtcontrol.model.BluetoothConnectedThread;
 import com.example.androidbtcontrol.presenter.BluetoothConnectionPresenter;
 import com.example.androidbtcontrol.utilities.ConstantValues;
+import com.example.androidbtcontrol.utilities.HttpRequestQueue;
 
 import java.io.IOException;
 import java.util.Set;
@@ -65,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
         textStatus = (TextView) findViewById(R.id.status);
         listViewPairedDevice = (ListView) findViewById(R.id.pairedlist);
         inputPane = (LinearLayout) findViewById(R.id.inputpane);
+
 
 
         if (!getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH)) {
@@ -202,6 +205,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
     public boolean getConnected(boolean isConnected, final BluetoothSocket bluetoothSocket) {
 
         if (isConnected) {
+
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -273,6 +277,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
                             onReceiveData.onReceiveData(strTemp);
                             strTemp = "";
                         }
+                        onReceiveData.onReceiveData(strTemp);
 
                         Log.e("SPO: ", "" + data);
                     } else if (mSensorType.equalsIgnoreCase(ConstantValues.SENSOR_GL_METER)) {
@@ -311,30 +316,11 @@ public class MainActivity extends AppCompatActivity implements MainView {
                     }
                     else if (mSensorType.equalsIgnoreCase(ConstantValues.SENSOR_WEIGHT)) {
 
-//                        strTemp = strTemp.concat(data);
-//
-//
-//                        if (strTemp.contains("*") && strTemp.contains("#")) {
-//                            int startOfLineIndex = strTemp.indexOf("*") + 1;
-//                            int endOfLineIndex = strTemp.indexOf("#");
-//
-//                            strTemp = strTemp.substring(startOfLineIndex, endOfLineIndex).trim();
-//                            onReceiveData.onReceiveData(strTemp);
-//                            strTemp = "";
-//                        }
                         Log.e("Weight : ", "" + data);
                         onReceiveData.onReceiveData(data);
                     }
                     else if (mSensorType.equalsIgnoreCase(ConstantValues.SENSOR_HEIGHT)) {
-//                        strTemp = strTemp.concat(data);
-//                        if (strTemp.contains("*") && strTemp.contains("#")) {
-//                            int startOfLineIndex = strTemp.indexOf("*") + 1;
-//                            int endOfLineIndex = strTemp.indexOf("#");
-//
-//                            strTemp = strTemp.substring(startOfLineIndex, endOfLineIndex).trim();
-//                            onReceiveData.onReceiveData(strTemp);
-//                            strTemp = "";
-//                        }
+
                         onReceiveData.onReceiveData(data);
                         Log.e("Height: ", "" + data);
                     }
@@ -571,12 +557,21 @@ public class MainActivity extends AppCompatActivity implements MainView {
             String action = intent.getAction();
             BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
 
+
             if (BluetoothDevice.ACTION_FOUND.equals(action)) {
 
             }
             else if (BluetoothDevice.ACTION_ACL_CONNECTED.equals(action)) {
-                Toast.makeText(MainActivity.this ,"connected ..",Toast.LENGTH_SHORT).show();
+
+//                MainActivity.this.runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                Toast.makeText(MainActivity.this ,"connected ..",Toast.LENGTH_SHORT).show();
+//                    }
+//                });
+
                 ConstantValues.CONNECTED_TO_DEVICE= true;
+
 
             }
             else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
@@ -584,13 +579,16 @@ public class MainActivity extends AppCompatActivity implements MainView {
             else if (BluetoothDevice.ACTION_ACL_DISCONNECT_REQUESTED.equals(action)) {
             }
             else if (BluetoothDevice.ACTION_ACL_DISCONNECTED.equals(action)) {
-                Toast.makeText(MainActivity.this ,"disconnected ..",Toast.LENGTH_SHORT).show();
-                ConstantValues.CONNECTED_TO_DEVICE= false;
 
+//                Toast.makeText(MainActivity.this ,"disconnected ..",Toast.LENGTH_SHORT).show();
+                ConstantValues.CONNECTED_TO_DEVICE= false;
 
             }
         }
     };
+
+    private void UpdateUi(Intent intent){
+    }
 
     public void createConnectionThread(){
         Thread thread = new Thread() {

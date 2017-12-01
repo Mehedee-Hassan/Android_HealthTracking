@@ -237,8 +237,9 @@ public class TemperatureFragment extends Fragment implements FragmentView {
                     params.put("test_id", mTestId);
 
 
-                    String encryptData = encryptedDataMaker.encrypt(mStringBuilder);
+                    String encryptData = encryptedDataMaker.encrypt(mStringBuilder.toString());
                     params.put("data", encryptData);
+
                     params.put("sensor_type", ConstantValues.SENSOR_TEMPERATURE);
                     params.put("userid", "1");
                     new AllFragmentPresenter(TemperatureFragment.this).postData("sensors/save_data_from_app", params);

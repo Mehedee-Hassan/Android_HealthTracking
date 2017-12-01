@@ -5,6 +5,7 @@ import android.bluetooth.BluetoothSocket;
 import android.util.Log;
 
 import com.example.androidbtcontrol.interfaces.OnConnected;
+import com.example.androidbtcontrol.utilities.ConstantValues;
 
 import java.io.IOException;
 import java.util.UUID;
@@ -33,6 +34,7 @@ public class BluetoothConnectionThread implements Runnable{
         try {
             bluetoothSocket.connect();
             onConnected.getConnected(true, bluetoothSocket);
+
         } catch (IOException e) {
             try {
                 bluetoothSocket.close();

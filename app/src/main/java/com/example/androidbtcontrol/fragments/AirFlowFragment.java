@@ -63,8 +63,8 @@ public class AirFlowFragment extends Fragment implements FragmentView {
                 ((MainActivity) getActivity()).doWrite(ConstantValues.SENSOR_AIR_FLOW, new MainActivity.OnReceiveData() {
                     @Override
                     public void onReceiveData(String data) {
-//                        txtViewValue.append("\n" + data.toString());
-                        txtViewValue.setText(""+data.toString());
+                        txtViewValue.append("\n" + data.toString());
+//                        txtViewValue.setText(""+data.toString());
                     }
                 });
             }
@@ -89,9 +89,7 @@ public class AirFlowFragment extends Fragment implements FragmentView {
                 @Override
                 public void onReceiveData(String data) {
                     mStringBuilder.append(data + ", ");
-                    lastValue = data;
-//                    txtViewValue.append(data.toString());
-                    txtViewValue.setText(""+data.toString());
+                    txtViewValue.append(data.toString());
 
                 }
             });
@@ -101,7 +99,6 @@ public class AirFlowFragment extends Fragment implements FragmentView {
             for (int i = 0; i < 20; i++) {
                 float x = (float) (Math.random() * 50f) + 50f;
                 mStringBuilder.append(x + ",");
-                lastValue = x+"";
             }
 
         }
@@ -126,8 +123,8 @@ public class AirFlowFragment extends Fragment implements FragmentView {
             return true;
 
         } else if (id == R.id.action_upload) {
-//            if (!mStringBuilder.toString().equals("")) {
-            if (!lastValue.equals("")) {
+            if (!mStringBuilder.toString().equals("")) {
+
                 openDialog(true);
             } else {
                 Toast.makeText(getActivity(), "Uploading failed! Data is empty.", Toast.LENGTH_SHORT).show();
@@ -154,7 +151,7 @@ public class AirFlowFragment extends Fragment implements FragmentView {
     @Override
     public void onPostCompleted(Object obj) {
         mStringBuilder = new StringBuilder();
-        lastValue="";
+
 
         String response = (String) obj;
         if (response.equals("1")) {
@@ -165,7 +162,6 @@ public class AirFlowFragment extends Fragment implements FragmentView {
             Toast.makeText(getActivity(), "Something went wrong", Toast.LENGTH_SHORT).show();
         }
 
-        lastValue="";
         mStringBuilder = new StringBuilder();
     }
 
@@ -264,7 +260,7 @@ public class AirFlowFragment extends Fragment implements FragmentView {
                     params.put("test_id", mTestId);
 //                    params.put("data", mStringBuilder.toString());
 
-                    lastValue = encryptedDataMaker.encrypt(lastValue);
+                    lastValue = encryptedDataMaker.encrypt(mStringBuilder.toString());
                     params.put("data", lastValue);
 
                     params.put("sensor_type", ConstantValues.SENSOR_AIR_FLOW);

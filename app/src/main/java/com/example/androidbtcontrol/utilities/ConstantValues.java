@@ -18,11 +18,13 @@ public class ConstantValues {
     public static String SENSOR_BODY_POSITION = "5";
     public static String SENSOR_GL_METER = "6";
     public static String SENSOR_TEMPERATURE = "7";
-//    new added sensor
+//   new added sensor
     public static String SENSOR_HEIGHT = "8";
     public static String SENSOR_WEIGHT = "9";
 //  device
     public static String BLUETOOTH_DEVICE_1  = "HC-05";
 //  password for encryption
     public static final String ENCRYPTION_PASS = "password";
+
+    public static String SHARED_PREF_KEY="connected";
 }

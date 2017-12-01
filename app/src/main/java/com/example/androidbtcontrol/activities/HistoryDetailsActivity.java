@@ -15,6 +15,7 @@ public class HistoryDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history_details);
 
+
         final TextView txtViewValue = (TextView) findViewById(R.id.textView3);
         String data = getIntent().getExtras().getString(mDatas);
         txtViewValue.setText(data);

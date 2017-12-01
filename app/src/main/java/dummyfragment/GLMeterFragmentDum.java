@@ -84,7 +84,7 @@ public class GLMeterFragmentDum extends Fragment implements FragmentView {
 //            } else {
 //                Toast.makeText(getActivity(), "Uploading failed! Data is empty.", Toast.LENGTH_SHORT).show();
 //            }
-            Toast.makeText(getActivity(), "Device Is Offline", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), R.string.msg_tst_device_offline, Toast.LENGTH_SHORT).show();
 
 
         } else if (id == R.id.action_record) {

@@ -9,6 +9,7 @@ import android.view.View;
 
 import com.example.androidbtcontrol.R;
 
+
 public class SplashActivity extends AppCompatActivity {
     private final View.OnTouchListener mDelayHideTouchListener = new View.OnTouchListener() {
         @Override

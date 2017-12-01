@@ -129,7 +129,7 @@ public class ECGFragmentDum extends Fragment implements OnChartValueSelectedList
 //                Toast.makeText(getActivity(), "Upload can not be performed! ECG data sheet is empty.", Toast.LENGTH_SHORT).show();
 //            }
 
-            Toast.makeText(getActivity(), "Device Is Offline", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), R.string.msg_tst_device_offline, Toast.LENGTH_SHORT).show();
 
         } else if (id == R.id.action_record) {
             openDialog(false);
